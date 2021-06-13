@@ -1,0 +1,6 @@
+ applications:
+ - name: phpApp123
+   random-route: true
+   memory: 128M
+   services:
+   - sqldatabase
