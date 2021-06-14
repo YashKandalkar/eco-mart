@@ -53,7 +53,37 @@ def city(name=None):
         app.logger.error(errorMsg)
         return render_template('city.html', ci=[])
 
-
+def signup(emailid,password,contact_no,category,address):
+    rows=[]
+    try:
+      db2conn = ibm_db.connect(db2cred['ssldsn'], "","")
+      if db2conn:
+          # we have a Db2 connection, query the database
+          sql="Insert into users(emailid, password,contact_no, category,address ) values (?,?,?,?,?)"
+          # Note that for security reasons we are preparing the statement first,
+          # then bind the form input as value to the statement to replace the
+          # parameter marker.
+          stmt = ibm_db.prepare(db2conn,sql)
+          ibm_db.bind_param(stmt, 1, 'seha@gmail.com')
+          ibm_db.bind_param(stmt, 2, 'sneha')
+          ibm_db.bind_param(stmt, 3, 9898989898)
+          ibm_db.bind_param(stmt, 4, 'buyer')
+          ibm_db.bind_param(stmt, 5, 'mumbai')
+          ibm_db.execute(stmt)
+          # fetch the result
+          result = ibm_db.fetch_assoc(stmt)
+          while result != False:  # result is found
+              rows.append(result.copy())  #copy the result and append it to rows list
+              result = ibm_db.fetch_assoc(stmt)
+          # close database connection
+          ibm_db.close(db2conn)
+      return render_template('welcome.html', ci=rows) #passing the rows list (it contains result of query)
+    except Exception as e :
+      app.logger.error('could not establish Db2 connection')
+      print(e)
+      errorMsg = ibm_db.conn_errormsg()
+      app.logger.error(errorMsg)
+      return render_template('welcome.html', ci=[]) 
 # main page to dump some environment information
 @app.route('/')
 def index():
@@ -65,6 +95,15 @@ def index():
 @app.route('/hello/<name>')
 def hello(name=None):
     return render_template('hello.html', name=name)
+
+@app.route('/signup',methods=['GET'])
+def signuproute():
+    emailid = request.args.get('emailid', '')
+    password = request.args.get('password', '')
+    contact_no = request.args.get('contact_no', '')
+    category = request.args.get('category', '')
+    address = request.args.get('address', '')
+    return signup(emailid, password, contact_no, category, address)
 
 
 @app.route('/search', methods=['GET'])

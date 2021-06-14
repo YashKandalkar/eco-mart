@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+<p>
+    <form action="/signup" method="GET">
+        emailid: <input type="text" name="emailid" maxlength="200" width="60">
+        password:<input type="password" name="password" width="60">
+        <label for="category">Choose category:</label>
+        <select id="category" name="category">
+            <option value="seller">seller</option>
+            <option value="buyer">buyer</option>
+      
+        </select>
+        
+        contact_no:<input type="number" name="contact_no" width="60">
+        address:<input type="text" name="address" width="60">
+        <input type="submit" value="signup">
+    </form>
+</p>
