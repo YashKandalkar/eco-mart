@@ -78,7 +78,12 @@ def cityroute(name=None):
     return city(name)
 
 
+@app.route('/gallery')
+def galleryroute():
+    return render_template("gallery.html")
+
+
 port = os.getenv('PORT', '5000')
-env = os.getenv("ENVIRONMENT", "PRODUCTION")
+env = os.getenv("FLASK_ENV", "production")
 if __name__ == "__main__":
-    app.run(host='localhost', port=int(port), debug=(env == "DEVELOPMENT"))
+    app.run(host='localhost', port=int(port), debug=(env == "development"))
