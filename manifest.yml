@@ -1,6 +1,7 @@
- applications:
- - name: phpApp123
-   random-route: true
-   memory: 128M
-   services:
-   - sqldatabase
+applications:
+- name: worldcities
+  memory: 256M
+  command: python worldcities.py
+  random-route: true
+  services:
+  - sqldatabase
