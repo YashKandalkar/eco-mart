@@ -5,6 +5,7 @@ from flask import Flask, redirect, render_template, request
 import urllib
 import datetime
 import json
+from flask.helpers import url_for
 import ibm_db
 from dotenv import load_dotenv
 
@@ -53,37 +54,40 @@ def city(name=None):
         app.logger.error(errorMsg)
         return render_template('city.html', ci=[])
 
-def signup(emailid,password,contact_no,category,address):
-    rows=[]
+def signup(emailid,password,contact_no,firstname,lastname,category,address):
+
     try:
       db2conn = ibm_db.connect(db2cred['ssldsn'], "","")
       if db2conn:
-          # we have a Db2 connection, query the database
-          sql="Insert into users(emailid, password,contact_no, category,address ) values (?,?,?,?,?)"
-          # Note that for security reasons we are preparing the statement first,
-          # then bind the form input as value to the statement to replace the
-          # parameter marker.
-          stmt = ibm_db.prepare(db2conn,sql)
-          ibm_db.bind_param(stmt, 1, 'seha@gmail.com')
-          ibm_db.bind_param(stmt, 2, 'sneha')
-          ibm_db.bind_param(stmt, 3, 9898989898)
-          ibm_db.bind_param(stmt, 4, 'buyer')
-          ibm_db.bind_param(stmt, 5, 'mumbai')
-          ibm_db.execute(stmt)
-          # fetch the result
-          result = ibm_db.fetch_assoc(stmt)
-          while result != False:  # result is found
-              rows.append(result.copy())  #copy the result and append it to rows list
-              result = ibm_db.fetch_assoc(stmt)
-          # close database connection
-          ibm_db.close(db2conn)
-      return render_template('welcome.html', ci=rows) #passing the rows list (it contains result of query)
+        ci={"firstname":firstname,"lastname":lastname}
+
+        # we have a Db2 connection, query the database
+        sql="Insert into users(emailid, password,firstname,lastname,contact_no, category,address ) values (?,?,?,?,?,?,?)"
+      
+        stmt = ibm_db.prepare(db2conn,sql)
+        ibm_db.bind_param(stmt, 1, emailid)
+        ibm_db.bind_param(stmt, 2, password)
+        ibm_db.bind_param(stmt, 3, firstname)
+        ibm_db.bind_param(stmt, 4, lastname)
+        ibm_db.bind_param(stmt, 5, contact_no)
+        ibm_db.bind_param(stmt, 6, category)
+        ibm_db.bind_param(stmt, 7, address)
+        if ibm_db.execute(stmt):
+            print('query executed')
+        
+    
+            
+        else:
+            print('user exist')
+        # close database connection
+        ibm_db.close(db2conn)
+      return redirect(url_for('.welcome', ci=ci)) #passing the rows list (it contains result of query)
     except Exception as e :
       app.logger.error('could not establish Db2 connection')
       print(e)
       errorMsg = ibm_db.conn_errormsg()
       app.logger.error(errorMsg)
-      return render_template('welcome.html', ci=[]) 
+      return render_template('signup.html') 
 # main page to dump some environment information
 @app.route('/')
 def index():
@@ -94,16 +98,32 @@ def index():
 
 @app.route('/hello/<name>')
 def hello(name=None):
-    return render_template('hello.html', name=name)
+    return render_template('hello.html', ci=name)
 
-@app.route('/signup',methods=['GET'])
+
+
+@app.route('/signup',methods=['GET','POST'])
 def signuproute():
-    emailid = request.args.get('emailid', '')
-    password = request.args.get('password', '')
-    contact_no = request.args.get('contact_no', '')
-    category = request.args.get('category', '')
-    address = request.args.get('address', '')
-    return signup(emailid, password, contact_no, category, address)
+    if request.method=='POST':
+        emailid = request.form.get('emailid', '')
+        password = request.form.get('password', '')
+        contact_no = request.form.get('contact_no', '')
+        firstname = request.form.get('firstname', '')
+        lastname = request.form.get('lastname', '')
+        category = request.form.get('category', '')
+        address = request.form.get('address', '')
+        return signup(emailid, password, contact_no,firstname,lastname, category, address)
+    else:
+        return render_template('signup.html')
+
+
+@app.route('/welcome')
+def welcome(ci=None):
+    return render_template('welcome.html', ci=ci)
+
+# @app.route('/signup',methods=['POST'])
+# def signuproute():
+    
 
 
 @app.route('/search', methods=['GET'])
