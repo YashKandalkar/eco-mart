@@ -1,25 +1,130 @@
-<style>
-    #signup_form{
-        margin: auto 30%;
-        font-size: 15px;
-    }
-</style>
-{% extends "base.html" %}
-{% block title %}Signup{% endblock %}
-{% block content %}
-    <form action="/signup" method="POST" id="signup_form">
-        emailid:<input type="email" name="emailid" maxlength="200" width="60" required><br>
-        password:<input type="password" name="password" width="60" required><br>
-        <label for="category">Choose category:</label>
-        <select id="category" name="category">
-            <option value="seller">seller</option>
-            <option value="buyer">buyer</option>
-      
-        </select><br>
-        first name:<input type="text" name="firstname" width="60" required><br>
-        last name:<input type="text" name="lastname" width="60" required><br>
-        contact_no:<input type="text" name="contact_no" width="60" required><br>
-        address:<input type="text" name="address" width="60" required><br>
-        <input type="submit" value="signup">
-    </form>
+{% extends "base.html" %} {% block title %}Signup{% endblock %} {% block
+content %}
+<div class="container py-4" style="max-width: 580px">
+  <h2 class="mb-4">Sign Up</h2>
+  <form action="/signup" method="POST" id="signup_form">
+    <!-- NAME -->
+    <div class="mb-3">
+      <div class="row gx-3">
+        <div class="col">
+          <div class="form-floating">
+            <input
+              required="true"
+              name="firstname"
+              type="text"
+              autocomplete="name"
+              class="form-control"
+              id="firstName"
+              placeholder="First Name"
+              aria-describedby="first name"
+            />
+            <label for="firstName" class="form-label">First Name</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-floating">
+            <input
+              required="true"
+              type="text"
+              name="lastname"
+              autocomplete="family-name"
+              class="form-control"
+              id="lastName"
+              placeholder="Last Name"
+              aria-describedby="last name"
+            />
+            <label for="lastName" class="form-label">Last Name</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- EMAIL -->
+    <div class="mb-3 form-floating">
+      <input
+        required="true"
+        type="email"
+        name="emailid"
+        class="form-control"
+        autocomplete="email"
+        id="inputEmail"
+        placeholder="name@example.com"
+        aria-describedby="emailHelp"
+      />
+      <label for="inputEmail" class="form-label">Email address</label>
+    </div>
+    <!-- PASSWORD -->
+    <div class="mb-3 form-floating">
+      <input
+        required="true"
+        type="password"
+        name="password"
+        class="form-control"
+        id="exampleInputPassword1"
+        placeholder="Password"
+      />
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+    </div>
+    <div class="row gx-3">
+      <div class="col">
+        <!-- ACCOUNT TYPE -->
+        <div class="mb-3 form-floating">
+          <select
+            class="form-select"
+            id="accountType"
+            aria-label="Account Type"
+            name="category"
+          >
+            <option value="seller">Seller</option>
+            <option selected value="buyer">Buyer</option>
+          </select>
+          <label for="accountType" class="form-label">Account Type</label>
+        </div>
+      </div>
+      <div class="col">
+        <!-- PHONE NUMBER -->
+        <div class="mb-3 form-floating">
+          <input
+            required="true"
+            type="text"
+            name="contact_no"
+            autocomplete="tel"
+            class="form-control"
+            id="phoneNumber"
+            placeholder="Phone Number"
+          />
+          <label for="phoneNumber" class="form-label">Phone Number</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADDRESS -->
+    <div class="mb-3 form-floating">
+      <input
+        required="true"
+        type="text"
+        name="address"
+        class="form-control"
+        id="address"
+        placeholder="Password"
+      />
+      <label for="address" class="form-label">Address</label>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-danger" role="alert">{{error}}</div>
+    {% endif %}
+
+    <div
+      class="mb-3 form-check d-flex align-content-center justify-content-end"
+    >
+      <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+      <label class="form-check-label ms-2" for="exampleCheck1"
+        >Keep me signed in</label
+      >
+    </div>
+    <div class="d-flex justify-content-end mb-3">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+</div>
 {% endblock %}

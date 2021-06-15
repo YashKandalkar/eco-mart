@@ -1,24 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
     {% block head %}
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-    <title>{% block title %}{% endblock %} - IBM Cloud Platform</title>
+    <title>{% block title %}{% endblock %} - Eco-Mart</title>
     {% endblock %}
-</head>
-<body>
-    <div id="page">
-    <p>[<a href="/">Home</a>] [<a href="/city/San%20Jose">San Jose</a>] [<a href="/city/Milan">Milan</a>] [<a href="/city/London">London</a>] [<a href="/city/Friedrichshafen">Friedrichshafen</a>] [<a href="/signup">signup</a>]</p>
-    <br/>
+  </head>
+  <body>
+    {% block navbar %}
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand align-items-center d-flex" href="#"
+          ><img
+            src="{{ url_for('static', filename='coca-leaves.png') }}"
+            alt="logo"
+            width="23"
+            height="23"
+            class="me-2"
+          />Eco Mart</a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#"
+                >Products</a
+              >
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Dropdown
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link disabled"
+                href="#"
+                tabindex="-1"
+                aria-disabled="true"
+                >Disabled</a
+              >
+            </li>
+          </ul>
+          <form class="d-flex" action="/signup">
+            <button class="btn btn-primary" type="submit">Login</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    {% endblock %}
+    <!-- END-NAVBAR -->
+    <div class="container-fluid">{% block content %}{% endblock %}</div>
 
-    {% block content %}{% endblock %}
-    </div>
-    <div id="footer">
-        <p><p/>
-        <hr/>
-        {% block footer %}
-        City information based on <a href="http://geonames.org/">GeoNames</a>
-        {% endblock %}
-    </div>
-</body>
+    <!-- FOOTER -->
+    {% block footer %}
+    <footer class="bg-light">
+      <div class="container-fluid py-4">
+        <span
+          class="
+            mb-4
+            flex-row
+            d-flex
+            align-items-center
+            justify-content-center
+          "
+        >
+          <img
+            src="{{ url_for('static', filename='coca-leaves.png') }}"
+            alt="logo"
+            width="25"
+            height="25"
+            class="m-1 me-2"
+          />
+          <span class="fs-2">Eco Mart</span>
+        </span>
+        <div class="">
+          <ol class="breadcrumb justify-content-center">
+            <li class="breadcrumb-item"><a href="#">Yash</a></li>
+            <li class="breadcrumb-item"><a href="#">Chai</a></li>
+            <li class="breadcrumb-item"><a href="#">Neha</a></li>
+            <li class="breadcrumb-item"><a href="#">Mahima</a></li>
+            <li class="breadcrumb-item"><a href="#">Arshad</a></li>
+          </ol>
+          <br />
+          <div class="text-center">
+            Icons made by&nbsp;
+            <a href="https://www.freepik.com" title="Freepik">Freepik</a>
+            &nbsp;from&nbsp;
+            <a href="https://www.flaticon.com/" title="Flaticon"
+              >www.flaticon.com</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+    {% endblock %}
+    <!-- END-FOOTER -->
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

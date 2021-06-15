@@ -1,7 +1,7 @@
 applications:
-- name: worldcities
-  memory: 256M
-  command: python worldcities.py
-  random-route: true
-  services:
-  - sqldatabase
+  - name: ecomart
+    memory: 256M
+    command: python ecomart.py
+    random-route: true
+    services:
+      - sqldatabase

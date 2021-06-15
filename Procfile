@@ -1,1 +1,1 @@
-web: python worldcities.py
+web: python ecomart.py
