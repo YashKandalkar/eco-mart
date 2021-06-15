@@ -1,3 +1,4 @@
 Flask
 ibm_db
 python-dotenv
+flask-login

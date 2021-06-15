@@ -1,6 +1,8 @@
-{% extends "base.html" %}
-{% block title %}Dashboard{% endblock %}
-{% block content %}
-    welcome {{usr}} ! <br><br>
-    This is your  dashboard
-{% endblock %} 
+{% extends "base.html" %} {% block title %}Dashboard{% endblock %} {% block
+loginForm %}
+<form class="d-flex" action="/logout">
+  <button class="btn btn-primary" type="submit">Logout</button>
+</form>
+{% endblock %} {% block content %} welcome {{current_user.firstname}}!
+<br /><br />
+This is your dashboard {% endblock %}

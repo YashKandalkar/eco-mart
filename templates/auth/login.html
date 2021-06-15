@@ -1,0 +1,67 @@
+{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
+%} {% block loginForm %} {% endblock %}
+<div class="container py-4" style="max-width: 580px">
+  <h2 class="mb-4">Login</h2>
+  <form action="/login" method="POST" id="login_form">
+    <!-- EMAIL -->
+    <div class="mb-3 form-floating">
+      <input
+        required="true"
+        type="email"
+        name="emailid"
+        class="form-control"
+        autocomplete="email"
+        id="inputEmail"
+        placeholder="name@example.com"
+        aria-describedby="emailHelp"
+      />
+      <label for="inputEmail" class="form-label">Email address</label>
+    </div>
+    <!-- PASSWORD -->
+    <div class="mb-3 form-floating">
+      <input
+        required="true"
+        type="password"
+        name="password"
+        class="form-control"
+        id="exampleInputPassword1"
+        placeholder="Password"
+      />
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{error}}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endif %}
+    <div
+      class="mb-3 form-check d-flex align-content-center justify-content-end"
+    >
+      <a href="/signup" class="link-primary">Sign Up instead?</a>
+    </div>
+    <div
+      class="mb-3 form-check d-flex align-content-center justify-content-end"
+    >
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="remember"
+        name="remember"
+      />
+      <label class="form-check-label ms-2" for="remember"
+        >Keep me signed in</label
+      >
+    </div>
+    <div class="d-flex justify-content-end mb-3">
+      <button type="submit" class="btn btn-primary">Login</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

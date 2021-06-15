@@ -1,5 +1,29 @@
 {% extends "base.html" %} {% block title %}World Cities{% endblock %} {% block
-content %}
+loginForm %} {% if current_user %}
+<li class="nav-item dropdown d-flex">
+  <a
+    class="nav-link dropdown-toggle"
+    href="#"
+    id="navbarDropdown"
+    role="button"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    Welcome,&nbsp;{{current_user.firstname}}
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+    <li><hr class="dropdown-divider" /></li>
+    <li>
+      <a class="dropdown-item" href="/logout">Logout</a>
+    </li>
+  </ul>
+</li>
+{% else %}
+<form class="d-flex" action="/login">
+  <button class="btn btn-primary" type="submit">Login</button>
+</form>
+{% endif %} {% endblock %} {% block content %}
 <h1
   class="text-center my-5 d-flex justify-content-center align-items-center"
   style="height: 40vh"
