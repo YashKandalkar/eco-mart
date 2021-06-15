@@ -101,7 +101,7 @@ def hello(name=None):
     return render_template('hello.html', ci=name)
 
 
-
+#signup page
 @app.route('/signup',methods=['GET','POST'])
 def signuproute():
     if request.method=='POST':
@@ -123,7 +123,7 @@ def signuproute():
 
 @app.route('/<usr>')
 def user(usr):
-    return f"<h1>Hello {usr} </h1>"
+    return  render_template('dashboard.html',usr=usr)
 # @app.route('/signup',methods=['POST'])
 # def signuproute():
     
