@@ -18,3 +18,16 @@ ELEVATION        INTEGER,
 DEM              INTEGER,
 TIMEZONE         VARCHAR(40),
 MODIFICATIONDATE DATE);
+
+
+create table users(
+   id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+   emailid VARCHAR(25) NOT NULL primary key enforced ,
+   firstname varchar(20),
+   lastname varchar(20),
+   password VARCHAR(40) NOT NULL,
+   contact_no varchar(15) not null,
+   category varchar(25) not null,
+   address varchar(70) not null
+  
+);

@@ -1,18 +1,25 @@
+<style>
+    #signup_form{
+        margin: auto 30%;
+        font-size: 15px;
+    }
+</style>
 {% extends "base.html" %}
+{% block title %}Signup{% endblock %}
 {% block content %}
-    <form action="/signup" method="POST">
-        emailid: <input type="email" name="emailid" maxlength="200" width="60" required>
-        password:<input type="password" name="password" width="60" required>
+    <form action="/signup" method="POST" id="signup_form">
+        emailid:<input type="email" name="emailid" maxlength="200" width="60" required><br>
+        password:<input type="password" name="password" width="60" required><br>
         <label for="category">Choose category:</label>
         <select id="category" name="category">
             <option value="seller">seller</option>
             <option value="buyer">buyer</option>
       
-        </select>
-        first name:<input type="text" name="firstname" width="60" required>
-        last name:<input type="text" name="lastname" width="60" required>
-        contact_no:<input type="text" name="contact_no" width="60" required>
-        address:<input type="text" name="address" width="60" required>
+        </select><br>
+        first name:<input type="text" name="firstname" width="60" required><br>
+        last name:<input type="text" name="lastname" width="60" required><br>
+        contact_no:<input type="text" name="contact_no" width="60" required><br>
+        address:<input type="text" name="address" width="60" required><br>
         <input type="submit" value="signup">
     </form>
 {% endblock %}

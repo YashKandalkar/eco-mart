@@ -81,7 +81,7 @@ def signup(emailid,password,contact_no,firstname,lastname,category,address):
             print('user exist')
         # close database connection
         ibm_db.close(db2conn)
-      return redirect(url_for('.welcome', ci=ci)) #passing the rows list (it contains result of query)
+      return redirect(url_for('user', usr=firstname)) #passing the rows list (it contains result of query)
     except Exception as e :
       app.logger.error('could not establish Db2 connection')
       print(e)
@@ -117,10 +117,13 @@ def signuproute():
         return render_template('signup.html')
 
 
-@app.route('/welcome')
-def welcome(ci=None):
-    return render_template('welcome.html', ci=ci)
+# @app.route('/welcome')
+# def welcome(firstname, lastname):
+#     return render_template('welcome.html', firstname=firstname,lastname= lastname)
 
+@app.route('/<usr>')
+def user(usr):
+    return f"<h1>Hello {usr} </h1>"
 # @app.route('/signup',methods=['POST'])
 # def signuproute():
     
