@@ -59,7 +59,7 @@ def createUser(emailid, password, contact_no, firstname, lastname, category, add
     try:
         db2conn = ibm_db.pconnect(db2cred['ssldsn'], "", "")
         if db2conn:
-            # ci = {"firstname": firstname, "lastname": lastname}
+           
 
             # we have a Db2 connection, query the database
             sql = "Insert into users(emailid, password,firstname,lastname,contact_no, category,address ) values (?,?,?,?,?,?,?)"

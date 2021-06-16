@@ -9,3 +9,14 @@ create table users(
    address varchar(70) not null
   
 );
+
+create table products(
+	product_id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1), 
+	user_emailid varchar(25),
+	product_name varchar(25),
+	product_category varchar(25),
+	description varchar(255),
+	price int,
+	quantity int
+);
+

@@ -3,6 +3,33 @@ loginForm %}
 <form class="d-flex" action="/logout">
   <button class="btn btn-primary" type="submit">Logout</button>
 </form>
-{% endblock %} {% block content %} welcome {{current_user.firstname}}!
-<br /><br />
-This is your dashboard {% endblock %}
+{% endblock %} 
+{% block content %} 
+  <br>
+  <h3>Welcome {{current_user.firstname}} {{current_user.lastname}}!</h3
+  <br>
+  <hr>  
+  <h5>Details</h5>
+  {% if current_user.category == 'seller' %}
+    <p>Company Name: {{current_user.firstname}} {{current_user.lastname}}</p>
+    <p>Contact number: {{current_user.contact_no}}</p>
+    <p>Address: {{current_user.address}}</p>
+    <form  action="add_product.html">
+      <button type="button" class="btn btn-primary float-end mt-2" aria-hidden="true">New Product</button>
+    </form>
+    <hr>
+    <h5>List of products:</h5>
+    {%for i in products%}
+      <p> Name: {{i["PRODUCT_NAME"]}}</p>
+      <p> Type: {{i["PRODUCT_CATEGORY"]}}</p>
+      <P>Description: {{i["DESCRIPTION"]}} </p>
+      <P>Quantity: {{i["QUANTITY"]}} </p>
+      <P>Price: &#8377;{{i["PRICE"]}} </p>
+      <hr>
+    {%endfor%}
+  {% else %}
+    <p>Name: {{current_user.firstname}} {{current_user.lastname}}</p>
+    <p>Contact number: {{current_user.contact_no}}</p>
+  {% endif %}
+  
+ {% endblock %}
