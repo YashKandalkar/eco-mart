@@ -48,7 +48,14 @@ def dashboard():
     if(current_user.category == 'seller'):
         #print('seller has logged in ')
         rows=display_products()
-    return render_template('dashboard.html', current_user=current_user,products=rows)
+        return render_template('dashboard.html', current_user=current_user,products=rows)
+    
+    else :
+        #print('seller has logged in ')
+        rows=display_products()
+    
+    return render_template('dashboard.html', current_user=current_user)
+    
 
 def display_products():
     print('products will be displayed')
