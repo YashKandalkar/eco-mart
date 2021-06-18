@@ -30,73 +30,15 @@ loginForm %}
             <input
               required="true"
               type="text"
-              name="lastname"
+              name="category"
               autocomplete="family-name"
               class="form-control"
-              id="lastName"
-              placeholder="Last Name"
-              aria-describedby="last name"
+              id="category"
+              placeholder="category"
+              aria-describedby="category"
             />
-            <label for="lastName" class="form-label">Last Name</label>
+            <label for="category" class="form-label">Category</label>
           </div>
-        </div>
-      </div>
-    </div>
-    <!-- EMAIL -->
-    <div class="mb-3 form-floating">
-      <input
-        required="true"
-        type="email"
-        name="emailid"
-        class="form-control"
-        autocomplete="email"
-        id="inputEmail"
-        placeholder="name@example.com"
-        aria-describedby="emailHelp"
-      />
-      <label for="inputEmail" class="form-label">Email address</label>
-    </div>
-    <!-- PASSWORD -->
-    <div class="mb-3 form-floating">
-      <input
-        required="true"
-        type="password"
-        name="password"
-        class="form-control"
-        id="exampleInputPassword1"
-        placeholder="Password"
-      />
-      <label for="exampleInputPassword1" class="form-label">Password</label>
-    </div>
-    <div class="row gx-3">
-      <div class="col">
-        <!-- ACCOUNT TYPE -->
-        <div class="mb-3 form-floating">
-          <select
-            class="form-select"
-            id="accountType"
-            aria-label="Account Type"
-            name="category"
-          >
-            <option value="seller">Seller</option>
-            <option selected value="buyer">Buyer</option>
-          </select>
-          <label for="accountType" class="form-label">Account Type</label>
-        </div>
-      </div>
-      <div class="col">
-        <!-- PHONE NUMBER -->
-        <div class="mb-3 form-floating">
-          <input
-            required="true"
-            type="text"
-            name="contact_no"
-            autocomplete="tel"
-            class="form-control"
-            id="phoneNumber"
-            placeholder="Phone Number"
-          />
-          <label for="phoneNumber" class="form-label">Phone Number</label>
         </div>
       </div>
     </div>
@@ -108,10 +50,45 @@ loginForm %}
         type="text"
         name="address"
         class="form-control"
-        id="address"
-        placeholder="Password"
+        id="description"
+        placeholder="Description"
       />
-      <label for="address" class="form-label">Address</label>
+      <label for="address" class="form-label">Description</label>
+    </div>
+
+    <div class="mb-3">
+      <div class="row gx-3">
+        <div class="col">
+          <div class="form-floating">
+            <input
+              required="true"
+              name="productname"
+              type="text"
+              autocomplete="name"
+              class="form-control"
+              id="firstName"
+              placeholder="Product Name"
+              aria-describedby="Product name"
+            />
+            <label for="productname" class="form-label">Product Name</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-floating">
+            <input
+              required="true"
+              type="text"
+              name="category"
+              autocomplete="family-name"
+              class="form-control"
+              id="category"
+              placeholder="category"
+              aria-describedby="category"
+            />
+            <label for="category" class="form-label">Category</label>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="d-flex justify-content-end mb-3">
       <button type="submit" class="btn btn-primary">Add</button>

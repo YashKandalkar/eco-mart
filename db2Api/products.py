@@ -3,9 +3,15 @@
 import ibm_db
 import os
 import json
+import urllib.request
+from werkzeug.utils import secure_filename
 
 db2info = json.loads(os.environ['VCAP_SERVICES'])['dashDB'][0]
 db2cred = db2info["credentials"]
+
+
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
 
 
 def getProductsUsingEmail(emailid) -> list:
@@ -61,3 +67,9 @@ def getAllProducts():
         errorMsg = ibm_db.conn_errormsg()
         print(errorMsg)
         return rows
+
+def createProducts():
+    pass
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

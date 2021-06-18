@@ -1,24 +1,24 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block
-loginForm %} {% if current_user %}
-
-{% block head %}
-    <link rel="stylesheet" href=" {{ url_for('static',filename='sidebars.css') }} ">
-    <style>
-      .float-container {
-      border: 3px solid #fff;
-      padding: 20px;
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block loginForm
+%} {% if current_user %} {% block head %}
+<link
+  rel="stylesheet"
+  href=" {{ url_for('static',filename='sidebars.css') }} "
+/>
+<style>
+  .float-container {
+    border: 3px solid #fff;
+    padding: 0px;
   }
-  
-  .float-child {
-      width: 50%;
-      float: left;
-      padding: 20px;
-      /* border: 2px solid red; */
-  }  
-    </style>
-    
-{% endblock %}
 
+  .float-child {
+    width: 20%;
+    float: left;
+    padding: 0px;
+    /* border: 2px solid red; */
+  }
+</style>
+
+{% endblock %}
 
 <li class="nav-item dropdown d-flex">
   <a
@@ -43,9 +43,7 @@ loginForm %} {% if current_user %}
 <form class="d-flex" action="/login">
   <button class="btn btn-primary" type="submit">Login</button>
 </form>
-{% endif %} {% endblock %} 
-
-{% block content %}
+{% endif %} {% endblock %} {% block content %}
 <!-- <h1
   class="text-center my-5 d-flex justify-content-center align-items-center"
   style="height: 40vh"
@@ -54,96 +52,127 @@ loginForm %} {% if current_user %}
 </h1> -->
 
 <div class="float-container">
-<div class="float-child">
-<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
-  <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-    <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-    <span class="fs-5 fw-semibold">Collapsible</span>
-  </a>
-  <ul class="list-unstyled ps-0">
-    <li class="mb-1">
-      <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-        Home
-      </button>
-      <div class="collapse show" id="home-collapse">
-        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><a href="#" class="link-dark rounded">Overview</a></li>
-          <li><a href="#" class="link-dark rounded">Updates</a></li>
-          <li><a href="#" class="link-dark rounded">Reports</a></li>
-        </ul>
-      </div>
-    </li>
-    <li class="mb-1">
-      <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-        Dashboard
-      </button>
-      <div class="collapse" id="dashboard-collapse">
-        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><a href="#" class="link-dark rounded">Overview</a></li>
-          <li><a href="#" class="link-dark rounded">Weekly</a></li>
-          <li><a href="#" class="link-dark rounded">Monthly</a></li>
-          <li><a href="#" class="link-dark rounded">Annually</a></li>
-        </ul>
-      </div>
-    </li>
-    <li class="mb-1">
-      <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-        Orders
-      </button>
-      <div class="collapse" id="orders-collapse">
-        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><a href="#" class="link-dark rounded">New</a></li>
-          <li><a href="#" class="link-dark rounded">Processed</a></li>
-          <li><a href="#" class="link-dark rounded">Shipped</a></li>
-          <li><a href="#" class="link-dark rounded">Returned</a></li>
-        </ul>
-      </div>
-    </li>
-    <li class="border-top my-3"></li>
-    <li class="mb-1">
-      <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-        Account
-      </button>
-      <div class="collapse" id="account-collapse">
-        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><a href="#" class="link-dark rounded">New...</a></li>
-          <li><a href="#" class="link-dark rounded">Profile</a></li>
-          <li><a href="#" class="link-dark rounded">Settings</a></li>
-          <li><a href="#" class="link-dark rounded">Sign out</a></li>
-        </ul>
-      </div>
-    </li>
-  </ul>
-</div>
-</div>
-
-<div class="float-child">
-<div class="row">
-  <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4  my-4 ">
-    {%for i in products%}
-    <div class="card">
-      <h1>Name: {{i["PRODUCT_NAME"]}}</h1>
-      <p>Type: {{i["PRODUCT_CATEGORY"]}}</p>
-      <p>Description: {{i["DESCRIPTION"]}}</p>
-      <p>Quantity: {{i["QUANTITY"]}}</p>
-      <p class="price">Price: &#8377;{{i["PRICE"]}}</p>
-      <p>
-        <button onclick="window.location.href = './buynow.html';">
-          Buy Now</button
-        ><button onclick="window.location.href = './addtocart.html';">
-          Add to Cart
-        </button>
-      </p>
+  <div class="float-child">
+    <div class="flex-shrink-0 p-3 bg-white" style="width: 280px">
+      <a
+        href="/"
+        class="
+          d-flex
+          align-items-center
+          pb-3
+          mb-3
+          link-dark
+          text-decoration-none
+          border-bottom
+        "
+      >
+        <svg class="bi me-2" width="30" height="24">
+          <use xlink:href="#bootstrap" />
+        </svg>
+        <span class="fs-5 fw-semibold">Collapsible</span>
+      </a>
+      <ul class="list-unstyled ps-0">
+        <li class="mb-1">
+          <button
+            class="btn btn-toggle align-items-center rounded collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#home-collapse"
+            aria-expanded="true"
+          >
+            Home
+          </button>
+          <div class="collapse show" id="home-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="#" class="link-dark rounded">Overview</a></li>
+              <li><a href="#" class="link-dark rounded">Updates</a></li>
+              <li><a href="#" class="link-dark rounded">Reports</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="mb-1">
+          <button
+            class="btn btn-toggle align-items-center rounded collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#dashboard-collapse"
+            aria-expanded="false"
+          >
+            Dashboard
+          </button>
+          <div class="collapse" id="dashboard-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="#" class="link-dark rounded">Overview</a></li>
+              <li><a href="#" class="link-dark rounded">Weekly</a></li>
+              <li><a href="#" class="link-dark rounded">Monthly</a></li>
+              <li><a href="#" class="link-dark rounded">Annually</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="mb-1">
+          <button
+            class="btn btn-toggle align-items-center rounded collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#orders-collapse"
+            aria-expanded="false"
+          >
+            Orders
+          </button>
+          <div class="collapse" id="orders-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="#" class="link-dark rounded">New</a></li>
+              <li><a href="#" class="link-dark rounded">Processed</a></li>
+              <li><a href="#" class="link-dark rounded">Shipped</a></li>
+              <li><a href="#" class="link-dark rounded">Returned</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="border-top my-3"></li>
+        <li class="mb-1">
+          <button
+            class="btn btn-toggle align-items-center rounded collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#account-collapse"
+            aria-expanded="false"
+          >
+            Account
+          </button>
+          <div class="collapse" id="account-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="#" class="link-dark rounded">New...</a></li>
+              <li><a href="#" class="link-dark rounded">Profile</a></li>
+              <li><a href="#" class="link-dark rounded">Settings</a></li>
+              <li><a href="#" class="link-dark rounded">Sign out</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
     </div>
-    {%endfor%}
+  </div>
+
+  <div class="">
+    <div class="row">
+      {%for i in products%}
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 my-4">
+        <div class="card">
+          <h1>Name: {{i["PRODUCT_NAME"]}}</h1>
+          <p>Type: {{i["PRODUCT_CATEGORY"]}}</p>
+          <p>Description: {{i["DESCRIPTION"]}}</p>
+          <p>Quantity: {{i["QUANTITY"]}}</p>
+          <p class="price">Price: &#8377;{{i["PRICE"]}}</p>
+          <p>
+            <button onclick="window.location.href = './buynow.html';">
+              Buy Now</button
+            ><button onclick="window.location.href = './addtocart.html';">
+              Add to Cart
+            </button>
+          </p>
+        </div>
+      </div>
+      {%endfor%}
+      <!-- </div> -->
+    </div>
   </div>
 </div>
-</div>
-
-</div> 
 <!-- float-container -->
-
-
 
 <div class="row">
   <div class="column">
@@ -167,8 +196,7 @@ loginForm %} {% if current_user %}
       <p class="price">$2.99</p>
       <p>Some text about the bags..</p>
       <p>
-        <button onclick="window.location.href = '/buynow.html';">
-          Buy Now</button
+        <button onclick="window.location.href = '/buynow.html';">Buy Now</button
         ><button onclick="window.location.href = '/addtocart.html';">
           Add to Cart
         </button>
@@ -181,8 +209,7 @@ loginForm %} {% if current_user %}
       <p class="price">$2.99</p>
       <p>Some text about the bags..</p>
       <p>
-        <button onclick="window.location.href = '/buynow.html';">
-          Buy Now</button
+        <button onclick="window.location.href = '/buynow.html';">Buy Now</button
         ><button onclick="window.location.href = '/addtocart.html';">
           Add to Cart
         </button>
@@ -195,8 +222,7 @@ loginForm %} {% if current_user %}
       <p class="price">$2.99</p>
       <p>Some text about the bags..</p>
       <p>
-        <button onclick="window.location.href = '/buynow.html';">
-          Buy Now</button
+        <button onclick="window.location.href = '/buynow.html';">Buy Now</button
         ><button onclick="window.location.href = '/addtocart.html';">
           Add to Cart
         </button>
@@ -210,8 +236,7 @@ loginForm %} {% if current_user %}
       <p class="price">$2.99</p>
       <p>Some text about the bags..</p>
       <p>
-        <button onclick="window.location.href = '/buynow.html';">
-          Buy Now</button
+        <button onclick="window.location.href = '/buynow.html';">Buy Now</button
         ><button onclick="window.location.href = '/addtocart.html';">
           Add to Cart
         </button>
@@ -224,8 +249,7 @@ loginForm %} {% if current_user %}
       <p class="price">$2.99</p>
       <p>Some text about the bags..</p>
       <p>
-        <button onclick="window.location.href = '/buynow.html';">
-          Buy Now</button
+        <button onclick="window.location.href = '/buynow.html';">Buy Now</button
         ><button onclick="window.location.href = '/addtocart.html';">
           Add to Cart
         </button>
@@ -238,8 +262,7 @@ loginForm %} {% if current_user %}
       <p class="price">$2.99</p>
       <p>Some text about the bags..</p>
       <p>
-        <button onclick="window.location.href = '/buynow.html';">
-          Buy Now</button
+        <button onclick="window.location.href = '/buynow.html';">Buy Now</button
         ><button onclick="window.location.href = '/addtocart.html';">
           Add to Cart
         </button>
@@ -252,8 +275,7 @@ loginForm %} {% if current_user %}
       <p class="price">$2.99</p>
       <p>Some text about the bags..</p>
       <p>
-        <button onclick="window.location.href = '/buynow.html';">
-          Buy Now</button
+        <button onclick="window.location.href = '/buynow.html';">Buy Now</button
         ><button onclick="window.location.href = '/addtocart.html';">
           Add to Cart
         </button>
@@ -267,8 +289,7 @@ loginForm %} {% if current_user %}
       <p class="price">$2.99</p>
       <p>Some text about the bags..</p>
       <p>
-        <button onclick="window.location.href = '/buynow.html';">
-          Buy Now</button
+        <button onclick="window.location.href = '/buynow.html';">Buy Now</button
         ><button onclick="window.location.href = '/addtocart.html';">
           Add to Cart
         </button>
@@ -281,8 +302,7 @@ loginForm %} {% if current_user %}
       <p class="price">$2.99</p>
       <p>Some text about the bags..</p>
       <p>
-        <button onclick="window.location.href = '/buynow.html';">
-          Buy Now</button
+        <button onclick="window.location.href = '/buynow.html';">Buy Now</button
         ><button onclick="window.location.href = '/addtocart.html';">
           Add to Cart
         </button>
@@ -295,8 +315,7 @@ loginForm %} {% if current_user %}
       <p class="price">$2.99</p>
       <p>Some text about the bags..</p>
       <p>
-        <button onclick="window.location.href = '/buynow.html';">
-          Buy Now</button
+        <button onclick="window.location.href = '/buynow.html';">Buy Now</button
         ><button onclick="window.location.href = '/addtocart.html';">
           Add to Cart
         </button>
@@ -309,8 +328,7 @@ loginForm %} {% if current_user %}
       <p class="price">$2.99</p>
       <p>Some text about the bags..</p>
       <p>
-        <button onclick="window.location.href = '/buynow.html';">
-          Buy Now</button
+        <button onclick="window.location.href = '/buynow.html';">Buy Now</button
         ><button onclick="window.location.href = '/addtocart.html';">
           Add to Cart
         </button>
@@ -324,8 +342,7 @@ loginForm %} {% if current_user %}
       <p class="price">$2.99</p>
       <p>Some text about the bags..</p>
       <p>
-        <button onclick="window.location.href = '/buynow.html';">
-          Buy Now</button
+        <button onclick="window.location.href = '/buynow.html';">Buy Now</button
         ><button onclick="window.location.href = '/addtocart.html';">
           Add to Cart
         </button>
@@ -338,8 +355,7 @@ loginForm %} {% if current_user %}
       <p class="price">$2.99</p>
       <p>Some text about the bags..</p>
       <p>
-        <button onclick="window.location.href = '/buynow.html';">
-          Buy Now</button
+        <button onclick="window.location.href = '/buynow.html';">Buy Now</button
         ><button onclick="window.location.href = '/addtocart.html';">
           Add to Cart
         </button>
@@ -352,8 +368,7 @@ loginForm %} {% if current_user %}
       <p class="price">$2.99</p>
       <p>Some text about the bags..</p>
       <p>
-        <button onclick="window.location.href = '/buynow.html';">
-          Buy Now</button
+        <button onclick="window.location.href = '/buynow.html';">Buy Now</button
         ><button onclick="window.location.href = '/addtocart.html';">
           Add to Cart
         </button>
@@ -366,8 +381,7 @@ loginForm %} {% if current_user %}
       <p class="price">$2.99</p>
       <p>Some text about the bags..</p>
       <p>
-        <button onclick="window.location.href = '/buynow.html';">
-          Buy Now</button
+        <button onclick="window.location.href = '/buynow.html';">Buy Now</button
         ><button onclick="window.location.href = '/addtocart.html';">
           Add to Cart
         </button>
@@ -376,8 +390,6 @@ loginForm %} {% if current_user %}
   </div>
 </div>
 
-
-<script src = "{{ url_for('static',filename='sidebars.js') }} "></script>
-
+<script src="{{ url_for('static',filename='sidebars.js') }} "></script>
 
 {% endblock %}
