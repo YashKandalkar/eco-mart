@@ -38,7 +38,11 @@ def load_user(user_id):
 @app.route('/')
 def index():
     user = current_user if current_user.is_authenticated else None
-    return render_template('index.html', current_user=user)
+    rows = display_all_products()
+
+    return render_template('index.html', current_user=user, products = rows)
+
+
 
 
 @app.route('/dashboard')
@@ -56,6 +60,47 @@ def dashboard():
     
     return render_template('dashboard.html', current_user=current_user)
     
+def display_all_products():
+    print('all products will be displayed')
+    rows=[]
+    try:
+        db2conn = ibm_db.pconnect(db2cred['ssldsn'], "", "")
+        if db2conn:
+            # print("db2 connected")        
+            sql = "SELECT * FROM products"
+            # print("sql ran")
+            stmt = ibm_db.prepare(db2conn, sql)
+            
+            # ibm_db.bind_param(stmt, 1, current_user.emailid)
+
+
+            if ibm_db.execute(stmt):
+                print('query executed')
+
+            else:
+                print('query not executed')
+                # return render_template('auth/signup.html', error="Error creating an account! Please fill the form and submit again!")
+            # close database connection
+            result = ibm_db.fetch_assoc(stmt)
+            while result != False:  # result is found
+                print('rows are appended')
+                
+                rows.append(result.copy())  #copy the result and append it to rows list
+                result = ibm_db.fetch_assoc(stmt)
+          # close database connection
+            print(rows[0])
+            ibm_db.close(db2conn)
+            return rows
+            # return redirect(url_for('dashboard'))
+
+    except Exception as e:
+        print(e)
+        errorMsg = ibm_db.conn_errormsg()
+        print(errorMsg)
+        return render_template('auth/signup.html', error="Error creating an account! Please fill the form and submit again!")
+
+
+
 
 def display_products():
     print('products will be displayed')
@@ -64,7 +109,7 @@ def display_products():
         db2conn = ibm_db.pconnect(db2cred['ssldsn'], "", "")
         if db2conn:
    
-            sql = "SELECT * FROM products where user_emailid=?"
+            sql = "SELECT * FROM products where seller_emailid=?"
 
             stmt = ibm_db.prepare(db2conn, sql)
 
