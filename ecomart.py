@@ -11,7 +11,6 @@ import atexit
 from flask_login import login_required, current_user
 from flask_login import LoginManager
 
-from db2Api.products import getAllProducts
 
 load_dotenv("./.env.local")
 
@@ -33,7 +32,7 @@ if 'VCAP_SERVICES' in os.environ:
 
     from auth import auth as auth_blueprint
     from models import User
-    from db2Api.products import getProductsUsingEmail
+    from db2Api.products import getProductsUsingEmail, getAllProducts
     app.register_blueprint(auth_blueprint)
     login_manager = LoginManager()
     login_manager.init_app(app)
