@@ -43,7 +43,8 @@ def signup():
         lastname = request.form.get('lastname', '')
         category = request.form.get('category', '')
         address = request.form.get('address', '')
-        return createUser(emailid, password, contact_no, firstname, lastname, category, address)
+        remember = request.form.get('remember', '')
+        return createUser(emailid, password, contact_no, firstname, lastname, category, address, remember)
     else:
         return render_template('auth/signup.html')
 
@@ -55,12 +56,10 @@ def logout():
     return redirect(url_for("index"))
 
 
-def createUser(emailid, password, contact_no, firstname, lastname, category, address):
+def createUser(emailid, password, contact_no, firstname, lastname, category, address, remember):
     try:
         db2conn = ibm_db.pconnect(db2cred['ssldsn'], "", "")
         if db2conn:
-           
-
             # we have a Db2 connection, query the database
             sql = "Insert into users(emailid, password,firstname,lastname,contact_no, category,address ) values (?,?,?,?,?,?,?)"
 
@@ -82,6 +81,8 @@ def createUser(emailid, password, contact_no, firstname, lastname, category, add
                 return render_template('auth/signup.html', error="Error creating an account! Please fill the form and submit again!")
             # close database connection
             ibm_db.close(db2conn)
+        user = User.getUserFromEmail(emailid)
+        login_user(user, remember=remember)
         return redirect(url_for('dashboard'))
 
     except Exception as e:
