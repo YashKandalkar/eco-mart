@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block title %}Products{% endblock %} {% block
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block
 loginForm %} {% if current_user %}
 <li class="nav-item dropdown d-flex">
   <a
@@ -30,4 +30,256 @@ loginForm %} {% if current_user %}
 >
   Coming Soon :)
 </h1>
+<div class="row">
+  <div class="column">
+    {%for i in products%}
+    <div class="card">
+      <h1>Name: {{i["PRODUCT_NAME"]}}</h1>
+      <p>Type: {{i["PRODUCT_CATEGORY"]}}</p>
+      <p>Description: {{i["DESCRIPTION"]}}</p>
+      <p>Quantity: {{i["QUANTITY"]}}</p>
+      <p class="price">Price: &#8377;{{i["PRICE"]}}</p>
+      <p>
+        <button onclick="window.location.href = './buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = './addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+    {%endfor%}
+  </div>
+</div>
+
+<div class="row">
+  <div class="column">
+    <div class="card">
+      <img src="/static/bag.jpg" style="width: 100%" />
+      <h1>HandMade Recycled Bag</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = 'templates/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = 'templates/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="/static/papernapkins.jpg" style="width: 100%" />
+      <h1>Recycled Paper Napkins</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = '/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = '/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="/static/Paper_bowl.jpg" style="width: 100%" />
+      <h1>HandMade Recycled Paper Bowl</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = '/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = '/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="/static/paperart.jpg" style="width: 100%" />
+      <h1>HandMade Recycled Bag</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = '/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = '/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+  </div>
+  <div class="column">
+    <div class="card">
+      <img src="/static/bag.jpg" style="width: 100%" />
+      <h1>HandMade Recycled Bag</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = '/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = '/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="/static/papernapkins.jpg" style="width: 100%" />
+      <h1>Recycled Paper Napkins</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = '/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = '/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="/static/Paper_bowl.jpg" style="width: 100%" />
+      <h1>HandMade Recycled Paper Bowl</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = '/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = '/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="/static/paperart.jpg" style="width: 100%" />
+      <h1>HandMade Recycled Bag</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = '/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = '/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+  </div>
+  <div class="column">
+    <div class="card">
+      <img src="/static/bag.jpg" style="width: 100%" />
+      <h1>HandMade Recycled Bag</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = '/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = '/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="/static/papernapkins.jpg" style="width: 100%" />
+      <h1>Recycled Paper Napkins</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = '/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = '/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="/static/Paper_bowl.jpg" style="width: 100%" />
+      <h1>HandMade Recycled Paper Bowl</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = '/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = '/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="/static/paperart.jpg" style="width: 100%" />
+      <h1>HandMade Recycled Bag</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = '/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = '/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+  </div>
+  <div class="column">
+    <div class="card">
+      <img src="/static/bag.jpg" style="width: 100%" />
+      <h1>HandMade Recycled Bag</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = '/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = '/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="/static/papernapkins.jpg" style="width: 100%" />
+      <h1>Recycled Paper Napkins</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = '/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = '/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="/static/Paper_bowl.jpg" style="width: 100%" />
+      <h1>HandMade Recycled Paper Bowl</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = '/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = '/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="/static/paperart.jpg" style="width: 100%" />
+      <h1>HandMade Recycled Bag</h1>
+      <p class="price">$2.99</p>
+      <p>Some text about the bags..</p>
+      <p>
+        <button onclick="window.location.href = '/buynow.html';">
+          Buy Now</button
+        ><button onclick="window.location.href = '/addtocart.html';">
+          Add to Cart
+        </button>
+      </p>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

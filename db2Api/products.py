@@ -35,3 +35,29 @@ def getProductsUsingEmail(emailid) -> list:
         errorMsg = ibm_db.conn_errormsg()
         print(errorMsg)
         return rows
+
+
+def getAllProducts():
+    db2conn = ibm_db.pconnect(db2cred['ssldsn'], "", "")
+    sql = "SELECT * FROM products"
+
+    rows = []
+
+    stmt = ibm_db.prepare(db2conn, sql)
+
+    try:
+        if ibm_db.execute(stmt):
+            result = ibm_db.fetch_assoc(stmt)
+            while result != False:  # result is found
+                # copy the result and append it to rows list
+                rows.append(result.copy())
+                result = ibm_db.fetch_assoc(stmt)
+            ibm_db.close(db2conn)
+            return rows
+        else:
+            return rows
+    except Exception as e:
+        print(e)
+        errorMsg = ibm_db.conn_errormsg()
+        print(errorMsg)
+        return rows

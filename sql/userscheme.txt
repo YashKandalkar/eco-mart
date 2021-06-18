@@ -10,6 +10,7 @@ create table users(
   
 );
 
+
 create table products(
 	product_id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1), 
 	user_emailid varchar(25),
@@ -17,6 +18,7 @@ create table products(
 	product_category varchar(25),
 	description varchar(255),
 	price int,
-	quantity int
+	quantity int,
+	FOREIGN KEY (user_emailid) REFERENCES users(emailid)
 );
 
