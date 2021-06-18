@@ -1,7 +1,7 @@
 # pylint: disable=maybe-no-member
 
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template,request
 import json
 import ibm_db
 
@@ -65,9 +65,17 @@ def add_product():
         return render_template('dashboard.html', current_user=current_user)
 
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['POST'])
 @login_required
 def dashboard():
+    if request.method == 'POST':
+        product_name = request.form.get('productname', '')
+        category = request.form.get('category', '')
+        description = request.form.get('description', '')
+        price = request.form.get('price', '')
+        quantity = request.form.get('quantity', '')
+        # print("everything  worked properly")
+        result=createProducts(product_name,category,description, price, quantity)
     if(current_user.category == 'seller'):
         #print('seller has logged in ')
         rows = getProductsUsingEmail(current_user.emailid)

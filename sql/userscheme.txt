@@ -12,13 +12,15 @@ create table users(
 
 
 create table products(
-	product_id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1), 
-	user_emailid varchar(25),
+	product_id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) primary key enforced , 
+	seller_emailid varchar(25),
+	image_path varchar(25),
 	product_name varchar(25),
 	product_category varchar(25),
-	description varchar(255),
+	description varchar(4000),
 	price int,
 	quantity int,
-	FOREIGN KEY (user_emailid) REFERENCES users(emailid)
+	FOREIGN KEY (seller_emailid) REFERENCES users(emailid)
 );
+
 

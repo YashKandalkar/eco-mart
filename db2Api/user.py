@@ -15,7 +15,7 @@ def createUser(emailid, password, contact_no, firstname, lastname, category, add
 
     Returns:
         - dict: dict object containing all user data, if query was successfull
-        - False: If query was unsuccessfull
+        - False: If query was unsuccessful
     """
 
     try:
