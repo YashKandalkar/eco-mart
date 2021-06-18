@@ -5,6 +5,8 @@ import ibm_db
 import os
 import json
 
+from db2Api.user import getUserUsingEmail
+
 
 db2info = json.loads(os.environ['VCAP_SERVICES'])['dashDB'][0]
 db2cred = db2info["credentials"]
@@ -23,23 +25,11 @@ class User(UserMixin):
 
     @classmethod
     def getUserFromEmail(cls, emailid):
-        db2conn = ibm_db.pconnect(db2cred['ssldsn'], "", "")
-        sql = "SELECT * FROM users WHERE emailid=?"
+        result = getUserUsingEmail(emailid)
 
-        stmt = ibm_db.prepare(db2conn, sql)
-        ibm_db.bind_param(stmt, 1, emailid)
-        try:
-            if ibm_db.execute(stmt):
-                result = ibm_db.fetch_assoc(stmt)
-                if result:
-                    result = {k.lower(): result[k] for k in result}
-                    return cls(**result)
-                else:
-                    return None
-            else:
-                return None
-        except Exception as e:
-            print(e)
+        if result:
+            return cls(**result)
+        else:
             return None
 
     @classmethod
