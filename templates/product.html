@@ -1,0 +1,64 @@
+{% extends "base.html" %} {% block title %}Dashboard{% endblock %}
+<!-- CONTENT -->
+{% block content %}
+<div class="container-fluid">
+  <div class="container-sm my-5">
+    <h1>Botle</h1>
+    <hr />
+    <div class="media d-sm-flex">
+      <img
+        id="product-image"
+        class="img-thumbnail w-25 me-5 mb-4"
+        alt="product image"
+        src="https://res.cloudinary.com/teepublic/image/private/s--xQdfgaqf--/t_Resized%20Artwork/c_fit,g_north_west,h_1054,w_1054/co_ffffff,e_outline:53/co_ffffff,e_outline:inner_fill:53/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1602610866/production/designs/14996485_0.jpg"
+      />
+      <div class="media-body">
+        <h5 class="mt-0">
+          Botle<span class="badge bg-primary ms-2">category</span>
+        </h5>
+        <p class="text-muted">Sold by <a href="#">Botle Corp. Ltd.</a></p>
+        <p class="text-success fs-4">In Stock</p>
+        <p>
+          (Description) Lorem ipsum dolor sit amet consectetur adipisicing
+          elit. Numquam, eum voluptas blanditiis eligendi cum quis illo optio
+          atque id culpa molestiae corporis esse magni laudantium aperiam
+          expedita accusamus libero incidunt.
+        </p>
+        <hr />
+        <blockquote class="blockquote ms-4">
+          <p class="">M.R.P.: ₹42</p>
+        </blockquote>
+        <hr />
+
+        <div class="card text-start" style="width: 100%; max-width: unset">
+          <div class="card-body" style="width: 100% !important">
+            <h5 class="card-title">Points</h5>
+            <p class="card-text">
+              Some information about the points this product will give to the
+              user maybe?
+            </p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  @media only screen and (max-width: 576px) {
+    #product-image {
+      width: 60% !important;
+      margin: 0 auto !important;
+      margin-bottom: 1rem !important;
+      display: block !important;
+    }
+  }
+
+  @media only screen and (min-width: 576px) {
+    #product-image {
+      width: 40% !important;
+      margin-bottom: auto !important;
+    }
+  }
+</style>
+{% endblock %}

@@ -85,6 +85,29 @@ def dashboard():
         return render_template('dashboard.html', current_user=current_user)
 
 
+@app.route("/products/<id>", methods=['GET'])
+@app.route("/products/<id>/", methods=['GET'])
+@app.route("/products/<id>/<title>", methods=['GET'])
+def products(id, title=None):
+    if title == None:
+        # TODO: Fetch only product-name from id, redirect to /product/<id>/<title>
+        # Replace spaces with dashes TODO: Also urlencode this string
+        # (some chars cannot come in a url)
+        title = "Fetch title from db".replace(" ", "-").lower()
+        if not id:
+            return redirect(f"{id}/{title}")
+        else:
+            return redirect(f"{title}")
+
+    # TODO: Fetch product from id, send details to the frontend
+    return render_template("product.html")
+
+
+@app.route("/products")
+def productsWithNoId():
+    return redirect(url_for("index"))
+
+
 port = os.getenv('PORT', '5000')
 env = os.getenv("FLASK_ENV", "production")
 
