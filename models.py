@@ -5,7 +5,7 @@ import ibm_db
 import os
 import json
 
-from db2Api.user import getUserUsingEmail
+from db2Api.users import getUserUsingEmail
 
 
 db2info = json.loads(os.environ['VCAP_SERVICES'])['dashDB'][0]

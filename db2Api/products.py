@@ -5,13 +5,13 @@ import os
 import json
 import urllib.request
 from werkzeug.utils import secure_filename
+from .users import getUserUsingEmail
 
 db2info = json.loads(os.environ['VCAP_SERVICES'])['dashDB'][0]
 db2cred = db2info["credentials"]
 
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
-
 
 
 def getProductsUsingEmail(emailid) -> list:
@@ -68,7 +68,8 @@ def getAllProducts():
         print(errorMsg)
         return rows
 
-def createProducts(product_name,category,description, price, quantity):
+
+def createProducts(emailid, product_name, category, description, price, quantity):
     """
     Tries to create a new product with the given data.
 
@@ -80,6 +81,7 @@ def createProducts(product_name,category,description, price, quantity):
         db2conn = ibm_db.pconnect(db2cred['ssldsn'], "", "")
         if db2conn:
             # we have a Db2 connection, query the database
+            # TODO: Add seller_emailid
             sql = "Insert into products(product_name, product_category,description,price,quantity) values (?,?,?,?,?)"
 
             stmt = ibm_db.prepare(db2conn, sql)
@@ -109,6 +111,7 @@ def createProducts(product_name,category,description, price, quantity):
         errorMsg = ibm_db.conn_errormsg()
         print(errorMsg)
         return False
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

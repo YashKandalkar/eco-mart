@@ -5,7 +5,7 @@ from flask.helpers import url_for
 from flask_login import login_required, logout_user, login_user
 from models import User
 
-from db2Api.user import createUser
+from db2Api.users import createUser
 
 
 auth = Blueprint('auth', __name__)

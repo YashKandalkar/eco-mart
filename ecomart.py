@@ -1,8 +1,9 @@
 # pylint: disable=maybe-no-member
 
 import os
-from flask import Flask, render_template,request
+from flask import Flask, render_template, request, redirect
 import json
+from flask.helpers import url_for
 import ibm_db
 
 from dotenv import load_dotenv
@@ -12,7 +13,6 @@ from flask_login import LoginManager
 
 
 load_dotenv("./.env.local")
-
 
 
 app = Flask(__name__)
@@ -30,15 +30,12 @@ if 'VCAP_SERVICES' in os.environ:
 
     from auth import auth as auth_blueprint
     from models import User
-    from db2Api.products import getProductsUsingEmail, getAllProducts ,createProducts
+    from db2Api.products import getProductsUsingEmail, getAllProducts, createProducts
     app.register_blueprint(auth_blueprint)
     login_manager = LoginManager()
     login_manager.init_app(app)
 else:
     raise ValueError('Expected cloud environment')
-
-
-
 
 
 @login_manager.user_loader
@@ -58,14 +55,14 @@ def index():
 @login_required
 def add_product():
     if(current_user.category == 'seller'):
-        createProducts()
+        # createProducts()
         return render_template('add_product.html', current_user=current_user)
     else:
         # to-do
         return render_template('dashboard.html', current_user=current_user)
 
 
-@app.route('/dashboard', methods=['POST'])
+@app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
     if request.method == 'POST':
@@ -75,13 +72,15 @@ def dashboard():
         price = request.form.get('price', '')
         quantity = request.form.get('quantity', '')
         # print("everything  worked properly")
-        result=createProducts(product_name,category,description, price, quantity)
-    if(current_user.category == 'seller'):
-        #print('seller has logged in ')
-        rows = getProductsUsingEmail(current_user.emailid)
-        return render_template('dashboard.html', current_user=current_user, products=rows)
+        result = createProducts(
+            current_user.emailid, product_name, category, description, price, quantity)
+        return redirect(url_for('dashboard'))
 
     else:
+        if(current_user.category == 'seller'):
+            #print('seller has logged in ')
+            rows = getProductsUsingEmail(current_user.emailid)
+            return render_template('dashboard.html', current_user=current_user, products=rows)
         #print('buyer has logged in ')
         return render_template('dashboard.html', current_user=current_user)
 
