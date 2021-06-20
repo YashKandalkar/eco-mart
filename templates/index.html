@@ -146,6 +146,7 @@
       {%for i in products%}
       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 my-4">
         <div class="card">
+          <img src='{{i["IMAGE_PATH"]}}' alt="image" />
           <h1>Name: {{i["PRODUCT_NAME"]}}</h1>
           <p>Type: {{i["PRODUCT_CATEGORY"]}}</p>
           <p>Description: {{i["DESCRIPTION"]}}</p>

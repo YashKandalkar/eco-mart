@@ -6,7 +6,7 @@ loginForm %}
 {% endblock %} {% block content %}
 <div class="container py-4" style="max-width: 580px">
   <h2 class="mb-4">Add new product</h2>
-  <form action="/dashboard" method="POST" id="signup_form">
+  <form action="/add_product" method="POST" id="signup_form">
     <!-- NAME -->
     <div class="mb-3">
       <div class="row gx-3">
@@ -20,11 +20,12 @@ loginForm %}
               class="form-control"
               id="firstName"
               placeholder="Product Name"
-              aria-describedby="Product name"
+              aria-describedby="Product Name"
             />
             <label for="productname" class="form-label">Product Name</label>
           </div>
         </div>
+        <!-- category -->
         <div class="col">
           <div class="form-floating">
             <input
@@ -43,7 +44,7 @@ loginForm %}
       </div>
     </div>
 
-    <!-- ADDRESS -->
+    <!-- description -->
     <div class="mb-3 form-floating">
       <input
         required="true"
@@ -107,7 +108,9 @@ loginForm %}
       <label for="image_url" class="form-label">Image url</label>
     </div>
     <div class="d-flex justify-content-end mb-3">
+      <!-- <form action="/add_product" method="post"> -->
       <button type="submit" class="btn btn-primary">Add</button>
+      <!-- </form> -->
     </div>
   </form>
 </div>

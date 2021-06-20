@@ -51,10 +51,23 @@ def index():
     return render_template('index.html', current_user=user, products=rows)
 
 
-@app.route('/add_product', methods=['GET'])
+@app.route('/add_product', methods=['GET','POST'])
 @login_required
 def add_product():
-    if(current_user.category == 'seller'):
+    row=[]
+    if  (current_user.category == 'seller') and (request.method == 'POST'):
+        product_name = request.form.get('productname', '')
+        category = request.form.get('category', '')
+        description = request.form.get('description', '')
+        price = request.form.get('price', '')
+        quantity = request.form.get('quantity', '')
+        seller_emailid=current_user.emailid
+        image_url=request.form.get('image_url','')
+        print("form  worked properly")
+        row = createProducts(seller_emailid, product_name, category, description, image_url, price, quantity)
+        rows= getProductsUsingEmail(current_user.emailid)
+        return render_template('dashboard.html', current_user=current_user, products=rows)
+    elif (current_user.category == 'seller'):
         # createProducts()
         return render_template('add_product.html', current_user=current_user)
     else:
@@ -65,24 +78,15 @@ def add_product():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    if request.method == 'POST':
-        product_name = request.form.get('productname', '')
-        category = request.form.get('category', '')
-        description = request.form.get('description', '')
-        price = request.form.get('price', '')
-        quantity = request.form.get('quantity', '')
-        # print("everything  worked properly")
-        result = createProducts(
-            current_user.emailid, product_name, category, description, price, quantity)
-        return redirect(url_for('dashboard'))
-
-    else:
+    
         if(current_user.category == 'seller'):
             #print('seller has logged in ')
             rows = getProductsUsingEmail(current_user.emailid)
             return render_template('dashboard.html', current_user=current_user, products=rows)
-        #print('buyer has logged in ')
-        return render_template('dashboard.html', current_user=current_user)
+        
+        elif current_user.category == 'buyer':
+            #print('buyer has logged in ')
+            return render_template('dashboard.html', current_user=current_user)
 
 
 @app.route("/products/<id>", methods=['GET'])
