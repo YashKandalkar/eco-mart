@@ -10,6 +10,10 @@
       integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    />
     {% block head %}
     <title>{% block title %}{% endblock %} - Eco-Mart</title>
     {% endblock %}
@@ -159,7 +163,13 @@
     <footer class="bg-light">
       <div class="container-fluid py-4">
         <span
-          class="mb-4 flex-row d-flex align-items-center justify-content-center"
+          class="
+            mb-4
+            flex-row
+            d-flex
+            align-items-center
+            justify-content-center
+          "
         >
           <img
             src="{{ url_for('static', filename='coca-leaves.png') }}"

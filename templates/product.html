@@ -13,7 +13,7 @@
         src="https://res.cloudinary.com/teepublic/image/private/s--xQdfgaqf--/t_Resized%20Artwork/c_fit,g_north_west,h_1054,w_1054/co_ffffff,e_outline:53/co_ffffff,e_outline:inner_fill:53/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1602610866/production/designs/14996485_0.jpg"
       />
       <div class="media-body">
-        <h5 class="mt-0">
+        <h5 class="mt-0 d-flex align-items-center">
           Botle<span class="badge bg-primary ms-2">category</span>
         </h5>
         <p class="text-muted">Sold by <a href="#">Botle Corp. Ltd.</a></p>
@@ -30,15 +30,44 @@
         </blockquote>
         <hr />
 
-        <div class="card text-start" style="width: 100%; max-width: unset">
-          <div class="card-body" style="width: 100% !important">
-            <h5 class="card-title">Points</h5>
-            <p class="card-text">
-              Some information about the points this product will give to the
-              user maybe?
-            </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+        <div class="accordion" id="pointsAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                Points / Coupons
+              </button>
+            </h2>
+            <div
+              id="collapseOne"
+              class="accordion-collapse collapse hide"
+              aria-labelledby="headingOne"
+              data-bs-parent="#pointsAccordion"
+            >
+              <div class="accordion-body">
+                <strong>You have 59 points!</strong> <br />
+                You can use these to get a discount on the M.R.P.
+              </div>
+            </div>
           </div>
+        </div>
+        <div class="d-flex my-3 justify-content-end">
+          <form action="/cart" method="POST">
+            <button class="btn btn-outline-primary me-2" type="submit">
+              <i class="bi bi-cart me-2 d-none d-sm-inline"></i>Add to Cart
+            </button>
+          </form>
+          <form action="/buy" method="POST">
+            <button class="btn btn-success" type="submit">
+              Buy Now<i class="bi bi-arrow-right d-none d-sm-inline ms-2"></i>
+            </button>
+          </form>
         </div>
       </div>
     </div>
