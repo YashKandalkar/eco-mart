@@ -1,7 +1,7 @@
 # pylint: disable=maybe-no-member
 
 import os
-from flask import Flask, render_template, request, redirect
+from flask import Flask, flash, render_template, request, redirect
 import json
 from flask.helpers import url_for
 import ibm_db
@@ -30,7 +30,7 @@ if 'VCAP_SERVICES' in os.environ:
 
     from auth import auth as auth_blueprint
     from models import User
-    from db2Api.products import getProductsUsingEmail, getAllProducts, createProducts
+    from db2Api.products import getProductsUsingEmail, getAllProducts, createProducts,getProductUsingId,updateProduct
     app.register_blueprint(auth_blueprint)
     login_manager = LoginManager()
     login_manager.init_app(app)
@@ -54,7 +54,6 @@ def index():
 @app.route('/add_product', methods=['GET','POST'])
 @login_required
 def add_product():
-    row=[]
     if  (current_user.category == 'seller') and (request.method == 'POST'):
         product_name = request.form.get('productname', '')
         category = request.form.get('category', '')
@@ -63,10 +62,9 @@ def add_product():
         quantity = request.form.get('quantity', '')
         seller_emailid=current_user.emailid
         image_url=request.form.get('image_url','')
-        print("form  worked properly")
-        row = createProducts(seller_emailid, product_name, category, description, image_url, price, quantity)
-        rows= getProductsUsingEmail(current_user.emailid)
-        return render_template('dashboard.html', current_user=current_user, products=rows)
+        createProducts(seller_emailid, product_name, category, description, image_url, price, quantity)
+        list_of_products= getProductsUsingEmail(current_user.emailid)
+        return render_template('dashboard.html', current_user=current_user, products=list_of_products)
     elif (current_user.category == 'seller'):
         return render_template('add_product.html', current_user=current_user)
     else:
@@ -74,12 +72,31 @@ def add_product():
         return render_template('dashboard.html', current_user=current_user)
 
 #delete  a product
-@app.route('/delete_product', methods=['POST'])
+@app.route('/delete_product/<id>', methods=['POST'])
 @login_required
 def delete_product():
     pass
-    #incomplete
+    #work in progress
     # return render_template('dashboard.html', current_user=current_user)
+
+@app.route('/update/<int:id>', methods=['POST','GET'])
+@login_required
+def update_product(id):
+   
+    if (current_user.category == 'seller'):
+        
+        product_name = request.form.get('productname', '')
+        category = request.form.get('category', '')
+        description = request.form.get('description', '')
+        price = request.form.get('price', '')
+        quantity = request.form.get('quantity', '')
+        seller_emailid=current_user.emailid
+        image_url=request.form.get('image_url','')
+        updateProduct(seller_emailid,id, product_name, category, description, image_url, price, quantity)
+        rows= getProductsUsingEmail(current_user.emailid)
+        product_detail = getProductUsingId(id)
+        # flash("you are successfully updated product")  
+        return render_template('update_product.html', current_user=current_user, product = product_detail,products=rows)
 
 
 #buyer's and seller's dashboard
