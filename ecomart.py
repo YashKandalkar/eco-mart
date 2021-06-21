@@ -68,13 +68,21 @@ def add_product():
         rows= getProductsUsingEmail(current_user.emailid)
         return render_template('dashboard.html', current_user=current_user, products=rows)
     elif (current_user.category == 'seller'):
-        # createProducts()
         return render_template('add_product.html', current_user=current_user)
     else:
         # to-do
         return render_template('dashboard.html', current_user=current_user)
 
+#delete  a product
+@app.route('/delete_product', methods=['POST'])
+@login_required
+def delete_product():
+    pass
+    #incomplete
+    # return render_template('dashboard.html', current_user=current_user)
 
+
+#buyer's and seller's dashboard
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():

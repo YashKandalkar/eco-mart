@@ -18,13 +18,19 @@ loginForm %}
       <button type="submit" class="btn btn-primary float-end mt-2" aria-hidden="true">New Product</button>
     </form>
     <hr>
-    <h5>List of products:</h5>
+    <h5>List of products : </h5>
     {%for i in products%}
       <p> Name: {{i["PRODUCT_NAME"]}}</p>
       <p> Type: {{i["PRODUCT_CATEGORY"]}}</p>
       <P>Description: {{i["DESCRIPTION"]}} </p>
       <P>Quantity: {{i["QUANTITY"]}} </p>
       <P>Price: &#8377;{{i["PRICE"]}} </p>
+      <form  action="./delete_product" method="POST">
+        <button type="submit" class="btn btn-primary  mt-2" aria-hidden="true">Delete</button>
+      </form>
+      <form  action="./edit_product" method="POST">
+        <button type="submit" class="btn btn-primary  mt-2" aria-hidden="true">Edit</button>
+      </form>
       <hr>
     {%endfor%}
   {% else %}

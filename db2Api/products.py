@@ -11,7 +11,7 @@ db2info = json.loads(os.environ['VCAP_SERVICES'])['dashDB'][0]
 db2cred = db2info["credentials"]
 
 
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
 
 
 def getProductsUsingEmail(emailid) -> list:
@@ -31,7 +31,7 @@ def getProductsUsingEmail(emailid) -> list:
                 # copy the result and append it to rows list
                 rows.append(result.copy())
                 result = ibm_db.fetch_assoc(stmt)
-            # print(rows)
+         
             ibm_db.close(db2conn)
             return rows
         else:
@@ -104,7 +104,7 @@ def createProducts(emailid, product_name, category, description, image_url,  pri
                 return row
 
             else:
-                print('user exist')
+                print('error in query execution')
                 return False
             # close database connection
             ibm_db.close(db2conn)
@@ -121,5 +121,5 @@ def createProducts(emailid, product_name, category, description, image_url,  pri
         return False
 
 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+# def allowed_file(filename):
+#     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
