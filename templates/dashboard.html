@@ -25,10 +25,10 @@ loginForm %}
       <P>Description: {{i["DESCRIPTION"]}} </p>
       <P>Quantity: {{i["QUANTITY"]}} </p>
       <P>Price: &#8377;{{i["PRICE"]}} </p>
-      <form  action="./delete_product" method="POST">
+      <form  action="./delete_product/{{i['PRODUCT_ID']}}">
         <button type="submit" class="btn btn-primary  mt-2" aria-hidden="true">Delete</button>
       </form>
-      <form  action="./update/{{i["PRODUCT_ID"]}}" method="POST">
+      <form  action="./update/{{i['PRODUCT_ID']}}" >
         <button type="submit" class="btn btn-primary  mt-2" aria-hidden="true">Edit</button>
       </form>
       <hr>

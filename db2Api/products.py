@@ -4,7 +4,7 @@ import ibm_db
 import os
 import json
 import urllib.request
-from werkzeug.utils import secure_filename
+# from werkzeug.utils import secure_filename
 from .users import getUserUsingEmail
 
 db2info = json.loads(os.environ['VCAP_SERVICES'])['dashDB'][0]
@@ -74,13 +74,13 @@ def createProducts(emailid, product_name, category, description, image_url,  pri
     Tries to create a new product with the given data.
 
     Returns:
-        - dict: dict object containing all user data, if query was successful
+        - list: list  containing all product data, if query was successful
         - False: If query was unsuccessful
     """
     try:
         db2conn = ibm_db.pconnect(db2cred['ssldsn'], "", "")
         if db2conn:
-            # we have a Db2 connection, query the database
+            
             # TODO: Add seller_emailid
             sql = "Insert into products(seller_emailid,product_name, product_category,description, image_path, price,quantity) values (?,?,?,?,?,?,?)"
 
@@ -93,22 +93,21 @@ def createProducts(emailid, product_name, category, description, image_url,  pri
             ibm_db.bind_param(stmt, 5, image_url)
             ibm_db.bind_param(stmt, 6, price)
             ibm_db.bind_param(stmt, 7, quantity)
-            print('parameters passed')
+            # print('parameters passed')
 
             if ibm_db.execute(stmt):
-                print('query executed')
+                # print('query executed')
                 result = ibm_db.fetch_assoc(stmt)
                 
 
             else:
-                print('error in query execution')
+                print('error in query execution of creating new product')
                 return False
             # close database connection
             ibm_db.close(db2conn)
             
         else:
             return False
-        
         return user or False
 
     except Exception as e:
@@ -118,6 +117,13 @@ def createProducts(emailid, product_name, category, description, image_url,  pri
         return False
 
 def getProductUsingId(id=id):
+    """
+    Tries to fetch product data from database.
+
+    Returns:
+        - list: list  containing data about the product, if query was successful
+        - False: If query was unsuccessful
+    """
     row=[]
     try:
         db2conn = ibm_db.pconnect(db2cred['ssldsn'], "", "")
@@ -141,7 +147,7 @@ def getProductUsingId(id=id):
             
         else:
             return False
-        return user or False
+        
 
     except Exception as e:
         print(e)
@@ -150,6 +156,14 @@ def getProductUsingId(id=id):
         return False
 
 def updateProduct(seller_emailid,id, product_name, category, description, image_url, price, quantity):
+    """
+    Tries to update existing product with the given data.
+
+    Returns:
+        - perform updating operation
+        - False: If query was unsuccessful
+    """
+    
     try:
         db2conn = ibm_db.pconnect(db2cred['ssldsn'], "", "")
         if db2conn:
@@ -165,14 +179,12 @@ def updateProduct(seller_emailid,id, product_name, category, description, image_
             ibm_db.bind_param(stmt, 7, id)
             if ibm_db.execute(stmt):
                 print('query to update product is executed')
-                result = ibm_db.fetch_assoc(stmt)
+               
             else:
                 print('error in query execution')
             ibm_db.close(db2conn)
         else:
             return False
-        # return user or False
-
     except Exception as e:
         print(e)
         errorMsg = ibm_db.conn_errormsg()
@@ -180,3 +192,31 @@ def updateProduct(seller_emailid,id, product_name, category, description, image_
         return False
 
 
+def deleteProduct(id):
+    """
+    Tries to delete existing product with the given product_id.
+
+    Returns:
+        - perform deleting operation
+        - False: If query was unsuccessful
+    """
+    try:
+        db2conn = ibm_db.pconnect(db2cred['ssldsn'], "", "")
+        if db2conn:
+           
+            sql ="DELETE FROM products WHERE product_id=?"
+            stmt = ibm_db.prepare(db2conn, sql)
+            ibm_db.bind_param(stmt, 1, id)
+            if ibm_db.execute(stmt):
+                print('query to delete product is executed')
+               
+            else:
+                print('error in query execution')
+            ibm_db.close(db2conn)
+        else:
+            return False
+    except Exception as e:
+        print(e)
+        errorMsg = ibm_db.conn_errormsg()
+        print(errorMsg)
+        return False

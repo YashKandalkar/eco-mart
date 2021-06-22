@@ -30,7 +30,7 @@ if 'VCAP_SERVICES' in os.environ:
 
     from auth import auth as auth_blueprint
     from models import User
-    from db2Api.products import getProductsUsingEmail, getAllProducts, createProducts,getProductUsingId,updateProduct
+    from db2Api.products import getProductsUsingEmail, getAllProducts, createProducts,getProductUsingId,updateProduct,deleteProduct
     app.register_blueprint(auth_blueprint)
     login_manager = LoginManager()
     login_manager.init_app(app)
@@ -65,25 +65,26 @@ def add_product():
         createProducts(seller_emailid, product_name, category, description, image_url, price, quantity)
         list_of_products= getProductsUsingEmail(current_user.emailid)
         return render_template('dashboard.html', current_user=current_user, products=list_of_products)
-    elif (current_user.category == 'seller'):
+    elif current_user.category == 'seller':
         return render_template('add_product.html', current_user=current_user)
     else:
         # to-do
         return render_template('dashboard.html', current_user=current_user)
 
 #delete  a product
-@app.route('/delete_product/<id>', methods=['POST'])
+@app.route('/delete_product/<int:id>', methods=['GET','POST'])
 @login_required
-def delete_product():
-    pass
+def delete_product(id):
+    deleteProduct(id)
     #work in progress
-    # return render_template('dashboard.html', current_user=current_user)
+    products=getProductsUsingEmail(current_user.emailid)
+    return render_template('dashboard.html', current_user=current_user, products= products)
 
-@app.route('/update/<int:id>', methods=['POST','GET'])
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update_product(id):
    
-    if (current_user.category == 'seller'):
+    if (current_user.category == 'seller') and (request.method == 'POST'):
         
         product_name = request.form.get('productname', '')
         category = request.form.get('category', '')
@@ -96,7 +97,14 @@ def update_product(id):
         rows= getProductsUsingEmail(current_user.emailid)
         product_detail = getProductUsingId(id)
         # flash("you are successfully updated product")  
-        return render_template('update_product.html', current_user=current_user, product = product_detail,products=rows)
+        return render_template('update_product.html',current_user=current_user,product = product_detail)
+    elif (current_user.category == 'seller'):
+        product_detail = getProductUsingId(id)
+        return render_template('update_product.html', current_user=current_user, product = product_detail)
+    else:
+        rows= getProductsUsingEmail(current_user.emailid)
+        return render_template('dashboard.html', current_user=current_user, products = rows)
+
 
 
 #buyer's and seller's dashboard
