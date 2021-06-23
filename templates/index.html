@@ -145,15 +145,16 @@
     <div class="row">
       {%for i in products%}
       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 my-4">
-        <div class="card">
+        <div class="card h-100">
           <img src='{{i["IMAGE_PATH"]}}' alt="image" />
           <h1>{{i["PRODUCT_NAME"]}}</h1>
           <p>Type: {{i["PRODUCT_CATEGORY"]}}</p>
           <p>Description: {{i["DESCRIPTION"]}}</p>
           <p>Quantity: {{i["QUANTITY"]}}</p>
           <p class="price">Price: &#8377;{{i["PRICE"]}}</p>
-          <p>
-            <button onclick="window.location.href = './buynow.html';">
+        
+          <p class="card-footer mt-auto">
+            <button  onclick="window.location.href = './buynow.html';">
               Buy Now</button
             ><button onclick="window.location.href = './addtocart.html';">
               Add to Cart
