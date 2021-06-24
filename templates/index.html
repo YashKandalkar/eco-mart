@@ -44,7 +44,7 @@
 </form>
 {% endif %} {% endblock %} {% block content %}
 
-<div class="float-container">
+<div class="float-container d-none d-xs-block d-sm-block d-md-block">
   <div class="float-child">
     <div class="flex-shrink-0 p-3 bg-white" style="width: 80px">
       <a
@@ -93,7 +93,7 @@
           </button>
           <div class="collapse" id="dashboard-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-dark rounded">Overview</a></li>
+              <li><a href="products" class="link-dark rounded">Overview</a></li>
               <li><a href="#" class="link-dark rounded">Weekly</a></li>
               <li><a href="#" class="link-dark rounded">Monthly</a></li>
               <li><a href="#" class="link-dark rounded">Annually</a></li>
@@ -139,12 +139,12 @@
         </li>
       </ul>
     </div>
-  </div>
+  </div></div>
 
-  <div class="">
+  <!-- <div class="">
     <div class="row">
       {%for i in products%}
-      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 my-4">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 my-4">
         <div class="card">
           <img src='{{i["IMAGE_PATH"]}}' alt="image" />
           <h1>{{i["PRODUCT_NAME"]}}</h1>
@@ -157,12 +157,38 @@
               Buy Now</button
             ><button onclick="window.location.href = './addtocart.html';">
               Add to Cart
-            </button>
+            </button> 
           </p>
         </div>
       </div>
       {%endfor%}
     </div>
+  </div> -->
+
+<div>
+  <div class="row">
+    {%for i in products%}
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 my-4">
+      <div class="card" style="width: 20rem;">
+        <img 
+        style="padding: 0.8rem;"
+        src='{{i["IMAGE_PATH"]}}' class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{i["PRODUCT_NAME"]}}</h5>
+          <p class="card-text">Type: {{i["PRODUCT_CATEGORY"]}}</p>
+          <p class="card-text">Description: {{i["DESCRIPTION"]}}</p>
+          <p class="card-text">Quantity: {{i["QUANTITY"]}}</p>
+          <p class="card-text price">Price: &#8377;{{i["PRICE"]}}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <button  onclick="window.location.href = './buynow.html';">Buy Now</button>
+          <button  
+          style="border-radius : 0px 0px 5px 5px;"
+          onclick="window.location.href = './addtocart.html';">Add to Cart</button>          
+        </ul>
+      </div>
+    </div>
+    {%endfor%}
   </div>
 </div>
 <!-- 
