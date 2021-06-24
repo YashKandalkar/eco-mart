@@ -10,13 +10,15 @@ import atexit
 from flask_login import login_required, current_user
 from flask_login import LoginManager
 
-from db2Api.products import getProductsUsingEmail, getAllProducts, createProducts, getProductUsingId, updateProduct, deleteProduct
-from models import User
-from auth import auth as auth_blueprint
-from db_connect import get_db
-
 load_dotenv("./.env.local")
 
+if 'DATABASE_URI' in os.environ:
+    from db_connect import get_db
+    from auth import auth as auth_blueprint
+    from models import User
+    from db2Api.products import getProductsUsingEmail, getAllProducts, createProducts, getProductUsingId, updateProduct, deleteProduct
+else:
+    raise ValueError('Env Var not found!')
 
 app = Flask(__name__)
 app.secret_key = os.environ['SECRET_KEY']
