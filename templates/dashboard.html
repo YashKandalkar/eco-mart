@@ -20,15 +20,15 @@ loginForm %}
     <hr>
     <h5>List of products : </h5>
     {%for i in products%}
-      <p> Name: {{i["PRODUCT_NAME"]}}</p>
-      <p> Type: {{i["PRODUCT_CATEGORY"]}}</p>
-      <P>Description: {{i["DESCRIPTION"]}} </p>
-      <P>Quantity: {{i["QUANTITY"]}} </p>
-      <P>Price: &#8377;{{i["PRICE"]}} </p>
-      <form  action="./delete_product/{{i['PRODUCT_ID']}}">
+      <p> Name: {{i[3]}}</p>
+      <p> Type: {{i[4]}}</p>
+      <P>Description: {{i[5]}} </p>
+      <P>Quantity: {{i[7]}} </p>
+      <P>Price: &#8377;{{i[6]}} </p>
+      <form  action="./delete_product/{{i[0]}}">
         <button type="submit" class="btn btn-primary  mt-2" aria-hidden="true">Delete</button>
       </form>
-      <form  action="./update/{{i['PRODUCT_ID']}}" >
+      <form  action="./update/{{i[0]}}" >
         <button type="submit" class="btn btn-primary  mt-2" aria-hidden="true">Edit</button>
       </form>
       <hr>

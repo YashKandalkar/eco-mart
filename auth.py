@@ -21,6 +21,7 @@ def login():
         remember = True if request.form.get('remember') else False
 
         user = User.getUserFromEmail(emailid)
+        print(user, user.password if user else "no", password)
         if not user or not user.password == password:
             print("WRONG PASS, NO USER")
             return render_template('auth/login.html', error="Wrong email or password, please try again!")
@@ -44,7 +45,7 @@ def signup():
         result = createUser(emailid, password, contact_no,
                             firstname, lastname, category, address)
         if result:
-            user = User(**result)
+            user = User(*result)
             login_user(user, remember=remember)
             return redirect(url_for('dashboard'))
         else:
