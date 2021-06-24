@@ -1,7 +1,6 @@
 # pylint: disable=maybe-no-member
 
 from typing import Union
-import ibm_db
 import os
 import json
 

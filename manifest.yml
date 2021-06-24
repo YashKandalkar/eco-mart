@@ -1,7 +1,5 @@
 applications:
   - name: ecomart
-    memory: 256M
+    memory: 128M
     command: python ecomart.py
     random-route: true
-    services:
-      - sqldatabase

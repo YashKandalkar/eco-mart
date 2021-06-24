@@ -4,7 +4,6 @@ import os
 from flask import Flask, flash, render_template, request, redirect
 import json
 from flask.helpers import url_for
-import ibm_db
 
 from dotenv import load_dotenv
 import atexit

@@ -1,7 +1,6 @@
 # pylint: disable=maybe-no-member
 
 from flask_login import UserMixin
-import ibm_db
 import os
 import json
 
