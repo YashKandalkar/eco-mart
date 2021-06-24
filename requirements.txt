@@ -1,4 +1,4 @@
 Flask
-ibm_db
+psycopg2
 python-dotenv
 flask-login
