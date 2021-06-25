@@ -4,12 +4,11 @@ from typing import Union
 import os
 import json
 
-from db_connect import get_db
-
-con, cur, db = get_db()
+from db_connect import useDb
 
 
-def createUser(emailid, password, contact_no, firstname, lastname, category, address):
+@useDb(defaultReturn=False)
+def createUser(emailid, password, contact_no, firstname, lastname, category, address, con=None, cur=None, db=None):
     """
     Tries to create a new user with the given data.
 
@@ -18,42 +17,34 @@ def createUser(emailid, password, contact_no, firstname, lastname, category, add
         - False: If query was unsuccessful
     """
 
-    try:
+    sql = """Insert into users(
+        emailid, 
+        password,
+        firstname,
+        lastname,
+        contact_no, 
+        category,
+        address 
+    ) values (%s,%s,%s,%s,%s,%s,%s)"""
 
-        sql = """Insert into users(
-            emailid, 
-            password,
-            firstname,
-            lastname,
-            contact_no, 
-            category,
-            address 
-        ) values (%s,%s,%s,%s,%s,%s,%s)"""
-        db(sql, (emailid,
-                 password,
-                 firstname,
-                 lastname,
-                 contact_no,
-                 category,
-                 address))
-        con.commit()
-        # close database connection
-        user = getUserUsingEmail(emailid)
-        return user or False
-
-    except Exception as e:
-        print(e)
-        return False
+    db(sql, (emailid,
+             password,
+             firstname,
+             lastname,
+             contact_no,
+             category,
+             address))
+    con.commit()
+    # close database connection
+    user = getUserUsingEmail(emailid)
+    return user or False
 
 
-def getUserUsingEmail(emailid) -> Union[dict, None]:
+@useDb()
+def getUserUsingEmail(emailid, con=None, cur=None, db=None) -> Union[dict, None]:
     sql = "SELECT * FROM users WHERE emailid=%s"
 
-    try:
-        db(sql, (emailid, ))
-        rows = cur.fetchone()
+    db(sql, (emailid, ))
+    rows = cur.fetchone()
 
-        return rows
-    except Exception as e:
-        print(e)
-        return None
+    return rows

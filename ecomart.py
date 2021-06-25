@@ -11,7 +11,7 @@ from flask_login import login_required, current_user
 from flask_login import LoginManager
 
 load_dotenv("./.env.local")
-print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", os.environ)
+
 if 'DATABASE_URI' in os.environ:
     from db_connect import get_db
     from auth import auth as auth_blueprint

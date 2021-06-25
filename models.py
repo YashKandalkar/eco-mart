@@ -6,9 +6,7 @@ import json
 
 from db2Api.users import getUserUsingEmail
 
-from db_connect import get_db
-
-con, cur, db = get_db()
+from db_connect import useDb
 
 
 class User(UserMixin):
@@ -32,18 +30,15 @@ class User(UserMixin):
             return None
 
     @classmethod
-    def get(cls, id):
+    @useDb()
+    def get(cls, id, con=None, cur=None, db=None):
         sql = "SELECT * FROM users WHERE id=%s"
 
-        try:
-            db(sql, (id, ))
+        db(sql, (id, ))
 
-            result = cur.fetchone()
+        result = cur.fetchone()
 
-            if result:
-                return cls(*result)
-            else:
-                return None
-        except Exception as e:
-            print(e)
+        if result:
+            return cls(*result)
+        else:
             return None
