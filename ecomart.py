@@ -4,16 +4,21 @@ import os
 from flask import Flask, flash, render_template, request, redirect
 import json
 from flask.helpers import url_for
-import ibm_db
 
 from dotenv import load_dotenv
 import atexit
 from flask_login import login_required, current_user
 from flask_login import LoginManager
 
-
 load_dotenv("./.env.local")
-
+print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", os.environ)
+if 'DATABASE_URI' in os.environ:
+    from db_connect import get_db
+    from auth import auth as auth_blueprint
+    from models import User
+    from db2Api.products import getProductsUsingEmail, getAllProducts, createProducts, getProductUsingId, updateProduct, deleteProduct
+else:
+    raise ValueError('Env Var not found!')
 
 app = Flask(__name__)
 app.secret_key = os.environ['SECRET_KEY']
@@ -22,20 +27,13 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 # get service information if on IBM Cloud Platform
-if 'VCAP_SERVICES' in os.environ:
-    db2info = json.loads(os.environ['VCAP_SERVICES'])['dashDB'][0]
-    db2cred = db2info["credentials"]
-    appenv = json.loads(os.environ['VCAP_APPLICATION'])
-    db2conn = ibm_db.pconnect(db2cred['ssldsn'], "", "")
 
-    from auth import auth as auth_blueprint
-    from models import User
-    from db2Api.products import getProductsUsingEmail, getAllProducts, createProducts,getProductUsingId,updateProduct,deleteProduct
-    app.register_blueprint(auth_blueprint)
-    login_manager = LoginManager()
-    login_manager.init_app(app)
-else:
-    raise ValueError('Expected cloud environment')
+
+con, cur, db = get_db()
+
+app.register_blueprint(auth_blueprint)
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 
 @login_manager.user_loader
@@ -47,23 +45,23 @@ def load_user(user_id):
 def index():
     user = current_user if current_user.is_authenticated else None
     rows = getAllProducts()
-
     return render_template('index.html', current_user=user, products=rows)
 
 
-@app.route('/add_product', methods=['GET','POST'])
+@app.route('/add_product', methods=['GET', 'POST'])
 @login_required
 def add_product():
-    if  (current_user.category == 'seller') and (request.method == 'POST'):
+    if (current_user.category == 'seller') and (request.method == 'POST'):
         product_name = request.form.get('productname', '')
         category = request.form.get('category', '')
         description = request.form.get('description', '')
         price = request.form.get('price', '')
         quantity = request.form.get('quantity', '')
-        seller_emailid=current_user.emailid
-        image_url=request.form.get('image_url','')
-        createProducts(seller_emailid, product_name, category, description, image_url, price, quantity)
-        list_of_products= getProductsUsingEmail(current_user.emailid)
+        seller_emailid = current_user.emailid
+        image_url = request.form.get('image_url', '')
+        createProducts(seller_emailid, product_name, category,
+                       description, image_url, price, quantity)
+        list_of_products = getProductsUsingEmail(current_user.emailid)
         return render_template('dashboard.html', current_user=current_user, products=list_of_products)
     elif current_user.category == 'seller':
         return render_template('add_product.html', current_user=current_user)
@@ -71,55 +69,60 @@ def add_product():
         # to-do
         return render_template('dashboard.html', current_user=current_user)
 
-#delete  a product
-@app.route('/delete_product/<int:id>', methods=['GET','POST'])
+# delete  a product
+
+
+@app.route('/delete_product/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_product(id):
     deleteProduct(id)
     #work in progress
-    products=getProductsUsingEmail(current_user.emailid)
-    return render_template('dashboard.html', current_user=current_user, products= products)
+    products = getProductsUsingEmail(current_user.emailid)
+    # TODO: Change to redirect
+    return render_template('dashboard.html', current_user=current_user, products=products)
+
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update_product(id):
-   
     if (current_user.category == 'seller') and (request.method == 'POST'):
-        
+
         product_name = request.form.get('productname', '')
         category = request.form.get('category', '')
         description = request.form.get('description', '')
         price = request.form.get('price', '')
         quantity = request.form.get('quantity', '')
-        seller_emailid=current_user.emailid
-        image_url=request.form.get('image_url','')
-        updateProduct(seller_emailid,id, product_name, category, description, image_url, price, quantity)
-        rows= getProductsUsingEmail(current_user.emailid)
+        seller_emailid = current_user.emailid
+        image_url = request.form.get('image_url', '')
+        updateProduct(seller_emailid, id, product_name, category,
+                      description, image_url, price, quantity)
+        rows = getProductsUsingEmail(current_user.emailid)
         product_detail = getProductUsingId(id)
-        # flash("you are successfully updated product")  
-        return render_template('update_product.html',current_user=current_user,product = product_detail)
+        # flash("you are successfully updated product")
+        return render_template('update_product.html', current_user=current_user, product=product_detail)
     elif (current_user.category == 'seller'):
         product_detail = getProductUsingId(id)
-        return render_template('update_product.html', current_user=current_user, product = product_detail)
+        return render_template('update_product.html', current_user=current_user, product=product_detail)
     else:
-        rows= getProductsUsingEmail(current_user.emailid)
-        return render_template('dashboard.html', current_user=current_user, products = rows)
+        rows = getProductsUsingEmail(current_user.emailid)
+        return render_template('dashboard.html', current_user=current_user, products=rows)
 
 
-
-#buyer's and seller's dashboard
-@app.route('/dashboard', methods=['GET', 'POST'])
+# buyer's and seller's dashboard
+@app.route('/dashboard')
 @login_required
 def dashboard():
-    
-        if(current_user.category == 'seller'):
-            #print('seller has logged in ')
-            rows = getProductsUsingEmail(current_user.emailid)
-            return render_template('dashboard.html', current_user=current_user, products=rows)
-        
-        elif current_user.category == 'buyer':
-            #print('buyer has logged in ')
-            return render_template('dashboard.html', current_user=current_user)
+    category = current_user.category.strip()
+    if(category == 'seller'):
+        print('seller has logged in ')
+        rows = getProductsUsingEmail(current_user.emailid)
+        return render_template('dashboard.html', current_user=current_user, products=rows)
+
+    elif category == 'buyer':
+        #print('buyer has logged in ')
+        return render_template('dashboard.html', current_user=current_user)
+    else:
+        print("ERROR AYAAAA", current_user.category.strip(),)
 
 
 @app.route("/products/<id>", methods=['GET'])
@@ -151,8 +154,8 @@ env = os.getenv("FLASK_ENV", "production")
 
 @atexit.register
 def shutdown():
-    if ibm_db.active(db2conn):
-        ibm_db.close(db2conn)
+    if con:
+        con.close()
 
 
 if __name__ == "__main__":

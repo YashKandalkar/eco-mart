@@ -1,19 +1,18 @@
 # pylint: disable=maybe-no-member
 
 from flask_login import UserMixin
-import ibm_db
 import os
 import json
 
 from db2Api.users import getUserUsingEmail
 
+from db_connect import get_db
 
-db2info = json.loads(os.environ['VCAP_SERVICES'])['dashDB'][0]
-db2cred = db2info["credentials"]
+con, cur, db = get_db()
 
 
 class User(UserMixin):
-    def __init__(self, id, emailid, password, contact_no, firstname, lastname, category, address):
+    def __init__(self, id, emailid, firstname, lastname, password, contact_no,  category, address):
         self.id = id
         self.emailid = emailid
         self.password = password
@@ -28,27 +27,21 @@ class User(UserMixin):
         result = getUserUsingEmail(emailid)
 
         if result:
-            return cls(**result)
+            return cls(*result)
         else:
             return None
 
     @classmethod
     def get(cls, id):
-        db2conn = ibm_db.pconnect(db2cred['ssldsn'], "", "")
-        sql = "SELECT * FROM users WHERE id=?"
-
-        stmt = ibm_db.prepare(db2conn, sql)
-        ibm_db.bind_param(stmt, 1, id)
+        sql = "SELECT * FROM users WHERE id=%s"
 
         try:
-            if ibm_db.execute(stmt):
-                result = ibm_db.fetch_assoc(stmt)
+            db(sql, (id, ))
 
-                if result:
-                    result = {k.lower(): result[k] for k in result}
-                    return cls(**result)
-                else:
-                    return None
+            result = cur.fetchone()
+
+            if result:
+                return cls(*result)
             else:
                 return None
         except Exception as e:
