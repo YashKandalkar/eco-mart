@@ -1,9 +1,6 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block loginForm
 %} {% if current_user %} {% block head %}
-<link
-  rel="stylesheet"
-  href=" {{ url_for('static',filename='sidebars.css') }} "
-/>
+<link rel="stylesheet" href=" {{ url_for('static',filename='sidebars.css') }} " />
 <style>
   .float-container {
     border: 3px solid #fff;
@@ -20,19 +17,15 @@
 {% endblock %}
 
 <li class="nav-item dropdown d-flex">
-  <a
-    class="nav-link dropdown-toggle"
-    href="#"
-    id="navbarDropdown"
-    role="button"
-    data-bs-toggle="dropdown"
-    aria-expanded="false"
-  >
+  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+    aria-expanded="false">
     Welcome,&nbsp;{{current_user.firstname}}
   </a>
   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
     <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
-    <li><hr class="dropdown-divider" /></li>
+    <li>
+      <hr class="dropdown-divider" />
+    </li>
     <li>
       <a class="dropdown-item" href="/logout">Logout</a>
     </li>
@@ -47,9 +40,7 @@
 <div class="float-container d-none d-xs-block d-sm-block d-md-block">
   <div class="float-child">
     <div class="flex-shrink-0 p-3 bg-white" style="width: 80px">
-      <a
-        href="/"
-        class="
+      <a href="/" class="
           d-flex
           align-items-center
           pb-3
@@ -57,8 +48,7 @@
           link-dark
           text-decoration-none
           border-bottom
-        "
-      >
+        ">
         <svg class="bi me-2" width="30" height="24">
           <use xlink:href="#bootstrap" />
         </svg>
@@ -66,12 +56,8 @@
       </a>
       <ul class="list-unstyled ps-0">
         <li class="mb-1">
-          <button
-            class="btn btn-toggle align-items-center rounded collapsed"
-            data-bs-toggle="collapse"
-            data-bs-target="#home-collapse"
-            aria-expanded="true"
-          >
+          <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+            data-bs-target="#home-collapse" aria-expanded="true">
             Home
           </button>
           <div class="collapse show" id="home-collapse">
@@ -83,12 +69,8 @@
           </div>
         </li>
         <li class="mb-1">
-          <button
-            class="btn btn-toggle align-items-center rounded collapsed"
-            data-bs-toggle="collapse"
-            data-bs-target="#dashboard-collapse"
-            aria-expanded="false"
-          >
+          <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+            data-bs-target="#dashboard-collapse" aria-expanded="false">
             Dashboard
           </button>
           <div class="collapse" id="dashboard-collapse">
@@ -101,12 +83,8 @@
           </div>
         </li>
         <li class="mb-1">
-          <button
-            class="btn btn-toggle align-items-center rounded collapsed"
-            data-bs-toggle="collapse"
-            data-bs-target="#orders-collapse"
-            aria-expanded="false"
-          >
+          <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+            data-bs-target="#orders-collapse" aria-expanded="false">
             Orders
           </button>
           <div class="collapse" id="orders-collapse">
@@ -120,12 +98,8 @@
         </li>
         <li class="border-top my-3"></li>
         <li class="mb-1">
-          <button
-            class="btn btn-toggle align-items-center rounded collapsed"
-            data-bs-toggle="collapse"
-            data-bs-target="#account-collapse"
-            aria-expanded="false"
-          >
+          <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+            data-bs-target="#account-collapse" aria-expanded="false">
             Account
           </button>
           <div class="collapse" id="account-collapse">
@@ -139,14 +113,15 @@
         </li>
       </ul>
     </div>
-  </div></div>
+  </div>
+</div>
 
 
 <div>
   <div class="row">
-    {%for i in products%}
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 my-4">
-      <div class="card" style="width: 20rem;">
+    <!-- {%for i in products%} done
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 my-4"> done
+      <div class="card" style="width: 20rem;"> done
         <img 
         style="padding: 0.8rem;"
         src='{{i["IMAGE_PATH"]}}' class="card-img-top" alt="...">
@@ -157,6 +132,30 @@
           <p class="card-text">Quantity: {{i["QUANTITY"]}}</p>
           <p class="card-text price">Price: &#8377;{{i["PRICE"]}}</p>
         </div>
+        <ul class="list-group list-group-flush">
+          <button  onclick="window.location.href = './buynow.html';">Buy Now</button>
+          <button  
+          style="border-radius : 0px 0px 5px 5px;"
+          onclick="window.location.href = './addtocart.html';">Add to Cart</button>          
+        </ul>
+      </div>
+    </div>
+    {%endfor%} -->
+    {%for i in products%}
+    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6 my-4">
+      <div class="card h-100" style="width: 18rem; ">
+        <a style="text-decoration: none; color:black;" href="/products/{{i[0]}}/{{i[4]}}">
+          <img src="../static/bag.jpg" style="padding: 0.8rem;" alt="image" class="card-img-top" />
+          <h3>{{i[3]}}</h3>
+          <p>Type: {{i[4]}}</p>
+          <p>Description: {{i[5]}}</p>
+          {% if i[7] > 10 %}
+          <p class="text-success">In Stock</p>
+          {% else %}
+          <p class="text-danger fw-bolder">Only {{i[7]}} left!</p>
+          {% endif %}
+          <p class="price">Price: &#8377;{{i[6]}}</p>
+        </a>
         <ul class="list-group list-group-flush">
           <button  onclick="window.location.href = './buynow.html';">Buy Now</button>
           <button  
