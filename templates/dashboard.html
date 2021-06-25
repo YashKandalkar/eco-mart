@@ -2,47 +2,57 @@
 loginForm %}
 <form class="d-flex" action="/logout">
   <button class="btn btn-primary" type="submit">Logout</button>
-</form>
+</form><br>
 {% endblock %} 
 
   {% block content %} 
   <br>
-  <h3>Welcome {{current_user.firstname}} {{current_user.lastname}}!</h3
-  <br>
-  <hr>  
-  <h5>Details</h5>
-  {% if current_user.category == 'seller' %}
-    <p>Company Name: {{current_user.firstname}} {{current_user.lastname}}</p>
-    <p>Contact number: {{current_user.contact_no}}</p>
-    <p>Address: {{current_user.address}}</p>
+<section style="margin: 20px 30px;">
+  <h3>Welcome {{current_user.firstname}} {{current_user.lastname}}!</h3>
+</section>
+<hr>  
+  <section style="margin: 30px;">
+    <h3>Details</h3><br>
+    {% if current_user.category == 'seller' %}
+      <div>
+      <p>Company Name: {{current_user.firstname}} {{current_user.lastname}}</p>
+      <p>Contact number: {{current_user.contact_no}}</p>
+      <p>Address: {{current_user.address}}</p>
+      </div>
+  </section>
+    <hr>
+    <br>
     <form  action="./add_product" >
       <button type="submit" class="btn btn-primary float-end mt-2" aria-hidden="true">New Product</button>
     </form>
-    <hr>
-    <h3>List of products : </h3>
-    <div>
-      <div class="row">
-        {%for i in products%}
-    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6 my-4">
-      <div class="card h-100" style="width: 18rem; ">
-        <p> Name: {{i[3]}}</p>
-        <p> Type: {{i[4]}}</p>
-        <P>Description: {{i[5]}} </p>
-        <P>Quantity: {{i[7]}} </p>
-        <P>Price: &#8377;{{i[6]}} </p>
-          <form  action="./update/{{i[0]}}" >
-            <button type="submit" class="btn btn-success" aria-hidden="true">Update</button>
+  
+    <section style="margin: 30px;">
+      <h2>List of products : </h2>
+      <div>
+        <div class="row">
+          {%for i in products%}
+      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6 my-4">
+        <div class="card h-100" style="width: 50%; ">
+          <div style="padding: 10px;">
+            <p> Name: {{i[3]}}</p>
+          <p> Type: {{i[4]}}</p>
+          <P>Description: {{i[5]}} </p>
+          <P>Quantity: {{i[7]}} </p>
+          <P>Price: &#8377;{{i[6]}} </p>
+          </div>
+            <form  action="./update/{{i[0]}}" >
+              <button type="submit" class="btn btn-success" style="border-radius: 0 0 0 0;" aria-hidden="true">Update</button>
+            </form>
+            <form  action="./delete_product/{{i[0]}}">
+            <button type="submit" class="btn btn-danger"  style="border-radius: 0 0 5px 5px;" aria-hidden="true">Delete</button>
           </form>
-          <form  action="./delete_product/{{i[0]}}">
-          <button type="submit" class="btn btn-danger" aria-hidden="true">Delete</button>
-        </form>
-        
+          
+        </div>
+      </div>  
+      {%endfor%}
+        </div>
       </div>
-    </div>  
-    {%endfor%}
-      </div>
-    </div>
-    <hr>
+    </section>
   {% else %}
     <p>Name: {{current_user.firstname}} {{current_user.lastname}}</p>
     <p>Contact number: {{current_user.contact_no}}</p>
