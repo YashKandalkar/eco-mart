@@ -61,13 +61,12 @@ def add_product():
         image_url = request.form.get('image_url', '')
         createProducts(seller_emailid, product_name, category,
                        description, image_url, price, quantity)
-        list_of_products = getProductsUsingEmail(current_user.emailid)
-        return render_template('dashboard.html', current_user=current_user, products=list_of_products)
+        return redirect(url_for('.dashboard'))
     elif current_user.category == 'seller':
-        return render_template('add_product.html', current_user=current_user)
+        return redirect(url_for('.dashboard'))
     else:
         # to-do
-        return render_template('dashboard.html', current_user=current_user)
+        return redirect(url_for('.dashboard'))
 
 
 
@@ -93,14 +92,16 @@ def update_product(id):
                       description, image_url, price, quantity)
         rows = getProductsUsingEmail(current_user.emailid)
         product_detail = getProductUsingId(id)
+        # todo: flash message to indicate --- product details has been updated
         # flash("you are successfully updated product")
         return redirect(url_for('.dashboard'))
     elif (current_user.category == 'seller'):
         product_detail = getProductUsingId(id)
         return render_template('update_product.html', current_user=current_user, product=product_detail)
     else:
-        rows = getProductsUsingEmail(current_user.emailid)
-        return render_template('dashboard.html', current_user=current_user, products=rows)
+        # since buyer has no rights to update products detail, he will be redirected to dashboard
+        return redirect(url_for('.dashboard'))
+        
 
 
 # buyer's and seller's dashboard
@@ -119,20 +120,31 @@ def dashboard():
     else:
         print("ERROR AYAAAA", current_user.category.strip(),)
 
-
 @app.route("/products/<id>", methods=['GET'])
 @app.route("/products/<id>/", methods=['GET'])
 @app.route("/products/<id>/<title>", methods=['GET'])
 def products(id, title=None):
     if title == None:
+        #work in progress
+        # if title == None:
         # TODO: Fetch only product-name from id, redirect to /product/<id>/<title>
         # Replace spaces with dashes TODO: Also urlencode this string
         # (some chars cannot come in a url)
-        title = "Fetch title from db".replace(" ", "-").lower()
-        if not id:
-            return redirect(f"{id}/{title}")
-        else:
-            return redirect(f"{title}")
+        #  title = "Fetch title from db".replace(" ", "-").lower()
+        #  if not id:
+        #      return redirect(f"{id}/{title}")
+        #  else:
+        #      return redirect(f"{title}")
+        if title == None or id==None:
+            user = current_user if current_user.is_authenticated else None
+        
+        return redirect(url_for('.index'))
+    else:
+        # TODO: 
+        # seller = getSellerDetail(id)
+        product = getProductUsingId(id)
+        print(product)
+        return render_template("product.html",product=product)
 
     # TODO: Fetch product from id, send details to the frontend
     return render_template("product.html")

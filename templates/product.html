@@ -1,32 +1,32 @@
-{% extends "base.html" %} {% block title %}Dashboard{% endblock %}
+{% extends "base.html" %} {% block title %}{{product[0][3]}}{% endblock %}
 <!-- CONTENT -->
 {% block content %}
 <div class="container-fluid">
   <div class="container-sm my-5">
-    <h1>Botle</h1>
+    <h1>{{product[0][3]}}</h1>
     <hr />
     <div class="media d-sm-flex">
       <img
         id="product-image"
         class="img-thumbnail w-25 me-5 mb-4"
         alt="product image"
-        src="https://res.cloudinary.com/teepublic/image/private/s--xQdfgaqf--/t_Resized%20Artwork/c_fit,g_north_west,h_1054,w_1054/co_ffffff,e_outline:53/co_ffffff,e_outline:inner_fill:53/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1602610866/production/designs/14996485_0.jpg"
+        src="{{product[0][2]}}"
       />
       <div class="media-body">
         <h5 class="mt-0 d-flex align-items-center">
-          Botle<span class="badge bg-primary ms-2">category</span>
+          {{product[0][4]}}<span class="badge bg-primary ms-2">category</span>
         </h5>
+        <!-- to do: fetch supplier's name -->
         <p class="text-muted">Sold by <a href="#">Botle Corp. Ltd.</a></p>
-        <p class="text-success fs-4">In Stock</p>
-        <p>
-          (Description) Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Numquam, eum voluptas blanditiis eligendi cum quis illo optio
-          atque id culpa molestiae corporis esse magni laudantium aperiam
-          expedita accusamus libero incidunt.
-        </p>
+        {% if product[0][7] > 10 %}
+        <p class="text-success">In Stock</p>
+        {% else %}
+        <p class="text-danger fw-bolder">Only {{product[0][7]}} left!</p>
+        {% endif %}
+        <p>(Description) {{product[0][5]}}</p>
         <hr />
         <blockquote class="blockquote ms-4">
-          <p class="">M.R.P.: ₹42</p>
+          <p class="">M.R.P.: ₹{{product[0][6]}}</p>
         </blockquote>
         <hr />
 
