@@ -27,7 +27,7 @@ loginForm %}
           </div>
         </div>
         <!-- category -->
-        <div class="col">
+        <!-- <div class="col">
           <div class="form-floating">
             <input
               required="true"
@@ -42,7 +42,21 @@ loginForm %}
             />
             <label for="category" class="form-label">Category</label>
           </div>
-        </div>
+        </div> -->
+        <select
+          class="form-select form-select-lg my-2 col row gx-1"
+          aria-label="Category"
+          placeholder="category"
+          aria-describedby="category"
+          name="category"
+        >
+          <!-- aria-label=.form-select-lg example -->
+          <option>Choose Category</option>
+          <option value="Artifacts">Artifacts</option>
+          <option value="Furnitures">Furnitures</option>
+          <option value="Clothes">Clothes</option>
+          <option value="Bags">Bags</option>
+        </select>
       </div>
     </div>
 

@@ -63,7 +63,7 @@ def add_product():
                        description, image_url, price, quantity)
         return redirect(url_for('.dashboard'))
     elif current_user.category == 'seller':
-        return redirect(url_for('.dashboard'))
+        return render_template("add_product.html")
     else:
         # to-do
         return redirect(url_for('.dashboard'))
