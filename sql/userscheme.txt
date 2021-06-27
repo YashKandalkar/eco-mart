@@ -1,26 +1,24 @@
 create table users(
-   id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-   emailid VARCHAR(25) NOT NULL primary key enforced ,
+   id SERIAL NOT NULL,
+   emailid VARCHAR(25) NOT NULL primary key  ,
    firstname varchar(20),
    lastname varchar(20),
-   password VARCHAR(40) NOT NULL,
+   password varCHAR(40) NOT NULL,
    contact_no varchar(15) not null,
    category varchar(25) not null,
    address varchar(70) not null
   
 );
 
-
 create table products(
-	product_id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) primary key enforced , 
+	product_id  SERIAL  primary key,
 	seller_emailid varchar(25),
-	image_path varchar(25),
+	image_path varchar(40),
 	product_name varchar(25),
 	product_category varchar(25),
-	description varchar(4000),
+	description Text,
 	price int,
 	quantity int,
 	FOREIGN KEY (seller_emailid) REFERENCES users(emailid)
+	
 );
-
-

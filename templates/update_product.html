@@ -12,11 +12,7 @@ loginForm %}
 {% endif %} {% endwith %} {% block content %}
 <div class="container py-4" style="max-width: 580px">
   <h2 class="mb-4">Update</h2>
-  <form
-    action="/update/{{product[0]['PRODUCT_ID']}}"
-    method="POST"
-    id="signup_form"
-  >
+  <form action="/update/{{product[0][0]}}" method="POST" id="signup_form">
     <!-- action="/update/{{product[0]['PRODUCT_ID']}}" -->
     <!-- NAME -->
     <div class="mb-3">
@@ -24,8 +20,8 @@ loginForm %}
         <div class="col">
           <div class="form-floating">
             <input required="true" name="productname" type="text"
-            value="{{product[0]['PRODUCT_NAME']}}" autocomplete="name"
-            class="form-control" id="firstName" placeholder="Product Name" " />
+            value="{{product[0][3]}}" autocomplete="name" class="form-control"
+            id="firstName" placeholder="Product Name" " />
             <!-- aria-describedby="Product Name -->
             <label for="productname" class="form-label">Product Name</label>
           </div>
@@ -37,7 +33,7 @@ loginForm %}
               required="true"
               type="text"
               name="category"
-              value="{{product[0]['PRODUCT_CATEGORY']}}"
+              value="{{product[0][4]}}"
               autocomplete="family-name"
               class="form-control"
               id="category"
@@ -55,7 +51,7 @@ loginForm %}
       <input
         required="true"
         type="text"
-        value="{{product[0]['DESCRIPTION']}}"
+        value="{{product[0][5]}}"
         name="description"
         class="form-control"
         id="description"
@@ -73,7 +69,7 @@ loginForm %}
             <input
               required="true"
               name="price"
-              value="{{product[0]['PRICE']}}"
+              value="{{product[0][6]}}"
               type="text"
               autocomplete="price"
               class="form-control"
@@ -91,7 +87,7 @@ loginForm %}
               required="true"
               type="text"
               name="quantity"
-              value="{{product[0]['QUANTITY']}}"
+              value="{{product[0][7]}}"
               autocomplete="family-name"
               class="form-control"
               id="quantity"
@@ -110,7 +106,7 @@ loginForm %}
         required="true"
         type="text"
         name="image_url"
-        value="{{product[0]['IMAGE_PATH']}}"
+        value="{{product[0][2]}}"
         class="form-control"
         id="image_url"
         placeholder="image_url"
@@ -119,11 +115,6 @@ loginForm %}
     </div>
     <div class="d-flex justify-content-end mb-3">
       <button type="submit" class="btn btn-primary">Update</button>
-    </div>
-  </form>
-  <form action="/dashboard" method="post">
-    <div class="d-flex justify-content-start mb-5">
-      <button type="submit" class="btn btn-primary">back</button>
     </div>
   </form>
 </div>

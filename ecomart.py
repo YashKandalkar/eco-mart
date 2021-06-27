@@ -69,24 +69,19 @@ def add_product():
         # to-do
         return render_template('dashboard.html', current_user=current_user)
 
-# delete  a product
 
 
 @app.route('/delete_product/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_product(id):
-    deleteProduct(id)
-    #work in progress
-    products = getProductsUsingEmail(current_user.emailid)
-    # TODO: Change to redirect
-    return render_template('dashboard.html', current_user=current_user, products=products)
+    deleteProduct(id)   
+    return redirect(url_for('.dashboard'))
 
 
-@app.route('/update/<int:id>', methods=['GET', 'POST'])
+@app.route('/update/<int:id>', methods=['GET','POST'])
 @login_required
 def update_product(id):
     if (current_user.category == 'seller') and (request.method == 'POST'):
-
         product_name = request.form.get('productname', '')
         category = request.form.get('category', '')
         description = request.form.get('description', '')
@@ -99,7 +94,7 @@ def update_product(id):
         rows = getProductsUsingEmail(current_user.emailid)
         product_detail = getProductUsingId(id)
         # flash("you are successfully updated product")
-        return render_template('update_product.html', current_user=current_user, product=product_detail)
+        return redirect(url_for('.dashboard'))
     elif (current_user.category == 'seller'):
         product_detail = getProductUsingId(id)
         return render_template('update_product.html', current_user=current_user, product=product_detail)
@@ -109,7 +104,7 @@ def update_product(id):
 
 
 # buyer's and seller's dashboard
-@app.route('/dashboard')
+@app.route('/dashboard',methods=['GET', 'POST'])
 @login_required
 def dashboard():
     category = current_user.category.strip()
