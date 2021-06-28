@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}Signup{% endblock %} {% block content
-%} {% block loginForm %} {% endblock %}
+{% extends "base.html" %} {% block title %}Signup{% endblock %} {% block
+content %} {% block loginForm %} {% endblock %}
 <div class="container py-4" style="max-width: 580px">
   <h2 class="mb-4">Sign Up</h2>
   <form
@@ -168,6 +168,11 @@
     <div class="d-flex justify-content-end mb-3">
       <button type="submit" class="btn btn-primary">Sign Up</button>
     </div>
+    <input
+      name="next"
+      type="hidden"
+      value="{{ url_for(request.args.get('next') or 'index') }}"
+    />
   </form>
 </div>
 {% endblock %}

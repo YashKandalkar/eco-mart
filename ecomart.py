@@ -41,6 +41,18 @@ def load_user(user_id):
     return User.get(user_id)
 
 
+@login_manager.unauthorized_handler
+def unauthorized_handler():
+    flash("You have to be logged in to access this page.")
+    return redirect(url_for('auth.login', next=request.endpoint))
+
+
+@app.errorhandler(404)
+def not_found_handler(e):
+    print(e)
+    return render_template("404.html")
+
+
 @app.route('/')
 def index():
     user = current_user if current_user.is_authenticated else None
@@ -74,15 +86,14 @@ def add_product():
         return redirect(url_for('.dashboard'))
 
 
-
 @app.route('/delete_product/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_product(id):
-    deleteProduct(id)   
+    deleteProduct(id)
     return redirect(url_for('.dashboard'))
 
 
-@app.route('/update/<int:id>', methods=['GET','POST'])
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update_product(id):
     if (current_user.category == 'seller') and (request.method == 'POST'):
@@ -108,11 +119,10 @@ def update_product(id):
     else:
         # since buyer has no rights to update products detail, he will be redirected to dashboard
         return redirect(url_for('.dashboard'))
-        
 
 
 # buyer's and seller's dashboard
-@app.route('/dashboard',methods=['GET', 'POST'])
+@app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
     category = current_user.category.strip()
@@ -126,6 +136,7 @@ def dashboard():
         return render_template('dashboard.html', current_user=current_user)
     else:
         print("ERROR AYAAAA", current_user.category.strip(),)
+
 
 @app.route("/products/<id>", methods=['GET'])
 @app.route("/products/<id>/", methods=['GET'])
@@ -142,16 +153,16 @@ def products(id, title=None):
         #      return redirect(f"{id}/{title}")
         #  else:
         #      return redirect(f"{title}")
-        if title == None or id==None:
+        if title == None or id == None:
             user = current_user if current_user.is_authenticated else None
-        
+
         return redirect(url_for('.index'))
     else:
-        # TODO: 
+        # TODO:
         # seller = getSellerDetail(id)
         product = getProductUsingId(id)
         print(product)
-        return render_template("product.html",product=product)
+        return render_template("product.html", product=product)
 
     # TODO: Fetch product from id, send details to the frontend
     return render_template("product.html")
@@ -160,6 +171,13 @@ def products(id, title=None):
 @app.route("/products")
 def productsWithNoId():
     return redirect(url_for("index"))
+
+
+@app.route('/mycart', methods=['GET'])
+@app.route('/cart', methods=['GET'])
+@login_required
+def cart():
+    return render_template('cart.html')
 
 
 port = os.getenv('PORT', '5000')

@@ -2,6 +2,11 @@
 %} {% block loginForm %} {% endblock %}
 <div class="container py-4" style="max-width: 580px">
   <h2 class="mb-4">Login</h2>
+  {% with messages = get_flashed_messages() %} {% if messages %} {% for message
+  in messages %}
+  <div class="alert alert-danger" role="alert">{{ message }}</div>
+  {% endfor %} {% endif %} {% endwith %}
+
   <form action="/login" method="POST" id="login_form">
     <!-- EMAIL -->
     <div class="mb-3 form-floating">
@@ -45,7 +50,15 @@
     <div
       class="mb-3 form-check d-flex align-content-center justify-content-end"
     >
+      {% if request.args.get('next') %}
+      <a
+        href="{{ '/signup?next=' + url_for(request.args.get('next'))[1:] }}"
+        class="link-primary"
+        >Sign Up instead?</a
+      >
+      {% else %}
       <a href="/signup" class="link-primary">Sign Up instead?</a>
+      {% endif%}
     </div>
     <div
       class="mb-3 form-check d-flex align-content-center justify-content-end"
@@ -64,6 +77,11 @@
     <div class="d-flex justify-content-end mb-3">
       <button type="submit" class="btn btn-primary">Login</button>
     </div>
+    <input
+      name="next"
+      type="hidden"
+      value="{{ url_for(request.args.get('next') or 'index') }}"
+    />
   </form>
 </div>
 {% endblock %}
