@@ -193,9 +193,9 @@
           <p class="price">Price: &#8377;{{i[6]}}</p>
         </a>
         <ul class="list-group list-group-flush">
-          <button onclick="window.location.href = './buynow.html';">
-            Buy Now
-          </button>
+          <form action="/buynow" method="post">
+            <button type="submit">Buy Now</button>
+          </form>
           <button
             style="border-radius: 0px 0px 5px 5px"
             onclick="window.location.href = './addtocart.html';"
