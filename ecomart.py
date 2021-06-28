@@ -97,11 +97,13 @@ def update_product(id):
                       description, image_url, price, quantity)
         rows = getProductsUsingEmail(current_user.emailid)
         product_detail = getProductUsingId(id)
+        
         # todo: flash message to indicate --- product details has been updated
         # flash("you are successfully updated product")
         return redirect(url_for('.dashboard'))
     elif (current_user.category == 'seller'):
         product_detail = getProductUsingId(id)
+        print(product_detail[0])
         return render_template('update_product.html', current_user=current_user, product=product_detail)
     else:
         # since buyer has no rights to update products detail, he will be redirected to dashboard

@@ -35,11 +35,12 @@ loginForm %}
               id="category"
               name="category"
               selected="{{product[0][4]}}"
+              
             >
-              <option value="Artifacts" {% if {{ product[0][4] }}     %}>Artifacts</option>
-              <option value="Furnitures" ({{product[0][4]}}=='Furnitures') ? Selected : >Furnitures</option>
-              <option value="Clothes" {{(product[0][4]=='Clothes') ? Selected : }}>Clothes</option>
-              <option value="Bags" {{(product[0][4]=='Bags') ? Selected : }}>Bags</option>
+              <option value="Artifacts" {{ "selected" if (product[0][4] =='Artifacts') else none  }}>Artifacts</option>
+              <option value="Furnitures" {{"selected" if (product[0][4] =='Furnitures') else none  }}>Furnitures</option>
+              <option value="Clothes" {{"selected" if product[0][4] =="Clothes" else none}}>Clothes</option>
+              <option value="Bags" {{ "selected" if (product[0][4] =='Bags') else none  }}>Bags</option>
             </select>
             <label for="category" class="form-label">category</label>
           </div>
