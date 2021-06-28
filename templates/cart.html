@@ -1,0 +1,11 @@
+{% extends "base.html" %} {% block title %}Dashboard{% endblock %} {% block
+loginForm %}
+<form class="d-flex" action="/logout">
+  <button class="btn btn-primary" type="submit">Logout</button>
+</form>
+<br />
+{% endblock %}
+<!-- CONTENT -->
+{% block content %}
+<p class="display-4">My Cart</p>
+{% endblock %}

@@ -1,14 +1,23 @@
 # pylint: disable=maybe-no-member
 
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, abort
 from flask.helpers import url_for
 from flask_login import login_required, logout_user, login_user
 from models import User
+from urllib.parse import urlparse, urljoin
+
 
 from db2Api.users import createUser
 
 
 auth = Blueprint('auth', __name__)
+
+
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+        ref_url.netloc == test_url.netloc
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -21,14 +30,18 @@ def login():
         remember = True if request.form.get('remember') else False
 
         user = User.getUserFromEmail(emailid)
-        print(user, user.password if user else "no", password)
+
         if not user or not user.password == password:
             print("WRONG PASS, NO USER")
             return render_template('auth/login.html', error="Wrong email or password, please try again!")
 
-        # if the above check passes, then we know the user has the right credentials
         login_user(user, remember=remember)
-        return redirect(url_for('dashboard'))
+        next = request.form.get('next')
+
+        if not is_safe_url(next):
+            return abort(400)
+
+        return redirect(next or url_for('index'))
 
 
 @auth.route('/signup', methods=['GET', 'POST'])
@@ -47,7 +60,12 @@ def signup():
         if result:
             user = User(*result)
             login_user(user, remember=remember)
-            return redirect(url_for('dashboard'))
+            next = request.form.get('next')
+
+            if not is_safe_url(next):
+                return abort(400)
+
+            return redirect(next or url_for('index'))
         else:
             return render_template('auth/signup.html',
                                    error="Error creating an account! Please fill the form and submit again!")
