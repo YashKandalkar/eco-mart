@@ -59,6 +59,11 @@ def index():
     rows = getAllProducts()
     return render_template('index.html', current_user=user, products=rows)
 
+@app.route('/buynow', methods= ['POST'])
+def buynow():
+    user = current_user if current_user.is_authenticated else None
+    return render_template('buynow.html', current_user=user)
+
 
 @app.route('/add_product', methods=['GET', 'POST'])
 @login_required
