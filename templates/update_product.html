@@ -27,36 +27,23 @@ loginForm %}
           </div>
         </div>
         <!-- category -->
-        <!-- <div class="col">
-          <div class="form-floating">
-            <input
-              required="true"
-              type="text"
-              name="category"
-              value="{{product[0][4]}}"
-              autocomplete="family-name"
-              class="form-control"
+        <div class="col">
+          <div class="mb-3 form-floating">
+            <select
+              class="form-select"
+              aria-label="Category"
               id="category"
-              placeholder="category"
-              aria-describedby="category"
-            />
-            <label for="category" class="form-label">Category</label>
+              name="category"
+              selected="{{product[0][4]}}"
+            >
+              <option value="Artifacts" {% if {{ product[0][4] }}     %}>Artifacts</option>
+              <option value="Furnitures" ({{product[0][4]}}=='Furnitures') ? Selected : >Furnitures</option>
+              <option value="Clothes" {{(product[0][4]=='Clothes') ? Selected : }}>Clothes</option>
+              <option value="Bags" {{(product[0][4]=='Bags') ? Selected : }}>Bags</option>
+            </select>
+            <label for="category" class="form-label">category</label>
           </div>
-        </div> -->
-        <select
-          class="form-select form-select-lg my-2 col row gx-1"
-          aria-label="Category"
-          placeholder="category"
-          aria-describedby="category"
-          name="category"
-        >
-          <!-- aria-label=.form-select-lg example -->
-          <option>Choose Category</option>
-          <option value="Artifacts">Artifacts</option>
-          <option value="Furnitures">Furnitures</option>
-          <option value="Clothes">Clothes</option>
-          <option value="Bags">Bags</option>
-        </select>
+        </div>
       </div>
     </div>
 

@@ -1,8 +1,13 @@
-{% extends "base.html" %} {% block title %}Signup{% endblock %} {% block
-content %} {% block loginForm %} {% endblock %}
+{% extends "base.html" %} {% block title %}Signup{% endblock %} {% block content
+%} {% block loginForm %} {% endblock %}
 <div class="container py-4" style="max-width: 580px">
   <h2 class="mb-4">Sign Up</h2>
-  <form action="/signup" method="POST" id="signup_form">
+  <form
+    action="/signup"
+    method="POST"
+    id="signup_form"
+    onsubmit="return validation()"
+  >
     <!-- NAME -->
     <div class="mb-3">
       <div class="row gx-3">
@@ -53,16 +58,36 @@ content %} {% block loginForm %} {% endblock %}
       <label for="inputEmail" class="form-label">Email address</label>
     </div>
     <!-- PASSWORD -->
-    <div class="mb-3 form-floating">
-      <input
-        required="true"
-        type="password"
-        name="password"
-        class="form-control"
-        id="exampleInputPassword1"
-        placeholder="Password"
-      />
-      <label for="exampleInputPassword1" class="form-label">Password</label>
+    <div class="mb-3">
+      <div class="row gx-3">
+        <div class="col">
+          <div class="form-floating">
+            <input
+              required="true"
+              type="password"
+              name="password"
+              class="form-control"
+              id="Password1"
+              placeholder="Password"
+            />
+            <label for="Password1" class="form-label">Password</label>
+          </div>
+        </div>
+        <!--CONFIRM PASSWORD -->
+        <div class="col">
+          <div class="form-floating">
+            <input
+              required="true"
+              type="password"
+              name="password"
+              class="form-control"
+              id="Password2"
+              placeholder="Confirm Password"
+            />
+            <label for="Password2" class="form-label">Confirm Password</label>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="row gx-3">
       <div class="col">
@@ -146,3 +171,81 @@ content %} {% block loginForm %} {% endblock %}
   </form>
 </div>
 {% endblock %}
+
+<script>
+  function validation() {
+    var fname = document.getElementById("firstName").value;
+    var lname = document.getElementById("lastName").value;
+    var emailid = document.getElementById("inputEmail").value;
+    var phoneNumber = document.getElementById("phoneNumber").value;
+    var password = document.getElementById("Password1").value;
+    var conpassword = document.getElementById("Password2").value;
+    //firstname
+    if (fname == "") {
+      document.getElementById("firstName").innerHTML = "Enter your first name";
+      return false;
+    }
+    if (fname.length < 2) {
+      document.getElementById("firstName").innerHTML =
+        "First name should be more than 2 characters";
+      return false;
+    } else {
+      document.getElementById("firstName").innerHTML = "";
+    }
+    //lastname
+    if (lname == "") {
+      document.getElementById("lastName").innerHTML = "Enter your last name";
+      return false;
+    } else {
+      document.getElementById("lastName").innerHTML = "";
+    }
+
+    //contact number
+    if (phoneNumber.length != 10) {
+      document.getElementById("phoneNumber").innerHTML =
+        "Enter a valid contact number";
+      return false;
+    }
+    //password
+    if (password == "") {
+      document.getElementById("Password1").innerHTML =
+        "Password can't be empty";
+      return false;
+    }
+    if (password.length < 6) {
+      document.getElementById("Password1").innerHTML =
+        "Password should be more than 8 characters";
+      return false;
+    }
+    if (password.search(/[0-9]/) == -1) {
+      document.getElementById("Password1").innerHTML =
+        "Password should contain atleast 1 number";
+      return false;
+    }
+    if (password.search(/[a-z]/) == -1) {
+      document.getElementById("password1").innerHTML =
+        "Password should contain atleast 1 lowercase character";
+      return false;
+    }
+    if (password.search(/[A-Z]/) == -1) {
+      document.getElementById("password1").innerHTML =
+        "Password should contain atleast 1 uppercase character";
+      return false;
+    }
+    if (password.search(/[@\!\$\%\^\&\(\)\_\-\+\=\<\>\?\.\#\,\*]/) == -1) {
+      document.getElementById("Password1").innerHTML =
+        "Password should contain atleast 1 special character";
+      return false;
+    } else {
+      document.getElementById("Password1").innerHTML = "";
+    }
+    //confirm password
+    if (conpassword != password) {
+      document.getElementById("Password2").innerHTML =
+        "Password isn't matching";
+      return false;
+    } else {
+      document.getElementById("Password2").innerHTML = "";
+    }
+  }
+</script>
