@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block title %}Billing | Ecomart{% endblock %} {% block
+{% extends "base.html" %} {% block title %}Billing | {% endblock %} {% block
     loginForm %}
     <form class="d-flex" action="/logout">
       <button class="btn btn-primary" type="submit">Logout</button>
@@ -30,7 +30,7 @@
                         <h1 id="heading">Billing Page</h1>
                    </div>
                    <div class="row pt-4">
-                       <h5>Points remaining : 100</h5>
+                       <h5>Points remaining : {{current_user.points - product[0][8] }}</h5>
                    </div>
                 </div>
                 <div class="col-md-3 col-10 offset-2">
@@ -41,17 +41,17 @@
                         <thead>
                           <tr>
                             <td scope="col">Total Price</td>
-                            <td scope="col">2000</td>
+                            <td scope="col">{{product[0][6]}}</td>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
                             <td>Points used</td>
-                            <td>1200</td>
+                            <td>{{product[0][8]}}</td>
                           </tr>
                           <tr>
                             <th>Price to pay</th>
-                            <th>800</th>
+                            <th>{{product[0][6] - product[0][8] }}</th>
                           </tr>
                         </tbody>
                       </table>
@@ -75,13 +75,15 @@
                       </tr>
                     </thead>
                     <tbody>
+                      {%for i in product%}
                       <tr>
                         <th scope="row">1</th>
-                        <td>Matress</td>
-                        <td>2</td>
-                        <td>1500</td>
+                        <td>{{i[3]}}</td>
+                        <td>1</td>
+                        <td>{{i[6]}}</td>
                       </tr>
-                      <tr>
+                      {%  endfor %}
+                      <!-- <tr>
                         <th scope="row">2</th>
                         <td>Bottle</td>
                         <td>5</td>
@@ -92,7 +94,7 @@
                         <td>Eco hand-purse</td>
                         <td>1</td>
                         <td>1000</td>
-                      </tr>
+                      </tr> -->
                     </tbody>
                   </table>
             </div>

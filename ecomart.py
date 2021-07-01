@@ -59,10 +59,18 @@ def index():
     rows = getAllProducts()
     return render_template('index.html', current_user=user, products=rows)
 
-@app.route('/buynow', methods= ['POST'])
-def buynow():
+@app.route('/<string:category>')
+def filter(category):
     user = current_user if current_user.is_authenticated else None
-    return render_template('buynow.html', current_user=user)
+    #todo : fetch products with given categories
+    return render_template('index.html', current_user=user)
+
+@app.route('/buynow/<int:id>', methods= ['POST'])
+def buynow(id):
+    user = current_user if current_user.is_authenticated else None
+    product_detail = getProductUsingId(id)
+    print(product_detail)
+    return render_template('buynow.html', current_user=user,product= product_detail)
 
 
 @app.route('/add_product', methods=['GET', 'POST'])

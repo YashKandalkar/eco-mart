@@ -30,6 +30,17 @@ def getAllProducts(con=None, cur=None, db=None):
     rows = cur.fetchall()
     return rows or []
 
+@useDb(defaultReturn=0)
+def assignPoints(category, con=None, cur=None, db=None):
+    # print ('reached')
+    if(category == 'Artifacts'):
+        return 5
+    elif category == 'Furniture':
+        return 20
+    elif category == 'Clothes':
+        return 10
+    elif category == 'Bags':
+        return 5
 
 @useDb(defaultReturn=False)
 def createProducts(emailid, product_name, category, description, image_url,  price, quantity, con=None, cur=None, db=None):
@@ -40,6 +51,8 @@ def createProducts(emailid, product_name, category, description, image_url,  pri
         - list: list  containing all product data, if query was successful
         - False: If query was unsuccessful
     """
+    points= assignPoints(category);
+    
     sql = """Insert into products(
         seller_emailid,
         product_name, 
@@ -47,8 +60,9 @@ def createProducts(emailid, product_name, category, description, image_url,  pri
         description,
         image_path,
         price,
-        quantity
-    ) values (%s,%s,%s,%s,%s,%s,%s)"""
+        quantity,
+        points
+    ) values (%s,%s,%s,%s,%s,%s,%s,%s)"""
 
     db(sql, (emailid,
              product_name,
@@ -56,8 +70,10 @@ def createProducts(emailid, product_name, category, description, image_url,  pri
              description,
              image_url,
              price,
-             quantity))
+             quantity,
+             points))
     con.commit()
+
 
 
 @useDb(defaultReturn=False)

@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}Signup{% endblock %} {% block
-content %} {% block loginForm %} {% endblock %}
+{% extends "base.html" %} {% block title %}Signup{% endblock %} {% block content
+%} {% block loginForm %} {% endblock %}
 <div class="container py-4" style="max-width: 580px">
   <h2 class="mb-4">Sign Up</h2>
   <form
@@ -43,6 +43,21 @@ content %} {% block loginForm %} {% endblock %}
         </div>
       </div>
     </div>
+    <!-- error messge first n last -->
+    <div class="mb-3">
+      <div class="row gx-3">
+        <div class="col">
+          <div class="form-floating" id="firstName_error" style="display: none">
+            First name should have more than 2 characters
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-floating" id="lastName_error" style="display: none">
+            Last name should have more than 2 characters
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- EMAIL -->
     <div class="mb-3 form-floating">
       <input
@@ -57,6 +72,7 @@ content %} {% block loginForm %} {% endblock %}
       />
       <label for="inputEmail" class="form-label">Email address</label>
     </div>
+
     <!-- PASSWORD -->
     <div class="mb-3">
       <div class="row gx-3">
@@ -186,23 +202,23 @@ content %} {% block loginForm %} {% endblock %}
     var password = document.getElementById("Password1").value;
     var conpassword = document.getElementById("Password2").value;
     //firstname
-    if (fname == "") {
-      document.getElementById("firstName").innerHTML = "Enter your first name";
-      return false;
-    }
+
     if (fname.length < 2) {
-      document.getElementById("firstName").innerHTML =
-        "First name should be more than 2 characters";
+      document.getElementById("firstName").style.borderColor = "red";
+      document.getElementById("firstName_error").style.display = "block";
       return false;
     } else {
-      document.getElementById("firstName").innerHTML = "";
+      document.getElementById("firstName").style.borderColor = "lightgrey";
+      document.getElementById("firstName_error").style.display = "none";
     }
     //lastname
-    if (lname == "") {
-      document.getElementById("lastName").innerHTML = "Enter your last name";
+    if (lname.length < 2) {
+      document.getElementById("lastName").style.borderColor = "red";
+      document.getElementById("lastName_error").style.display = "block";
       return false;
     } else {
-      document.getElementById("lastName").innerHTML = "";
+      document.getElementById("lastName").style.borderColor = "lightgrey";
+      document.getElementById("lastName_error").style.display = "none";
     }
 
     //contact number

@@ -51,11 +51,28 @@
               data-bs-parent="#pointsAccordion"
             >
               <div class="accordion-body">
-                <strong>You have 59 points!</strong> <br />
+                <strong>You have {{current_user.points}} points!</strong> <br />
                 You can use these to get a discount on the M.R.P.
               </div>
             </div>
           </div>
+        </div>
+        <div class="def-number-input number-input safari_only mb-0 w-100">
+          <button
+            onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+            class="minus decrease"
+          ></button>
+          <input
+            class="quantity"
+            min="0"
+            name="quantity"
+            value="1"
+            type="number"
+          />
+          <button
+            onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+            class="plus increase"
+          ></button>
         </div>
         <div class="d-flex my-3 justify-content-end">
           <form action="/cart" method="POST">
@@ -63,7 +80,7 @@
               <i class="bi bi-cart me-2 d-none d-sm-inline"></i>Add to Cart
             </button>
           </form>
-          <form action="/buy" method="POST">
+          <form action="/buynow/{{product[0][0]}}" method="POST">
             <button class="btn btn-success" type="submit">
               Buy Now<i class="bi bi-arrow-right d-none d-sm-inline ms-2"></i>
             </button>
