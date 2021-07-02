@@ -19,6 +19,23 @@ def getProductsUsingEmail(emailid, con=None, cur=None, db=None) -> list:
     rows = cur.fetchall()
     return rows or []
 
+@useDb(defaultReturn=[])
+def getProductsbyCategory( category, con=None, cur=None, db=None):
+    sql = "SELECT * FROM products where product_category=%s ORDER BY product_id ASC"
+    """
+    Tries to fetch products according to given category eg. Artifacts.
+
+    Returns:
+        - list: list  containing given category product data, if query was successful
+        - False: If query was unsuccessful
+    """
+
+    rows = []
+
+    db(sql,(category,))
+    rows = cur.fetchall()
+    return rows or []
+
 
 @useDb(defaultReturn=[])
 def getAllProducts(con=None, cur=None, db=None):
