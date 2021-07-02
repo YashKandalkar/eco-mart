@@ -16,7 +16,7 @@ if 'DATABASE_URI' in os.environ:
     from db_connect import get_db
     from auth import auth as auth_blueprint
     from models import User
-    from db2Api.products import getProductsUsingEmail, getAllProducts, createProducts, getProductUsingId, updateProduct, deleteProduct
+    from db2Api.products import getProductsUsingEmail, getAllProducts, createProducts, getProductUsingId, updateProduct, deleteProduct, getSellerDetail
 else:
     raise ValueError('Env Var not found!')
 
@@ -66,6 +66,7 @@ def filter(category):
     return render_template('index.html', current_user=user)
 
 @app.route('/buynow/<int:id>', methods= ['POST'])
+# @login_required
 def buynow(id):
     user = current_user if current_user.is_authenticated else None
     product_detail = getProductUsingId(id)
@@ -166,11 +167,10 @@ def products(id, title=None):
 
         return redirect(url_for('.index'))
     else:
-        # TODO:
-        # seller = getSellerDetail(id)
+        seller = getSellerDetail(id)
         product = getProductUsingId(id)
-        print(product)
-        return render_template("product.html", product=product)
+        # print(product,seller)
+        return render_template("product.html", product=product, seller= seller)
 
     # TODO: Fetch product from id, send details to the frontend
     return render_template("product.html")

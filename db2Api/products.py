@@ -75,7 +75,16 @@ def createProducts(emailid, product_name, category, description, image_url,  pri
     con.commit()
 
 
-
+@useDb(defaultReturn=[])
+def getSellerDetail(id=id, con=None, cur=None, db=None):
+    rows=[]
+    sql = "SELECT products.product_id, products.seller_emailid, users.emailid, users.firstname, users.lastname FROM products INNER JOIN users ON (products.seller_emailid=users.emailid) AND products.product_id = %s;"
+    db(sql, (id, ))
+    if not sql:
+        print ('error in executing join query!')
+    rows = cur.fetchall()
+    return rows or []
+    
 @useDb(defaultReturn=False)
 def getProductUsingId(id=id, con=None, cur=None, db=None):
     """

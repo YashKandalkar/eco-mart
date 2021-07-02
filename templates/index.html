@@ -35,6 +35,11 @@
     <li>
       <hr class="dropdown-divider" />
     </li>
+    {% if current_user.category == 'buyer' %}
+    <li>
+      <a class="dropdown-item" href="/cart">My cart</a>
+    </li>
+    {% endif %}
     <li>
       <a class="dropdown-item" href="/logout">Logout</a>
     </li>

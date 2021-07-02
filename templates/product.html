@@ -1,4 +1,39 @@
 {% extends "base.html" %} {% block title %}{{product[0][3]}}{% endblock %}
+
+<!-- LOGIN FORM -->
+{% block loginForm %} {% if current_user.firstname %}
+<li class="nav-item dropdown d-flex">
+  <a
+    class="nav-link dropdown-toggle"
+    href="#"
+    id="navbarDropdown"
+    role="button"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    Welcome,&nbsp;{{current_user.firstname}}
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+    <li>
+      <hr class="dropdown-divider" />
+    </li>
+    {% if current_user.category == 'buyer' %}
+    <li>
+      <a class="dropdown-item" href="/cart">My cart</a>
+    </li>
+    {% endif %}
+    <li>
+      <a class="dropdown-item" href="/logout">Logout</a>
+    </li>
+  </ul>
+</li>
+{% else %}
+<form class="d-flex" action="/login">
+  <button class="btn btn-primary" type="submit">Login</button>
+</form>
+{% endif %} {% endblock %}
+
 <!-- CONTENT -->
 {% block content %}
 <div class="container-fluid">
@@ -17,7 +52,9 @@
           {{product[0][4]}}<span class="badge bg-primary ms-2">category</span>
         </h5>
         <!-- to do: fetch supplier's name -->
-        <p class="text-muted">Sold by <a href="#">Botle Corp. Ltd.</a></p>
+        <p class="text-muted">
+          Sold by <a href="#">{{seller[0][3]}} {{seller[0][4]}}</a>
+        </p>
         {% if product[0][7] > 10 %}
         <p class="text-success">In Stock</p>
         {% else %}
@@ -62,13 +99,7 @@
             onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
             class="minus decrease"
           ></button>
-          <input
-            class="quantity"
-            min="0"
-            name="quantity"
-            value="1"
-            type="number"
-          />
+          <input class="quantity" min="0" value="1" type="number" />
           <button
             onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
             class="plus increase"
