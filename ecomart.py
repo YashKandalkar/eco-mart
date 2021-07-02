@@ -66,7 +66,7 @@ def filter(category):
     product_detail = getProductsbyCategory(category)
     print(product_detail)
 
-    return render_template('index.html', current_user=user, product = product_detail)
+    return render_template('index.html', current_user=user, products = product_detail)
 
 @app.route('/buynow/<int:id>', methods= ['POST'])
 # @login_required
