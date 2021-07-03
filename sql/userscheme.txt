@@ -23,3 +23,15 @@ create table products(
 	FOREIGN KEY (seller_emailid) REFERENCES users(emailid)
 	
 );
+
+
+CREATE TABLE public.cart
+(
+    emailid character varying(25)[],
+    product_id bigint,
+    status boolean[],
+    PRIMARY KEY (emailid)
+);
+
+ALTER TABLE public.cart
+    OWNER to onfxuquwaanryd;

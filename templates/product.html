@@ -114,8 +114,13 @@
                 class="plus increase"
               ></button>
             </div>
-            <button class="btn btn-outline-primary me-2" type="submit">
-              <i class="bi bi-cart me-2 d-none d-sm-inline"></i>Add to Cart
+            <hr>
+            <button
+            class="btn btn-outline-primary me-2" 
+              formaction="/addtocart/{{product[0][0]}}"
+              method="POST"
+              type="submit">
+              Add to Cart<i class="bi bi-cart me-2 d-none d-sm-inline"></i>
             </button>
 
             <button

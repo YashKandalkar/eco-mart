@@ -2,6 +2,8 @@
 
 import os
 import json
+from threading import current_thread
+import requests
 import urllib.request
 # from werkzeug.utils import secure_filename
 from .users import getUserUsingEmail
@@ -35,6 +37,20 @@ def getProductsbyCategory( category, con=None, cur=None, db=None):
     db(sql,(category,))
     rows = cur.fetchall()
     return rows or []
+
+
+@useDb(defaultReturn=[])
+def add_to_cart(id = id, con=None, cur=None, db=None):
+
+
+    sql = "SELECT id FROM cart where email = email  "
+
+    rows = []
+
+    db(sql, (id, ))
+    rows = cur.fetchall()
+    return rows or []
+
 
 
 @useDb(defaultReturn=[])
