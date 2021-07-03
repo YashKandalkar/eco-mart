@@ -184,8 +184,8 @@ def productsWithNoId():
     return redirect(url_for("index"))
 
 
-@app.route('/mycart', methods=['GET'])
-@app.route('/cart', methods=['GET'])
+@app.route('/addToCart', methods=['GET', 'POST'])
+@app.route('/cart', methods=['GET', 'POST'])
 @login_required
 def cart():
     return render_template('cart.html')

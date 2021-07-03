@@ -94,25 +94,36 @@
             </div>
           </div>
         </div>
-        <div class="def-number-input number-input safari_only mb-0 w-100">
-          <button
-            onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-            class="minus decrease"
-          ></button>
-          <input class="quantity" min="0" value="1" type="number" />
-          <button
-            onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-            class="plus increase"
-          ></button>
-        </div>
+
         <div class="d-flex my-3 justify-content-end">
-          <form action="/cart" method="POST">
+          <form action="/addToCart/{{product[0][0]}}" method="POST">
+            <div class="def-number-input number-input safari_only mb-0 w-100">
+              <button
+                onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                class="minus decrease"
+              ></button>
+              <input
+                class="quantity"
+                name="qunatity"
+                min="0"
+                value="1"
+                type="number"
+              />
+              <button
+                onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                class="plus increase"
+              ></button>
+            </div>
             <button class="btn btn-outline-primary me-2" type="submit">
               <i class="bi bi-cart me-2 d-none d-sm-inline"></i>Add to Cart
             </button>
-          </form>
-          <form action="/buynow/{{product[0][0]}}" method="POST">
-            <button class="btn btn-success" type="submit">
+
+            <button
+              class="btn btn-success"
+              type="submit"
+              formaction="/buynow/{{product[0][0]}}"
+              method="POST"
+            >
               Buy Now<i class="bi bi-arrow-right d-none d-sm-inline ms-2"></i>
             </button>
           </form>
