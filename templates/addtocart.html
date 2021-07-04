@@ -30,7 +30,7 @@
                         <h1 id="heading">Billing Page</h1>
                    </div>
                    <div class="row pt-4">
-                       <h5>Points remaining : {{current_user.points - product[0][8] }}</h5>
+                       <h5>Points remaining : {{current_user.points - products[0][8] }}</h5>
                    </div>
                 </div>
                 <div class="col-md-3 col-10 offset-2">
@@ -41,17 +41,17 @@
                         <thead>
                           <tr>
                             <td scope="col">Total Price</td>
-                            <td scope="col">{{product[0][6]}}</td>
+                            <td scope="col">{{products[0][6]}}</td>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
                             <td>Points used</td>
-                            <td>{{product[0][8]}}</td>
+                            <td>{{products[0][8]}}</td>
                           </tr>
                           <tr>
                             <th>Price to pay</th>
-                            <th>{{product[0][6] - product[0][8] }}</th>
+                            <th>{{products[0][6] - products[0][8] }}</th>
                           </tr>
                         </tbody>
                       </table>
@@ -75,7 +75,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {%for i in product%}
+                      {%for i in products%}
                       <tr>
                         <th scope="row">1</th>
                         <td>{{i[3]}}</td>

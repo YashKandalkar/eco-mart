@@ -66,15 +66,18 @@ def filter(category):
     product_detail = getProductsbyCategory(category)
     print(product_detail)
 
-    return render_template('index.html', current_user=user, products = product_detail)
+    return render_template('index.html', current_user = user, products = product_detail)
 
 @app.route('/buynow/<int:id>', methods= ['POST'])
 # @login_required
 def buynow(id):
     user = current_user if current_user.is_authenticated else None
+    if (current_user.category == 'buyer') and (request.method == 'POST'):
+        quantity = request.form.get('quantity', '')
     product_detail = getProductUsingId(id)
-    print(product_detail)
-    return render_template('buynow.html', current_user=user,product= product_detail)
+    quantity = int(quantity)
+    print(product_detail,quantity)
+    return render_template('buynow.html', current_user=user, product= product_detail, quantity= quantity)
 
 
 
@@ -85,7 +88,7 @@ def add_to_cart(id):
     product_detail = getProductUsingId(id)
     # cart_item = CartItem(product=product_detail)
     print(product_detail)
-    return render_tempate('addtocart.html', products=product_detail)
+    return render_template('addtocart.html', products=product_detail, current_user= current_user)
 
 
 @app.route('/add_product', methods=['GET', 'POST'])

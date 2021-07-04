@@ -30,7 +30,8 @@
                         <h1 id="heading">Billing Page</h1>
                    </div>
                    <div class="row pt-4">
-                       <h5>Points remaining : {{current_user.points - product[0][8] }}</h5>
+                      <!-- todo: updating users's points -->
+                       <h5>Points remaining : {{ current_user.points }}</h5>
                    </div>
                 </div>
                 <div class="col-md-3 col-10 offset-2">
@@ -41,17 +42,29 @@
                         <thead>
                           <tr>
                             <td scope="col">Total Price</td>
-                            <td scope="col">{{product[0][6]}}</td>
+                            {%set total_price, total_points = 0, 0%}
+                            <!-- {%set total_points = 0%} -->
+                            <!-- {% set total_price= product[0][6] * quantity %} -->
+                            
+                            {% for i in total_price_for_each_product %}
+                                {% set total_price = i + total_price %}
+                            {% endfor %}
+                            {% for i in total_points_on_each_product %}
+                                {% set total_points = i + total_points %}
+                            {% endfor %}
+                            <td scope="col">{{ total_price }}</td>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
                             <td>Points used</td>
-                            <td>{{product[0][8]}}</td>
+                            <!-- {% set total_points= product[0][8] * quantity %} -->
+                            <td>{{ total_points }}</td>
                           </tr>
                           <tr>
                             <th>Price to pay</th>
-                            <th>{{product[0][6] - product[0][8] }}</th>
+                            {% set final_price= total_price - total_points %}
+                            <th>{{ final_price }}</th>
                           </tr>
                         </tbody>
                       </table>
@@ -75,26 +88,20 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {%for i in product%}
+                      {% set count = 1%}
+                      {% set total_points_on_each_product = [] %}
+                      {% set total_price_for_each_product = [] %}
+                      {% for i in product %}
                       <tr>
-                        <th scope="row">1</th>
-                        <td>{{i[3]}}</td>
-                        <td>1</td>
-                        <td>{{i[6]}}</td>
+                        <th scope="row">{{ count }}</th>
+                        <td>{{ i[3] }}</td>
+                        <td>{{ quantity }}</td>
+                        <td>{{ i[6] }}</td>
+                        {{ total_points_on_each_product.append(i[8] *quantity) }}
+                        {{ total_price_for_each_product.append(i[6]*quantity) }}
                       </tr>
-                      {%  endfor %}
-                      <!-- <tr>
-                        <th scope="row">2</th>
-                        <td>Bottle</td>
-                        <td>5</td>
-                        <td>500</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>Eco hand-purse</td>
-                        <td>1</td>
-                        <td>1000</td>
-                      </tr> -->
+                      {% endfor %}
+                      
                     </tbody>
                   </table>
             </div>
