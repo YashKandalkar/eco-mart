@@ -16,7 +16,7 @@ if 'DATABASE_URI' in os.environ:
     from db_connect import get_db
     from auth import auth as auth_blueprint
     from models import User
-    from db2Api.products import add_to_cart, getProductsbyCategory, getProductsUsingEmail, getAllProducts, createProducts, getProductUsingId, updateProduct, deleteProduct, getSellerDetail
+    from db2Api.products import add_to_cart, getProductsbyCategory, getProductsUsingEmail, getAllProducts, createProducts, getProductUsingId, updateProduct, deleteProduct, getSellerDetail, buyProduct, displayOrders
 else:
     raise ValueError('Env Var not found!')
 
@@ -74,12 +74,23 @@ def buynow(id):
     user = current_user if current_user.is_authenticated else None
     if (current_user.category == 'buyer') and (request.method == 'POST'):
         quantity = request.form.get('quantity', '')
-    product_detail = getProductUsingId(id)
-    quantity = int(quantity)
-    print(product_detail,quantity)
-    return render_template('buynow.html', current_user=user, product= product_detail, quantity= quantity)
+        product_detail = getProductUsingId(id)
+        quantity = int(quantity)
+        print(product_detail,quantity)
+        return render_template('buynow.html', current_user=user, product= product_detail, quantity= quantity)
 
+@app.route('/buy', methods= ['POST'])
+@login_required
+def buy():
+    if (current_user.category == 'buyer') and (request.method == 'POST'):
+        product_id = request.form.get('product_id', '')
+        quantity = request.form.get('quantity', '')
+        price = request.form.get('price', '')
+        customer_emailid = request.form.get('user_emailid', '')
 
+        # print("product:",product_id, quantity, price)
+        buyProduct(product_id=product_id,customer_emailid= customer_emailid,quantity=quantity, price= price)
+        return redirect(url_for('.dashboard'))
 
 @app.route('/addtocart/<int:id>', methods=['POST'])
 def add_to_cart(id):
@@ -108,7 +119,6 @@ def add_product():
     elif current_user.category == 'seller':
         return render_template("add_product.html")
     else:
-        # to-do
         return redirect(url_for('.dashboard'))
 
 
@@ -158,8 +168,10 @@ def dashboard():
         return render_template('dashboard.html', current_user=current_user, products=rows)
 
     elif category == 'buyer':
-        #print('buyer has logged in ')
-        return render_template('dashboard.html', current_user=current_user)
+        print('buyer has logged in ')
+        orders = displayOrders(current_user.emailid);
+        # print(orders)
+        return render_template('dashboard.html', current_user=current_user, orders=orders)
     else:
         print("ERROR AYAAAA", current_user.category.strip(),)
 

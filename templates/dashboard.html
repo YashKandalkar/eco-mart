@@ -76,4 +76,13 @@ loginForm %}
 <p>Name: {{current_user.firstname}} {{current_user.lastname}}</p>
 <p>Contact number: {{current_user.contact_no}}</p>
 <p>Remaining points: {{current_user.points}}</p>
-{% endif %} {% endblock %}
+<hr />
+<h4>Order History</h4>
+<br />
+{%for order in orders%}
+<p>Product name: {{order[2]}}</p>
+<p>Category: {{order[3]}}</p>
+<p>Quantity: {{order[5]}}</p>
+<p>Price: {{order[6]}}</p>
+<hr />
+{%endfor%} {% endif %} {% endblock %}

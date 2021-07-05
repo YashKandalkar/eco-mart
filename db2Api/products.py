@@ -168,3 +168,40 @@ def deleteProduct(id, con=None, cur=None, db=None):
     sql = "DELETE FROM products WHERE product_id=%s"
     db(sql, (id, ))
     con.commit()
+
+@useDb(defaultReturn=[])
+def buyProduct(product_id, customer_emailid, quantity, price, con=None, cur=None, db=None):
+    sql = """INSERT INTO orders (
+        customer_emailid,
+        product_id,
+        quantity,
+        price
+        )
+        values(%s,%s,%s,%s)""";
+    db(sql, (customer_emailid,
+             product_id,
+             quantity,
+             price))
+    con.commit()
+
+@useDb(defaultReturn=[])
+def displayOrders(customer_emailid, con=None, cur=None, db=None):
+    rows=[]
+    sql = """
+    SELECT 
+    products.product_id, 
+    orders.product_id,
+    products.product_name,
+    products.product_category,
+    orders.customer_emailid, 
+    orders.quantity, 
+    orders.price 
+    FROM products 
+    INNER JOIN orders 
+    ON orders.customer_emailid = %s AND products.product_id = orders.product_id"""
+    db(sql, (customer_emailid, ))
+    rows = cur.fetchall()
+    return rows or []
+
+
+# ;

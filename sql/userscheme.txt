@@ -35,3 +35,14 @@ CREATE TABLE public.cart
 
 ALTER TABLE public.cart
     OWNER to onfxuquwaanryd;
+
+create table orders(
+	order_id  SERIAL  primary key,
+	customer_emailid varchar(25),
+	product_id int,
+	quantity int,
+	price int,
+	order_date date not NULL DEFAULT CURRENT_DATE ,
+	FOREIGN KEY (customer_emailid) REFERENCES users(emailid),
+	FOREIGN KEY (product_id) REFERENCES products(product_id)
+)
