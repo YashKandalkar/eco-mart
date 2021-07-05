@@ -3,7 +3,7 @@
 import os
 import json
 from threading import current_thread
-import requests
+# import requests
 import urllib.request
 # from werkzeug.utils import secure_filename
 from .users import getUserUsingEmail
@@ -23,7 +23,6 @@ def getProductsUsingEmail(emailid, con=None, cur=None, db=None) -> list:
 
 @useDb(defaultReturn=[])
 def getProductsbyCategory( category, con=None, cur=None, db=None):
-    sql = "SELECT * FROM products where product_category=%s ORDER BY product_id ASC"
     """
     Tries to fetch products according to given category eg. Artifacts.
 
@@ -31,6 +30,10 @@ def getProductsbyCategory( category, con=None, cur=None, db=None):
         - list: list  containing given category product data, if query was successful
         - False: If query was unsuccessful
     """
+    sql = """SELECT * 
+            FROM products 
+            where product_category=%s 
+            ORDER BY product_id ASC"""
 
     rows = []
 
@@ -65,7 +68,6 @@ def getAllProducts(con=None, cur=None, db=None):
 
 @useDb(defaultReturn=0)
 def assignPoints(category, con=None, cur=None, db=None):
-    # print ('reached')
     if(category == 'Artifacts'):
         return 5
     elif category == 'Furniture':
@@ -111,7 +113,18 @@ def createProducts(emailid, product_name, category, description, image_url,  pri
 @useDb(defaultReturn=[])
 def getSellerDetail(id=id, con=None, cur=None, db=None):
     rows=[]
-    sql = "SELECT products.product_id, products.seller_emailid, users.emailid, users.firstname, users.lastname FROM products INNER JOIN users ON (products.seller_emailid=users.emailid) AND products.product_id = %s;"
+    sql = """SELECT 
+            products.product_id,
+            products.seller_emailid, 
+            users.emailid, 
+            users.firstname, 
+            users.lastname 
+            FROM products 
+            INNER JOIN users 
+            ON 
+            (products.seller_emailid = users.emailid)
+            AND 
+            products.product_id = %s;"""
     db(sql, (id, ))
     if not sql:
         print ('error in executing join query!')
@@ -145,7 +158,16 @@ def updateProduct(seller_emailid, id, product_name, category, description, image
         - False: If query was unsuccessful
     """
 
-    sql = "UPDATE products SET product_name = %s, product_category= %s, image_path =%s, description=%s, price=%s, quantity=%s WHERE product_id=%s "
+    sql = """UPDATE products
+            SET 
+            product_name = %s,
+            product_category= %s, 
+            image_path =%s,
+            description=%s, 
+            price=%s, 
+            quantity=%s 
+            WHERE 
+            product_id=%s """
     db(sql, (product_name,
              category,
              image_url,
@@ -169,8 +191,15 @@ def deleteProduct(id, con=None, cur=None, db=None):
     db(sql, (id, ))
     con.commit()
 
-@useDb(defaultReturn=[])
+@useDb(defaultReturn=False)
 def buyProduct(product_id, customer_emailid, quantity, price, con=None, cur=None, db=None):
+    """
+    Tries to buy a product with the given data.
+
+    Returns:
+        - perform insert operation in orders table
+        - False: If query was unsuccessful
+    """
     sql = """INSERT INTO orders (
         customer_emailid,
         product_id,
@@ -186,6 +215,13 @@ def buyProduct(product_id, customer_emailid, quantity, price, con=None, cur=None
 
 @useDb(defaultReturn=[])
 def displayOrders(customer_emailid, con=None, cur=None, db=None):
+    """
+    Tries to display orders placed by specified user.
+
+    Returns:
+        - list: list  containing data about the product, if query was successful
+        - empty list: user have never placed a single order
+    """
     rows=[]
     sql = """
     SELECT 
@@ -203,5 +239,3 @@ def displayOrders(customer_emailid, con=None, cur=None, db=None):
     rows = cur.fetchall()
     return rows or []
 
-
-# ;

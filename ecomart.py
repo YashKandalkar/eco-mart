@@ -74,9 +74,11 @@ def buynow(id):
     user = current_user if current_user.is_authenticated else None
     if (current_user.category == 'buyer') and (request.method == 'POST'):
         quantity = request.form.get('quantity', '')
+        # trial = request.form.get('trial', '')
         product_detail = getProductUsingId(id)
         quantity = int(quantity)
         print(product_detail,quantity)
+        # print(type(current_user.points))
         return render_template('buynow.html', current_user=user, product= product_detail, quantity= quantity)
 
 @app.route('/buy', methods= ['POST'])
