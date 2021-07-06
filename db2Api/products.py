@@ -1,5 +1,3 @@
-# pylint: disable=maybe-no-member
-
 import os
 import json
 from threading import current_thread
@@ -21,8 +19,9 @@ def getProductsUsingEmail(emailid, con=None, cur=None, db=None) -> list:
     rows = cur.fetchall()
     return rows or []
 
+
 @useDb(defaultReturn=[])
-def getProductsbyCategory( category, con=None, cur=None, db=None):
+def getProductsbyCategory(category, con=None, cur=None, db=None):
     """
     Tries to fetch products according to given category eg. Artifacts.
 
@@ -37,14 +36,13 @@ def getProductsbyCategory( category, con=None, cur=None, db=None):
 
     rows = []
 
-    db(sql,(category,))
+    db(sql, (category,))
     rows = cur.fetchall()
     return rows or []
 
 
 @useDb(defaultReturn=[])
-def add_to_cart(id = id, con=None, cur=None, db=None):
-
+def addToCart(id=id, con=None, cur=None, db=None):
 
     sql = "SELECT id FROM cart where email = email  "
 
@@ -53,7 +51,6 @@ def add_to_cart(id = id, con=None, cur=None, db=None):
     db(sql, (id, ))
     rows = cur.fetchall()
     return rows or []
-
 
 
 @useDb(defaultReturn=[])
@@ -66,6 +63,7 @@ def getAllProducts(con=None, cur=None, db=None):
     rows = cur.fetchall()
     return rows or []
 
+
 @useDb(defaultReturn=0)
 def assignPoints(category, con=None, cur=None, db=None):
     if(category == 'Artifacts'):
@@ -77,6 +75,7 @@ def assignPoints(category, con=None, cur=None, db=None):
     elif category == 'Bags':
         return 5
 
+
 @useDb(defaultReturn=False)
 def createProducts(emailid, product_name, category, description, image_url,  price, quantity, con=None, cur=None, db=None):
     """
@@ -86,8 +85,8 @@ def createProducts(emailid, product_name, category, description, image_url,  pri
         - list: list  containing all product data, if query was successful
         - False: If query was unsuccessful
     """
-    points= assignPoints(category);
-    
+    points = assignPoints(category)
+
     sql = """Insert into products(
         seller_emailid,
         product_name, 
@@ -112,7 +111,7 @@ def createProducts(emailid, product_name, category, description, image_url,  pri
 
 @useDb(defaultReturn=[])
 def getSellerDetail(id=id, con=None, cur=None, db=None):
-    rows=[]
+    rows = []
     sql = """SELECT 
             products.product_id,
             products.seller_emailid, 
@@ -127,10 +126,11 @@ def getSellerDetail(id=id, con=None, cur=None, db=None):
             products.product_id = %s;"""
     db(sql, (id, ))
     if not sql:
-        print ('error in executing join query!')
+        print('error in executing join query!')
     rows = cur.fetchall()
     return rows or []
-    
+
+
 @useDb(defaultReturn=False)
 def getProductUsingId(id=id, con=None, cur=None, db=None):
     """
@@ -145,6 +145,7 @@ def getProductUsingId(id=id, con=None, cur=None, db=None):
     db(sql, (id, ))
 
     rows = cur.fetchall()
+    # TODO: return rows[0] if len(rows) > 0. ALSO, change all the places where this func is used.
     return rows or []
 
 
@@ -191,6 +192,7 @@ def deleteProduct(id, con=None, cur=None, db=None):
     db(sql, (id, ))
     con.commit()
 
+
 @useDb(defaultReturn=False)
 def buyProduct(product_id, customer_emailid, quantity, price, con=None, cur=None, db=None):
     """
@@ -206,12 +208,13 @@ def buyProduct(product_id, customer_emailid, quantity, price, con=None, cur=None
         quantity,
         price
         )
-        values(%s,%s,%s,%s)""";
+        values(%s,%s,%s,%s)"""
     db(sql, (customer_emailid,
              product_id,
              quantity,
              price))
     con.commit()
+
 
 @useDb(defaultReturn=[])
 def displayOrders(customer_emailid, con=None, cur=None, db=None):
@@ -222,7 +225,7 @@ def displayOrders(customer_emailid, con=None, cur=None, db=None):
         - list: list  containing data about the product, if query was successful
         - empty list: user have never placed a single order
     """
-    rows=[]
+    rows = []
     sql = """
     SELECT 
     products.product_id, 
@@ -238,4 +241,3 @@ def displayOrders(customer_emailid, con=None, cur=None, db=None):
     db(sql, (customer_emailid, ))
     rows = cur.fetchall()
     return rows or []
-

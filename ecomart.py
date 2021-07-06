@@ -1,5 +1,3 @@
-# pylint: disable=maybe-no-member
-
 import os
 from flask import Flask, flash, render_template, request, redirect
 import json
@@ -16,7 +14,11 @@ if 'DATABASE_URI' in os.environ:
     from db_connect import get_db
     from auth import auth as auth_blueprint
     from models import User
-    from db2Api.products import add_to_cart, getProductsbyCategory, getProductsUsingEmail, getAllProducts, createProducts, getProductUsingId, updateProduct, deleteProduct, getSellerDetail, buyProduct, displayOrders
+    from db2Api.products \
+        import addToCart, getProductsbyCategory, getProductsUsingEmail, \
+        getAllProducts, createProducts, getProductUsingId, \
+        updateProduct, deleteProduct, getSellerDetail,\
+        buyProduct, displayOrders
 else:
     raise ValueError('Env Var not found!')
 
@@ -59,16 +61,18 @@ def index():
     rows = getAllProducts()
     return render_template('index.html', current_user=user, products=rows)
 
+
 @app.route('/<string:category>')
 def filter(category):
     user = current_user if current_user.is_authenticated else None
-    #todo : fetch products with given categories
+    # todo : fetch products with given categories
     product_detail = getProductsbyCategory(category)
     print(product_detail)
 
-    return render_template('index.html', current_user = user, products = product_detail)
+    return render_template('index.html', current_user=user, products=product_detail)
 
-@app.route('/buynow/<int:id>', methods= ['POST'])
+
+@app.route('/buynow/<int:id>', methods=['POST'])
 # @login_required
 def buynow(id):
     user = current_user if current_user.is_authenticated else None
@@ -77,11 +81,12 @@ def buynow(id):
         # trial = request.form.get('trial', '')
         product_detail = getProductUsingId(id)
         quantity = int(quantity)
-        print(product_detail,quantity)
+        print(product_detail, quantity)
         # print(type(current_user.points))
-        return render_template('buynow.html', current_user=user, product= product_detail, quantity= quantity)
+        return render_template('buynow.html', current_user=user, product=product_detail, quantity=quantity)
 
-@app.route('/buy', methods= ['POST'])
+
+@app.route('/buy', methods=['POST'])
 @login_required
 def buy():
     if (current_user.category == 'buyer') and (request.method == 'POST'):
@@ -91,17 +96,18 @@ def buy():
         customer_emailid = request.form.get('user_emailid', '')
 
         # print("product:",product_id, quantity, price)
-        buyProduct(product_id=product_id,customer_emailid= customer_emailid,quantity=quantity, price= price)
+        buyProduct(product_id=product_id, customer_emailid=customer_emailid,
+                   quantity=quantity, price=price)
         return redirect(url_for('.dashboard'))
 
-@app.route('/addtocart/<int:id>', methods=['POST'])
-def add_to_cart(id):
 
+@app.route('/addtocart/<int:id>', methods=['POST'])
+def add_to_cart_post(id):
     # product = Product.query.filter(Product.id == product_id)
     product_detail = getProductUsingId(id)
     # cart_item = CartItem(product=product_detail)
     print(product_detail)
-    return render_template('addtocart.html', products=product_detail, current_user= current_user)
+    return render_template('addtocart.html', products=product_detail, current_user=current_user)
 
 
 @app.route('/add_product', methods=['GET', 'POST'])
@@ -146,7 +152,7 @@ def update_product(id):
                       description, image_url, price, quantity)
         rows = getProductsUsingEmail(current_user.emailid)
         product_detail = getProductUsingId(id)
-        
+
         # todo: flash message to indicate --- product details has been updated
         # flash("you are successfully updated product")
         return redirect(url_for('.dashboard'))
@@ -171,7 +177,7 @@ def dashboard():
 
     elif category == 'buyer':
         print('buyer has logged in ')
-        orders = displayOrders(current_user.emailid);
+        orders = displayOrders(current_user.emailid)
         # print(orders)
         return render_template('dashboard.html', current_user=current_user, orders=orders)
     else:
@@ -182,32 +188,21 @@ def dashboard():
 @app.route("/products/<id>/", methods=['GET'])
 @app.route("/products/<id>/<title>", methods=['GET'])
 def products(id, title=None):
-    if title == None:
-        #work in progress
-        # if title == None:
-        # TODO: Fetch only product-name from id, redirect to /product/<id>/<title>
-        # Replace spaces with dashes TODO: Also urlencode this string
-        # (some chars cannot come in a url)
-        #  title = "Fetch title from db".replace(" ", "-").lower()
-        #  if not id:
-        #      return redirect(f"{id}/{title}")
-        #  else:
-        #      return redirect(f"{title}")
-        if title == None or id == None:
-            user = current_user if current_user.is_authenticated else None
+    product = getProductUsingId(id)
+    dbTitle = product[0][3].replace(" ", "-").lower()
 
-        return redirect(url_for('.index'))
-    else:
-        seller = getSellerDetail(id)
-        product = getProductUsingId(id)
-        # print(product,seller)
-        return render_template("product.html", product=product, seller= seller)
+    if title == None or title != dbTitle:
+        if not id:
+            return redirect(f"{id}/{dbTitle}")
+        else:
+            return redirect(f"{dbTitle}")
 
-    # TODO: Fetch product from id, send details to the frontend
-    return render_template("product.html")
+    seller = getSellerDetail(id)
+    return render_template("product.html", product=product, seller=seller)
 
 
 @app.route("/products")
+@app.route("/products/")
 def productsWithNoId():
     return redirect(url_for("index"))
 
