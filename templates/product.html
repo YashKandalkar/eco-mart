@@ -45,9 +45,9 @@
         id="product-image"
         class="img-thumbnail w-25 me-5 mb-4"
         alt="product image"
-        src="{{product[2]}}"
+        src="{{url_for('static', filename=product[2][7:]) if product[2].startswith('static') else product[2]}}"
       />
-      <div class="media-body">
+      <div class="media-body w-100">
         <h5 class="mt-0 d-flex align-items-center">
           {{product[4]}}<span class="badge bg-primary ms-2">category</span>
         </h5>
@@ -71,11 +71,11 @@
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
               <button
-                class="accordion-button"
+                class="accordion-button collapsed"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseOne"
-                aria-expanded="true"
+                aria-expanded="false"
                 aria-controls="collapseOne"
               >
                 Points / Coupons
@@ -88,7 +88,8 @@
               data-bs-parent="#pointsAccordion"
             >
               <div class="accordion-body">
-                <strong>You have {{current_user.points}} points!</strong> <br />
+                <strong>You have {{current_user.points}} points!</strong>
+                <br />
                 You can use these to get a discount on the M.R.P.
               </div>
             </div>
