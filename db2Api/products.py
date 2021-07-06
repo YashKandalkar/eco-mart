@@ -1,7 +1,6 @@
 import os
 import json
 from threading import current_thread
-# import requests
 import urllib.request
 # from werkzeug.utils import secure_filename
 from .users import getUserUsingEmail
@@ -76,6 +75,10 @@ def assignPoints(category, con=None, cur=None, db=None):
         return 5
 
 
+
+    
+
+
 @useDb(defaultReturn=False)
 def createProducts(emailid, product_name, category, description, image_url,  price, quantity, con=None, cur=None, db=None):
     """
@@ -132,6 +135,26 @@ def getSellerDetail(id=id, con=None, cur=None, db=None):
 
 
 @useDb(defaultReturn=False)
+def updateUserPoints(remaining_points, emailid, con=None, cur=None, db=None):
+    """
+    Tries to update users points 
+
+    Returns:
+        - perform updating operation
+        - False: If query was unsuccessful
+    """
+    sql = """UPDATE users
+            SET 
+            points = %s 
+            WHERE 
+            emailid=%s """
+    db(sql, (remaining_points,
+             emailid
+             ))
+    con.commit()
+
+
+@useDb(defaultReturn=False)
 def getProductUsingId(id=id, con=None, cur=None, db=None):
     """
     Tries to fetch product data from database.
@@ -146,7 +169,10 @@ def getProductUsingId(id=id, con=None, cur=None, db=None):
 
     rows = cur.fetchall()
     # TODO: return rows[0] if len(rows) > 0. ALSO, change all the places where this func is used.
-    return rows or []
+    if len(rows)>0:
+        return rows[0]
+    else:
+        return []
 
 
 @useDb(defaultReturn=False)

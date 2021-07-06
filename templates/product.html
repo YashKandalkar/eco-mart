@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block title %}{{product[0][3]}}{% endblock %}
+{% extends "base.html" %} {% block title %}{{product[3]}}{% endblock %}
 
 <!-- LOGIN FORM -->
 {% block loginForm %} {% if current_user.firstname %}
@@ -38,32 +38,32 @@
 {% block content %}
 <div class="container-fluid">
   <div class="container-sm my-5">
-    <h1>{{product[0][3]}}</h1>
+    <h1>{{product[3]}}</h1>
     <hr />
     <div class="media d-sm-flex">
       <img
         id="product-image"
         class="img-thumbnail w-25 me-5 mb-4"
         alt="product image"
-        src="{{product[0][2]}}"
+        src="{{product[2]}}"
       />
       <div class="media-body">
         <h5 class="mt-0 d-flex align-items-center">
-          {{product[0][4]}}<span class="badge bg-primary ms-2">category</span>
+          {{product[4]}}<span class="badge bg-primary ms-2">category</span>
         </h5>
         <!-- to do: fetch supplier's name -->
         <p class="text-muted">
           Sold by <a href="#">{{seller[0][3]}} {{seller[0][4]}}</a>
         </p>
-        {% if product[0][7] > 10 %}
+        {% if product[7] > 10 %}
         <p class="text-success">In Stock</p>
         {% else %}
-        <p class="text-danger fw-bolder">Only {{product[0][7]}} left!</p>
+        <p class="text-danger fw-bolder">Only {{product[7]}} left!</p>
         {% endif %}
-        <p>(Description) {{product[0][5]}}</p>
+        <p>(Description) {{product[5]}}</p>
         <hr />
         <blockquote class="blockquote ms-4">
-          <p class="">M.R.P.: ₹{{product[0][6]}}</p>
+          <p class="">M.R.P.: ₹{{product[6]}}</p>
         </blockquote>
         <hr />
 
@@ -96,7 +96,7 @@
         </div>
 
         <div class="d-flex my-3 justify-content-end">
-          <form action="/addToCart/{{product[0][0]}}" method="POST">
+          <form action="/addToCart/{{product[0]}}" method="POST">
             <div class="def-number-input number-input safari_only mb-0 w-100">
               <button
                 onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
@@ -117,7 +117,7 @@
             <hr />
             <button
               class="btn btn-outline-primary me-2"
-              formaction="/addtocart/{{product[0][0]}}"
+              formaction="/addtocart/{{product[0]}}"
               method="POST"
               type="submit"
             >
@@ -127,7 +127,7 @@
             <button
               class="btn btn-success"
               type="submit"
-              formaction="/buynow/{{product[0][0]}}"
+              formaction="/buynow/{{product[0]}}"
               method="POST"
             >
               Buy Now<i class="bi bi-arrow-right d-none d-sm-inline ms-2"></i>

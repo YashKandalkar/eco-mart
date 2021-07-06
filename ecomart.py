@@ -18,7 +18,7 @@ if 'DATABASE_URI' in os.environ:
         import addToCart, getProductsbyCategory, getProductsUsingEmail, \
         getAllProducts, createProducts, getProductUsingId, \
         updateProduct, deleteProduct, getSellerDetail,\
-        buyProduct, displayOrders
+        buyProduct, displayOrders, updateUserPoints
 else:
     raise ValueError('Env Var not found!')
 
@@ -65,7 +65,7 @@ def index():
 @app.route('/<string:category>')
 def filter(category):
     user = current_user if current_user.is_authenticated else None
-    # todo : fetch products with given categories
+    # TODO : fetch products with given categories
     product_detail = getProductsbyCategory(category)
     print(product_detail)
 
@@ -92,9 +92,11 @@ def buy():
     if (current_user.category == 'buyer') and (request.method == 'POST'):
         product_id = request.form.get('product_id', '')
         quantity = request.form.get('quantity', '')
+        remaining_points = request.form.get('remaining_points', '')
         price = request.form.get('price', '')
         customer_emailid = request.form.get('user_emailid', '')
-
+        print(remaining_points)
+        updateUserPoints(remaining_points= remaining_points, emailid = customer_emailid)
         # print("product:",product_id, quantity, price)
         buyProduct(product_id=product_id, customer_emailid=customer_emailid,
                    quantity=quantity, price=price)
@@ -153,7 +155,7 @@ def update_product(id):
         rows = getProductsUsingEmail(current_user.emailid)
         product_detail = getProductUsingId(id)
 
-        # todo: flash message to indicate --- product details has been updated
+        # TODO: flash message to indicate --- product details has been updated
         # flash("you are successfully updated product")
         return redirect(url_for('.dashboard'))
     elif (current_user.category == 'seller'):
@@ -189,7 +191,7 @@ def dashboard():
 @app.route("/products/<id>/<title>", methods=['GET'])
 def products(id, title=None):
     product = getProductUsingId(id)
-    dbTitle = product[0][3].replace(" ", "-").lower()
+    dbTitle = product[3].replace(" ", "-").lower()
 
     if title == None or title != dbTitle:
         if not id:
