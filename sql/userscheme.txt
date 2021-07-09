@@ -25,6 +25,15 @@ create table products(
 );
 
 
+CREATE TABLE cart
+(
+    emailid character varying(25)[],
+    product_id bigint,
+    status boolean[],
+    PRIMARY KEY (emailid)
+);
+
+---not this---
 CREATE TABLE public.cart
 (
     emailid character varying(25)[],
@@ -35,6 +44,8 @@ CREATE TABLE public.cart
 
 ALTER TABLE public.cart
     OWNER to onfxuquwaanryd;
+    
+-- not this --
 
 create table orders(
 	order_id  SERIAL  primary key,
