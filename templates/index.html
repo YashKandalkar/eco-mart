@@ -204,16 +204,10 @@
           <p class="price">Price: &#8377;{{i[6]}}</p>
         </a>
         <ul class="list-group list-group-flush">
-          <!-- <form action="/buynow/{{i[0]}}" method="post">
-            <button type="submit">Buy Now</button>
-          </form> -->
-          <button
-            style="border-radius: 0px 0px 5px 5px"
-            onclick="window.location.href = './addtocart.html';"
-          >
-            Add to Cart
-          </button>
-        </ul>
+          <form action="/addtocart/{{i[0]}}" method="post">
+            <button type="submit">Add to Cart</button>
+          </form>
+          </ul>
       </div>
     </div>
     {%endfor%}

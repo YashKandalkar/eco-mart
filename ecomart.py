@@ -15,7 +15,7 @@ if 'DATABASE_URI' in os.environ:
     from auth import auth as auth_blueprint
     from models import User
     from db2Api.products \
-        import addToCart, getProductsbyCategory, getProductsUsingEmail, \
+        import addToCartPost, getProductsbyCategory, getProductsUsingEmail, \
         getAllProducts, createProducts, getProductUsingId, \
         updateProduct, deleteProduct, getSellerDetail,\
         buyProduct, displayOrders, updateUserPoints
@@ -109,7 +109,10 @@ def add_to_cart_post(id):
     product_detail = getProductUsingId(id)
     # cart_item = CartItem(product=product_detail)
     print(product_detail)
-    return render_template('addtocart.html', products=product_detail, current_user=current_user)
+    addToCartPost(current_user.emailid, product_detail[0], product_detail[6])
+    # addToCartPost(emailid, product_id, quantitiy, price,  con=None, cur=None, db=None):
+    # return redirect(url_for('.dashboard'))
+    return render_template('cart.html', products=product_detail, current_user=current_user)
 
 
 @app.route('/add_product', methods=['GET', 'POST'])

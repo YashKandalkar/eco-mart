@@ -41,17 +41,35 @@ def getProductsbyCategory(category, con=None, cur=None, db=None):
 
 
 @useDb(defaultReturn=[])
-def addToCart(id=id, con=None, cur=None, db=None):
+def addToCartPost(emailid, product_id, price,  con=None, cur=None, db=None):
 
-    sql = "SELECT id FROM cart where email = email  "
+    # sql = "SELECT id FROM cart where email = email  "
+    sql = """Insert into cart(
+        emailid,
+        product_id,
+        price
+        
+    ) values (%s,%s,%s)"""
 
-    rows = []
+    db(sql, (emailid,
+             product_id,
+             price
+            ) )
+    con.commit()
+# addToCart(current_user.emailid, product_detail[0], product_detail[1], product_detail[2],product_detail[3], product_detail[6], product_detail[7])
+#   product_id  SERIAL  primary key,
+# 	seller_emailid varchar(25),
+# 	image_path varchar(200),
+# 	product_name varchar(25),
+# 	product_category varchar(25),
+# 	description Text,
+# 	price int,
+# 	quantity int
 
-    db(sql, (id, ))
-    rows = cur.fetchall()
-    return rows or []
 
 
+
+   
 @useDb(defaultReturn=[])
 def getAllProducts(con=None, cur=None, db=None):
     sql = "SELECT * FROM products"
