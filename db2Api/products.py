@@ -41,18 +41,20 @@ def getProductsbyCategory(category, con=None, cur=None, db=None):
 
 
 @useDb(defaultReturn=[])
-def addToCartPost(emailid, product_id, price,  con=None, cur=None, db=None):
+def addToCartPost(emailid, product_id, quantity, price,  con=None, cur=None, db=None):
 
     # sql = "SELECT id FROM cart where email = email  "
     sql = """Insert into cart(
         emailid,
         product_id,
+        quantity,
         price
         
-    ) values (%s,%s,%s)"""
+    ) values (%s,%s,%s,%s)"""
 
     db(sql, (emailid,
              product_id,
+             quantity,
              price
             ) )
     con.commit()
@@ -260,6 +262,7 @@ def buyProduct(product_id, customer_emailid, quantity, price, con=None, cur=None
     con.commit()
 
 
+
 @useDb(defaultReturn=[])
 def displayOrders(customer_emailid, con=None, cur=None, db=None):
     """
@@ -285,3 +288,16 @@ def displayOrders(customer_emailid, con=None, cur=None, db=None):
     db(sql, (customer_emailid, ))
     rows = cur.fetchall()
     return rows or []
+
+@useDb(defaultReturn=False)
+def deleteFromCart(id, emailid, con=None, cur=None, db=None):
+    """
+    Tries to delete selected product from cart.
+
+    Returns:
+        - perform deleting operation
+        - False: If query was unsuccessful
+    """
+    sql = "DELETE FROM cart WHERE product_id=%s and emailid=%s"
+    db(sql, (id,emailid, ))
+    con.commit()

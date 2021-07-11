@@ -204,10 +204,11 @@
           <p class="price">Price: &#8377;{{i[6]}}</p>
         </a>
         <ul class="list-group list-group-flush">
-          <form action="/addtocart/{{i[0]}}" method="post">
+          <form action="/addToCart/{{i[0]}}" method="post">
+            <input type="hidden" value="1" name="quantity" />
             <button type="submit">Add to Cart</button>
           </form>
-          </ul>
+        </ul>
       </div>
     </div>
     {%endfor%}

@@ -26,69 +26,71 @@ loginForm %}
 </style>
 <div class="container-md">
   <h1 class="my-4">My Cart</h1>
-  <div class="border px-4">
-    {% for i in [1, 2, 3] %}
-    <div
-      id="product-{{ i }}"
-      class="card shadow-none d-flex flex-row position-relative my-4"
-      style="max-width: unset; min-height: 150px"
-    >
-      <i
-        onclick="onDeleteClick({{ i }})"
-        class="bi bi-trash-fill fs-4"
-        style="
-          position: absolute;
-          right: 15px;
-          top: 15px;
-          color: rgb(185, 34, 34);
-        "
-      ></i>
-      <img
-        src="{{ url_for('static', filename='coca-leaves.png') }}"
-        class="card-img-top align-self-center ms-3"
-        alt="Product image"
-        style="width: 20vmin"
-      />
-      <div class="card-body d-flex align-items-start flex-column">
-        <h5 class="card-title">Product - {{ i }}</h5>
-        <p class="card-text">Smol description</p>
-        <div class="flex-nowrap input-group mb-3" style="max-height: 40px">
-          <button
-            type="button"
-            id="minus-button-{{ i }}"
-            style="max-width: 40px; background-color: #0d6efd"
-            class="disabled btn btn-primary ms-auto p-0"
-            onclick="onMinusClick({{ i }})"
-          >
-            <i class="bi bi-dash-lg"></i>
-          </button>
-          <input
-            id="quantity-input-{{ i }}"
-            type="number"
-            value="1"
-            onchange="onInputChange(event)"
-            class="form-control text-center"
-            aria-label="Quantity"
-            style="max-width: 60px"
-          />
-          <button
-            id="plus-button-{{ i }}"
-            onclick="onPlusClick({{ i }})"
-            type="button"
-            class="btn btn-primary p-0"
-            style="max-width: 40px; background-color: #0d6efd"
-          >
-            <i class="bi bi-plus-lg"></i>
-          </button>
+  <form action="/billing" method="post">
+    <div class="border px-4">
+      {% for i in [1, 2, 3] %}
+      <div
+        id="product-{{ i }}"
+        class="card shadow-none d-flex flex-row position-relative my-4"
+        style="max-width: unset; min-height: 150px"
+      >
+        <i
+          onclick="onDeleteClick({{ i }})"
+          class="bi bi-trash-fill fs-4"
+          style="
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            color: rgb(185, 34, 34);
+          "
+        ></i>
+        <img
+          src="{{ url_for('static', filename='coca-leaves.png') }}"
+          class="card-img-top align-self-center ms-3"
+          alt="Product image"
+          style="width: 20vmin"
+        />
+        <div class="card-body d-flex align-items-start flex-column">
+          <h5 class="card-title">Product - {{ i }}</h5>
+          <p class="card-text">Smol description</p>
+          <div class="flex-nowrap input-group mb-3" style="max-height: 40px">
+            <button
+              type="button"
+              id="minus-button-{{ i }}"
+              style="max-width: 40px; background-color: #0d6efd"
+              class="disabled btn btn-primary ms-auto p-0"
+              onclick="onMinusClick({{ i }})"
+            >
+              <i class="bi bi-dash-lg"></i>
+            </button>
+            <input
+              id="quantity-input-{{ i }}"
+              type="number"
+              value="1"
+              onchange="onInputChange(event)"
+              class="form-control text-center"
+              aria-label="Quantity"
+              style="max-width: 60px"
+            />
+            <button
+              id="plus-button-{{ i }}"
+              onclick="onPlusClick({{ i }})"
+              type="button"
+              class="btn btn-primary p-0"
+              style="max-width: 40px; background-color: #0d6efd"
+            >
+              <i class="bi bi-plus-lg"></i>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    {% endfor %}
+      {% endfor %}
 
-    <button class="btn btn-success mb-4 d-block ms-auto">
-      Proceed to checkout
-    </button>
-  </div>
+      <button type="submit" class="btn btn-success mb-4 d-block ms-auto">
+        Proceed to checkout
+      </button>
+    </div>
+  </form>
   <!-- DELETE MODAL -->
   <div class="modal" tabindex="-1" id="deleteModal">
     <div class="modal-dialog">
@@ -165,9 +167,7 @@ loginForm %}
     let product = document.getElementById("product-" + buttonId.toString());
     let title = product.querySelector(".card-title");
     document.getElementById("product-name").innerHTML =
-      "Are you sure you want to remove " +
-      title.innerHTML +
-      " from your cart?";
+      "Are you sure you want to remove " + title.innerHTML + " from your cart?";
     myModal.show();
   }
 

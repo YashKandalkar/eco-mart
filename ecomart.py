@@ -18,7 +18,8 @@ if 'DATABASE_URI' in os.environ:
         import addToCartPost, getProductsbyCategory, getProductsUsingEmail, \
         getAllProducts, createProducts, getProductUsingId, \
         updateProduct, deleteProduct, getSellerDetail,\
-        buyProduct, displayOrders, updateUserPoints
+        buyProduct, displayOrders, updateUserPoints,\
+        deleteFromCart
 else:
     raise ValueError('Env Var not found!')
 
@@ -65,7 +66,6 @@ def index():
 @app.route('/<string:category>')
 def filter(category):
     user = current_user if current_user.is_authenticated else None
-    # TODO : fetch products with given categories
     product_detail = getProductsbyCategory(category)
     print(product_detail)
 
@@ -73,7 +73,7 @@ def filter(category):
 
 
 @app.route('/buynow/<int:id>', methods=['POST'])
-# @login_required
+@login_required
 def buynow(id):
     user = current_user if current_user.is_authenticated else None
     if (current_user.category == 'buyer') and (request.method == 'POST'):
@@ -84,6 +84,8 @@ def buynow(id):
         print(product_detail, quantity)
         # print(type(current_user.points))
         return render_template('buynow.html', current_user=user, product=product_detail, quantity=quantity)
+    else:
+        return redirect(url_for('.dashboard'))
 
 
 @app.route('/buy', methods=['POST'])
@@ -102,17 +104,6 @@ def buy():
                    quantity=quantity, price=price)
         return redirect(url_for('.dashboard'))
 
-
-@app.route('/addtocart/<int:id>', methods=['POST'])
-def add_to_cart_post(id):
-    # product = Product.query.filter(Product.id == product_id)
-    product_detail = getProductUsingId(id)
-    # cart_item = CartItem(product=product_detail)
-    print(product_detail)
-    addToCartPost(current_user.emailid, product_detail[0], product_detail[6])
-    # addToCartPost(emailid, product_id, quantitiy, price,  con=None, cur=None, db=None):
-    # return redirect(url_for('.dashboard'))
-    return render_template('cart.html', products=product_detail, current_user=current_user)
 
 
 @app.route('/add_product', methods=['GET', 'POST'])
@@ -212,12 +203,32 @@ def productsWithNoId():
     return redirect(url_for("index"))
 
 
-@app.route('/addToCart', methods=['GET', 'POST'])
+# @app.route('/addToCart', methods=['GET', 'POST'])
+
+
+@app.route('/addToCart/<int:id>', methods=['GET', 'POST'])
+@login_required
+def add_to_cart_post(id):
+    if (current_user.category == 'buyer') and (request.method == 'POST'):
+        product_detail = getProductUsingId(id)
+        quantity = request.form.get('quantity', '')
+        quantity = int(quantity)
+        print(product_detail)
+        addToCartPost(current_user.emailid, product_detail[0], quantity, product_detail[6])
+        # addToCartPost(emailid, product_id, quantitiy, price,  con=None, cur=None, db=None):
+        # return redirect(url_for('.dashboard'))
+        return render_template('cart.html', products=product_detail, current_user=current_user)
+    else:
+        return redirect(url_for('.dashboard'))
+
 @app.route('/cart', methods=['GET', 'POST'])
 @login_required
 def cart():
     return render_template('cart.html')
 
+@app.route("/composeBlog")
+def composeBlog():
+    return render_template("add_blog.html")
 
 port = os.getenv('PORT', '5000')
 env = os.getenv("FLASK_ENV", "production")

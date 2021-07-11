@@ -95,11 +95,13 @@
             </div>
           </div>
         </div>
-
+        {% if current_user.category == "buyer" or current_user.category !=
+        "seller" %}
         <div class="d-flex my-3 justify-content-end">
           <form action="/addToCart/{{product[0]}}" method="POST">
             <div class="def-number-input number-input safari_only mb-0 w-100">
               <button
+                type="button"
                 onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
                 class="minus decrease"
               ></button>
@@ -111,14 +113,16 @@
                 type="number"
               />
               <button
+                type="button"
                 onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
                 class="plus increase"
               ></button>
             </div>
             <hr />
+
             <button
               class="btn btn-outline-primary me-2"
-              formaction="/addtocart/{{product[0]}}"
+              formaction="/addToCart/{{product[0]}}"
               method="POST"
               type="submit"
             >
@@ -133,6 +137,7 @@
             >
               Buy Now<i class="bi bi-arrow-right d-none d-sm-inline ms-2"></i>
             </button>
+            {% endif %}
           </form>
         </div>
       </div>
