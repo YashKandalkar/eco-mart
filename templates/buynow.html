@@ -84,22 +84,22 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {% set count = 1%}
                       
+                
                       
                       <tr>
-                        <th scope="row">{{ count }}</th>
+                        <th scope="row">{{ 1 }}</th>
                         <td>{{ product[3] }}</td>
                         <td>{{ quantity }}</td>
                         <td>{{ product[6] }}</td>
                         
                       </tr>
-                     
-                      
+             
                     </tbody>
                   </table>
             </div>
             <div class="d-flex justify-content-end">
+              <!-- if condition is req -->
                   <form action="/buy" method="post">
                     <input type="hidden" name="product_id"  value="{{product[0]}}">
                     <input type="hidden" name="price"  value="{{total_price}}">

@@ -19,7 +19,8 @@ if 'DATABASE_URI' in os.environ:
         getAllProducts, createProducts, getProductUsingId, \
         updateProduct, deleteProduct, getSellerDetail,\
         buyProduct, displayOrders, updateUserPoints,\
-        deleteFromCart
+        deleteFromCart, CartItemsUsingEmailid, calculateCart,\
+        buyCartItems
 else:
     raise ValueError('Env Var not found!')
 
@@ -77,9 +78,11 @@ def filter(category):
 def buynow(id):
     user = current_user if current_user.is_authenticated else None
     if (current_user.category == 'buyer') and (request.method == 'POST'):
+        # product = []
         quantity = request.form.get('quantity', '')
         # trial = request.form.get('trial', '')
         product_detail = getProductUsingId(id)
+        # product.append(product_detail)
         quantity = int(quantity)
         print(product_detail, quantity)
         # print(type(current_user.points))
@@ -97,6 +100,8 @@ def buy():
         remaining_points = request.form.get('remaining_points', '')
         price = request.form.get('price', '')
         customer_emailid = request.form.get('user_emailid', '')
+        price= int(price)
+        quantity = int(quantity)
         print(remaining_points)
         updateUserPoints(remaining_points= remaining_points, emailid = customer_emailid)
         # print("product:",product_id, quantity, price)
@@ -226,13 +231,38 @@ def add_to_cart_post(id):
 def cart():
     return render_template('cart.html')
 
+
+@app.route('/cartBilling', methods=['POST'])
+@login_required
+def cartBilling():
+    cart_products = CartItemsUsingEmailid(current_user.emailid)
+    print(cart_products)
+    total_price, total_points = calculateCart(cart_products)
+    return render_template('buyCart.html', products=cart_products, total_price= total_price, total_points=total_points)
+
+
+@app.route('/buyCart', methods=['POST'])
+@login_required
+def buyCart():
+    if (current_user.category == 'buyer') and (request.method == 'POST'):
+        # product_id = request.form.get('product_id', '')
+        # quantity = request.form.get('quantity', '')
+        remaining_points = request.form.get('remaining_points', '')
+        price = request.form.get('total_price', '')
+        customer_emailid = request.form.get('user_emailid', '')
+        print(remaining_points)
+        updateUserPoints(remaining_points= remaining_points, emailid = customer_emailid)
+        cart_products = CartItemsUsingEmailid(current_user.emailid)
+        # print("product:",product_id, quantity, price)
+        buyCartItems(cart_products=cart_products, price=price)
+        return redirect(url_for('.dashboard'))
+
 @app.route("/composeBlog")
 def composeBlog():
     return render_template("add_blog.html")
 
 port = os.getenv('PORT', '5000')
 env = os.getenv("FLASK_ENV", "production")
-
 
 @atexit.register
 def shutdown():

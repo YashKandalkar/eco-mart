@@ -258,7 +258,7 @@ def buyProduct(product_id, customer_emailid, quantity, price, con=None, cur=None
     db(sql, (customer_emailid,
              product_id,
              quantity,
-             price))
+             price*quantity))
     con.commit()
 
 
@@ -301,3 +301,53 @@ def deleteFromCart(id, emailid, con=None, cur=None, db=None):
     sql = "DELETE FROM cart WHERE product_id=%s and emailid=%s"
     db(sql, (id,emailid, ))
     con.commit()
+
+@useDb(defaultReturn=False)
+def CartItemsUsingEmailid(emailid, con=None, cur=None, db=None):
+    sql = """
+    SELECT 
+    products.product_id,    
+    products.product_name,
+    products.product_category,
+    cart.emailid, 
+    cart.quantity, 
+    cart.price,
+    products.points 
+    FROM products 
+    INNER JOIN cart 
+    ON cart.emailid = %s AND products.product_id = cart.product_id
+    """
+
+    rows = []
+
+    db(sql, (emailid, ))
+    rows = cur.fetchall()
+    return rows or []
+
+@useDb(defaultReturn=False)
+def calculateCart(cart_products, con=None, cur=None, db=None):
+    total_price = total_points = 0
+    for product in cart_products:
+        total_price += product[4] * product[5]
+        total_points += product[4] * product[6]
+    return total_price,total_points
+
+@useDb(defaultReturn=False)
+def buyCartItems(cart_products, price, con=None, cur=None, db=None):
+    for product in cart_products:
+        sql = """INSERT INTO orders (
+            customer_emailid,
+            product_id,
+            quantity,
+            price
+            )
+            values(%s,%s,%s,%s)"""
+        db(sql, (product[3],
+                product[0],
+                product[4],
+                product[5]*product[4]))
+        con.commit()
+        deleteFromCart(product[0],product[3])
+    
+
+
