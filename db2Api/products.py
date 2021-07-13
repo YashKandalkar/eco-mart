@@ -319,7 +319,7 @@ def CartItemsUsingEmailid(emailid, con=None, cur=None, db=None):
     SELECT 
     products.product_id,    
     products.product_name,
-    products.product_category,
+    products.description,
     cart.emailid, 
     cart.quantity, 
     cart.price,

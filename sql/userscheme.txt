@@ -25,12 +25,13 @@ create table products(
 );
 
 CREATE TABLE cart (
-    emailid varchar(25),
+    id SERIAL NOT NULL,
+	emailid varchar(25),
     product_id int,
 	quantity int NOT NULL DEFAULT 1,
 	price int,
 	status boolean not null DEFAULT FALSE,
-	PRIMARY KEY (emailid)
+	PRIMARY KEY (id)
 );
 
 create table orders(

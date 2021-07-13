@@ -217,14 +217,17 @@ def add_to_cart_post(id):
         addToCartPost(current_user.emailid, product_detail[0], quantity, product_detail[6])
         # addToCartPost(emailid, product_id, quantitiy, price,  con=None, cur=None, db=None):
         # return redirect(url_for('.dashboard'))
-        return render_template('cart.html', products=product_detail, current_user=current_user)
+        # return render_template('cart.html', products=product_detail, current_user=current_user)
+        return redirect(url_for('.cart'))
     else:
         return redirect(url_for('.dashboard'))
 
 @app.route('/cart', methods=['GET', 'POST'])
 @login_required
 def cart():
-    return render_template('cart.html')
+    products = CartItemsUsingEmailid(current_user.emailid)
+
+    return render_template('cart.html', products = products, current_user = current_user)
 
 
 @app.route('/cartBilling', methods=['POST'])

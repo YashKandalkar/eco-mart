@@ -28,14 +28,14 @@ loginForm %}
   <h1 class="my-4">My Cart</h1>
   <form action="/cartBilling" method="post">
     <div class="border px-4">
-      {% for i in [1, 2, 3] %}
+      {% for product in products %}
       <div
         id="product-{{ i }}"
         class="card shadow-none d-flex flex-row position-relative my-4"
         style="max-width: unset; min-height: 150px"
       >
         <i
-          onclick="onDeleteClick({{ i }})"
+          
           class="bi bi-trash-fill fs-4"
           style="
             position: absolute;
@@ -44,6 +44,8 @@ loginForm %}
             color: rgb(185, 34, 34);
           "
         ></i>
+
+        <!-- onclick="onDeleteClick({{ i }})" -->
         <img
           src="{{ url_for('static', filename='coca-leaves.png') }}"
           class="card-img-top align-self-center ms-3"
@@ -51,16 +53,17 @@ loginForm %}
           style="width: 20vmin"
         />
         <div class="card-body d-flex align-items-start flex-column">
-          <h5 class="card-title">Product - {{ i }}</h5>
-          <p class="card-text">Smol description</p>
+          <h5 class="card-title">{{product[1]}} </h5>
+          <p class="card-text">{{product[2]}}</p>
           <div class="flex-nowrap input-group mb-3" style="max-height: 40px">
             <button
               type="button"
               id="minus-button-{{ i }}"
               style="max-width: 40px; background-color: #0d6efd"
               class="disabled btn btn-primary ms-auto p-0"
-              onclick="onMinusClick({{ i }})"
+              
             >
+            <!-- onclick="onMinusClick({{ i }})" -->
               <i class="bi bi-dash-lg"></i>
             </button>
             <input
@@ -73,12 +76,14 @@ loginForm %}
               style="max-width: 60px"
             />
             <button
-              id="plus-button-{{ i }}"
-              onclick="onPlusClick({{ i }})"
+              
               type="button"
               class="btn btn-primary p-0"
               style="max-width: 40px; background-color: #0d6efd"
             >
+
+            <!-- id="plus-button-{{ i }}"
+              onclick="onPlusClick({{ i }})" -->
               <i class="bi bi-plus-lg"></i>
             </button>
           </div>
@@ -86,9 +91,17 @@ loginForm %}
       </div>
       {% endfor %}
 
+      {%if products|length != 0%}
       <button type="submit" class="btn btn-success mb-4 d-block ms-auto">
         Proceed to checkout
       </button>
+      {% else %}
+        <p style ="position: center;
+        margin-left: 40%;
+        
+        color: rgb(185, 34, 34);
+      " >No Items in your cart. Go Shopping!</p>
+      {%endif%}
     </div>
   </form>
   <!-- DELETE MODAL -->
