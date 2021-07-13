@@ -98,6 +98,7 @@
           </div>
           <div class="d-flex justify-content-end">
             <!-- if condition is req -->
+              {% if cart==True %}
                 <form action="/buyCart" method="POST">
                   <!-- <input type="hidden" name="product_id"  value="{{products[0][0]}}"> -->
                   <!-- <input type="hidden" name="total_price"  value="{{ total_price }}"> -->
@@ -108,6 +109,18 @@
 
                   <button type="submit" class="btn btn-success mb-4">Proceed to buy</button>
                 </form>
+              {% else %}
+              <form action="/buy" method="post">
+                <input type="hidden" name="product_id"  value="{{products[0][0]}}">
+                <input type="hidden" name="price"  value="{{total_price}}">
+                <input type="hidden" name="quantity"  value="{{ products[0][4] }}">
+                <input type="hidden" name="remaining_points"  value="{{ remaining_points }}">
+
+                <input type="hidden" name="user_emailid"  value="{{ current_user.emailid }}">
+
+                <button type="submit" class="btn btn-success mb-4">Proceed to buy</button>
+              </form>
+              {% endif %}
           </div>
       </div>
   </div>

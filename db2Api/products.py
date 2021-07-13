@@ -193,6 +193,18 @@ def getProductUsingId(id=id, con=None, cur=None, db=None):
     else:
         return []
 
+@useDb(defaultReturn=False)
+def getProduct(id, user_emailid, quantity, con=None, cur=None, db=None):
+    rows = []
+    sql = "SELECT product_id,product_name, product_category, price, points FROM products where product_id = %s"
+    db(sql, (id, ))
+    rows = cur.fetchall()
+    temp = list(rows[0])
+    temp.insert(3, user_emailid)
+    temp.insert(4, quantity)
+    rows[0] = tuple(temp)
+    return rows
+
 
 @useDb(defaultReturn=False)
 def updateProduct(seller_emailid, id, product_name, category, description, image_url, price, quantity, con=None, cur=None, db=None):
@@ -329,7 +341,7 @@ def calculateCart(cart_products, con=None, cur=None, db=None):
     for product in cart_products:
         total_price += product[4] * product[5]
         total_points += product[4] * product[6]
-    return total_price,total_points
+    return total_price, total_points
 
 @useDb(defaultReturn=False)
 def buyCartItems(cart_products, con=None, cur=None, db=None):
