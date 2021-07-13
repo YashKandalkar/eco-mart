@@ -74,7 +74,7 @@ def addToCartPost(emailid, product_id, quantity, price,  con=None, cur=None, db=
    
 @useDb(defaultReturn=[])
 def getAllProducts(con=None, cur=None, db=None):
-    sql = "SELECT * FROM products"
+    sql = "SELECT * FROM products where quantity>=1"
 
     rows = []
 
@@ -188,7 +188,6 @@ def getProductUsingId(id=id, con=None, cur=None, db=None):
     db(sql, (id, ))
 
     rows = cur.fetchall()
-    # TODO: return rows[0] if len(rows) > 0. ALSO, change all the places where this func is used.
     if len(rows)>0:
         return rows[0]
     else:
@@ -260,7 +259,7 @@ def buyProduct(product_id, customer_emailid, quantity, price, con=None, cur=None
              quantity,
              price*quantity))
     con.commit()
-
+    updateInventory(product_id, quantity)
 
 
 @useDb(defaultReturn=[])
@@ -333,7 +332,7 @@ def calculateCart(cart_products, con=None, cur=None, db=None):
     return total_price,total_points
 
 @useDb(defaultReturn=False)
-def buyCartItems(cart_products, price, con=None, cur=None, db=None):
+def buyCartItems(cart_products, con=None, cur=None, db=None):
     for product in cart_products:
         sql = """INSERT INTO orders (
             customer_emailid,
@@ -345,9 +344,21 @@ def buyCartItems(cart_products, price, con=None, cur=None, db=None):
         db(sql, (product[3],
                 product[0],
                 product[4],
-                product[5]*product[4]))
+                product[4]*product[5]))
         con.commit()
+        updateInventory(product[0], product[4])
+
         deleteFromCart(product[0],product[3])
     
-
+@useDb(defaultReturn=False)
+def updateInventory(product_id, quantity_purchased , con=None, cur=None, db=None):
+    sql = """UPDATE products
+            SET 
+            quantity= quantity - %s 
+            WHERE 
+            product_id=%s """
+    db(sql, (
+             quantity_purchased,
+             product_id,))
+    con.commit()
 

@@ -20,7 +20,7 @@ if 'DATABASE_URI' in os.environ:
         updateProduct, deleteProduct, getSellerDetail,\
         buyProduct, displayOrders, updateUserPoints,\
         deleteFromCart, CartItemsUsingEmailid, calculateCart,\
-        buyCartItems
+        buyCartItems, updateInventory
 else:
     raise ValueError('Env Var not found!')
 
@@ -80,12 +80,10 @@ def buynow(id):
     if (current_user.category == 'buyer') and (request.method == 'POST'):
         # product = []
         quantity = request.form.get('quantity', '')
-        # trial = request.form.get('trial', '')
         product_detail = getProductUsingId(id)
         # product.append(product_detail)
         quantity = int(quantity)
         print(product_detail, quantity)
-        # print(type(current_user.points))
         return render_template('buynow.html', current_user=user, product=product_detail, quantity=quantity)
     else:
         return redirect(url_for('.dashboard'))
@@ -104,7 +102,6 @@ def buy():
         quantity = int(quantity)
         print(remaining_points)
         updateUserPoints(remaining_points= remaining_points, emailid = customer_emailid)
-        # print("product:",product_id, quantity, price)
         buyProduct(product_id=product_id, customer_emailid=customer_emailid,
                    quantity=quantity, price=price)
         return redirect(url_for('.dashboard'))
@@ -248,13 +245,13 @@ def buyCart():
         # product_id = request.form.get('product_id', '')
         # quantity = request.form.get('quantity', '')
         remaining_points = request.form.get('remaining_points', '')
-        price = request.form.get('total_price', '')
+        # price = request.form.get('total_price', '')
         customer_emailid = request.form.get('user_emailid', '')
         print(remaining_points)
         updateUserPoints(remaining_points= remaining_points, emailid = customer_emailid)
         cart_products = CartItemsUsingEmailid(current_user.emailid)
         # print("product:",product_id, quantity, price)
-        buyCartItems(cart_products=cart_products, price=price)
+        buyCartItems(cart_products=cart_products)
         return redirect(url_for('.dashboard'))
 
 @app.route("/composeBlog")
