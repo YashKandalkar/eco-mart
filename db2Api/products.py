@@ -309,7 +309,7 @@ def deleteFromCart(id, emailid, con=None, cur=None, db=None):
         - perform deleting operation
         - False: If query was unsuccessful
     """
-    sql = "DELETE FROM cart WHERE product_id=%s and emailid=%s"
+    sql = "DELETE FROM cart WHERE id=%s and emailid=%s"
     db(sql, (id,emailid, ))
     con.commit()
 
@@ -323,7 +323,9 @@ def CartItemsUsingEmailid(emailid, con=None, cur=None, db=None):
     cart.emailid, 
     cart.quantity, 
     cart.price,
-    products.points 
+    products.points,
+    products.image_path,
+    cart.id 
     FROM products 
     INNER JOIN cart 
     ON cart.emailid = %s AND products.product_id = cart.product_id

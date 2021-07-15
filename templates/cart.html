@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block title %}Dashboard{% endblock %} {% block
+{% extends "base.html" %} {% block title %}My Cart{% endblock %} {% block
 loginForm %}
 <form class="d-flex" action="/logout">
   <button class="btn btn-primary" type="submit">Logout</button>
@@ -30,11 +30,12 @@ loginForm %}
     <div class="border px-4">
       {% for product in products %}
       <div
-        id="product-{{ i }}"
+        id="product-{{ product[8] }}"
         class="card shadow-none d-flex flex-row position-relative my-4"
         style="max-width: unset; min-height: 150px"
       >
         <i
+          onclick="onDeleteClick({{ product[8] }})"
           class="bi bi-trash-fill fs-4"
           style="
             position: absolute;
@@ -46,7 +47,7 @@ loginForm %}
 
         <!-- onclick="onDeleteClick({{ i }})" -->
         <img
-          src="{{ url_for('static', filename='coca-leaves.png') }}"
+          src="{{ product[7]}}"
           class="card-img-top align-self-center ms-3"
           alt="Product image"
           style="width: 20vmin"
@@ -58,15 +59,16 @@ loginForm %}
           <div class="flex-nowrap input-group mb-3" style="max-height: 40px">
             <button
               type="button"
-              id="minus-button-{{ i }}"
+              id="minus-button-{{ product[8] }}"
               style="max-width: 40px; background-color: #0d6efd"
               class="disabled btn btn-primary ms-auto p-0"
+              onclick="onMinusClick({{ product[8] }})"
             >
               <!-- onclick="onMinusClick({{ i }})" -->
               <i class="bi bi-dash-lg"></i>
             </button>
             <input
-              id="quantity-input-{{ i }}"
+              id="quantity-input-{{ product[8] }}"
               type="number"
               value="{{product[4]}}"
               onchange="onInputChange(event)"
@@ -78,6 +80,8 @@ loginForm %}
               type="button"
               class="btn btn-primary p-0"
               style="max-width: 40px; background-color: #0d6efd"
+              id="plus-button-{{ product[8] }}"
+              onclick="onPlusClick({{ product[8] }})"
             >
               <!-- id="plus-button-{{ i }}"
               onclick="onPlusClick({{ i }})" -->
@@ -106,32 +110,43 @@ loginForm %}
   </form>
   <!-- DELETE MODAL -->
   <div class="modal" tabindex="-1" id="deleteModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Delete Product</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <p id="product-name">Are you sure you want to delete</p>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button type="button" class="btn btn-danger">Delete</button>
+    <form action="/cart" method="POST">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Delete Product</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p id="product-name">Are you sure you want to delete</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              method="POST"
+              type="submit"
+              class="btn btn-danger"
+              id="deletecartitem"
+              formaction="/deleteCartItem/product_id"
+            >
+              Delete
+            </button>
+            <!-- -->
+          </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 <script>
@@ -181,6 +196,9 @@ loginForm %}
     let title = product.querySelector(".card-title");
     document.getElementById("product-name").innerHTML =
       "Are you sure you want to remove " + title.innerHTML + " from your cart?";
+    document
+      .getElementById("deletecartitem")
+      .setAttribute("formaction", "/deleteCartItem/" + Number(buttonId));
     myModal.show();
   }
 

@@ -252,6 +252,14 @@ def buyCart():
         buyCartItems(cart_products=cart_products)
         return redirect(url_for('.dashboard'))
 
+@app.route('/deleteCartItem/<int:id>', methods=['POST'])
+@login_required
+def deletCartItem(id):
+    if (current_user.category == 'buyer') and (request.method == 'POST'):
+        deleteFromCart(id,current_user.emailid)
+        print("done")
+        return redirect(url_for('.cart'))
+
 @app.route("/composeBlog")
 def composeBlog():
     return render_template("add_blog.html")
