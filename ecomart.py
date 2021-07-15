@@ -82,6 +82,7 @@ def buynow(id):
         quantity = int(quantity)
         products = getProduct(id, current_user.emailid, quantity)
         total_price, total_points = calculateCart(products)
+        print(total_points, total_price)
         return render_template("buyCart.html",products= products, total_price = total_price, total_points = total_points, cart= False)
     else:
         return redirect(url_for('.dashboard'))
