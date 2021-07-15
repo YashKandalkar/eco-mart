@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block title %}Dashboard{% endblock %} {% block
+{% extends "base.html" %} {% block title %}My Cart{% endblock %} {% block
 loginForm %}
 <form class="d-flex" action="/logout">
   <button class="btn btn-primary" type="submit">Logout</button>
@@ -7,5 +7,212 @@ loginForm %}
 {% endblock %}
 <!-- CONTENT -->
 {% block content %}
-<p class="display-4">My Cart</p>
+<style>
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  .bi-trash-fill:hover {
+    cursor: pointer;
+  }
+</style>
+<div class="container-md">
+  <h1 class="my-4">My Cart</h1>
+  <form action="/cartBilling" method="post">
+    <div class="border px-4">
+      {% for product in products %}
+      <div
+        id="product-{{ product[8] }}"
+        class="card shadow-none d-flex flex-row position-relative my-4"
+        style="max-width: unset; min-height: 150px"
+      >
+        <i
+          onclick="onDeleteClick({{ product[8] }})"
+          class="bi bi-trash-fill fs-4"
+          style="
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            color: rgb(185, 34, 34);
+          "
+        ></i>
+
+        <!-- onclick="onDeleteClick({{ i }})" -->
+        <img
+          src="{{ product[7]}}"
+          class="card-img-top align-self-center ms-3"
+          alt="Product image"
+          style="width: 20vmin"
+        />
+        <div class="card-body d-flex align-items-start flex-column">
+          <h5 class="card-title">{{product[1]}}</h5>
+          <p class="card-text">{{product[2]}}</p>
+          <p class="card-text">Price: {{product[5] * product[4]}}</p>
+          <div class="flex-nowrap input-group mb-3" style="max-height: 40px">
+            <button
+              type="button"
+              id="minus-button-{{ product[8] }}"
+              style="max-width: 40px; background-color: #0d6efd"
+              class="disabled btn btn-primary ms-auto p-0"
+              onclick="onMinusClick({{ product[8] }})"
+            >
+              <!-- onclick="onMinusClick({{ i }})" -->
+              <i class="bi bi-dash-lg"></i>
+            </button>
+            <input
+              id="quantity-input-{{ product[8] }}"
+              type="number"
+              value="{{product[4]}}"
+              onchange="onInputChange(event)"
+              class="form-control text-center"
+              aria-label="Quantity"
+              style="max-width: 60px"
+            />
+            <button
+              type="button"
+              class="btn btn-primary p-0"
+              style="max-width: 40px; background-color: #0d6efd"
+              id="plus-button-{{ product[8] }}"
+              onclick="onPlusClick({{ product[8] }})"
+            >
+              <!-- id="plus-button-{{ i }}"
+              onclick="onPlusClick({{ i }})" -->
+              <i class="bi bi-plus-lg"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      {% endfor %} {%if products|length != 0%}
+      <button type="submit" class="btn btn-success mb-4 d-block ms-auto">
+        Proceed to checkout
+      </button>
+      {% else %}
+      <p
+        style="
+          position: center;
+          margin-left: 40%;
+
+          color: rgb(185, 34, 34);
+        "
+      >
+        No Items in your cart. Go Shopping!
+      </p>
+      {%endif%}
+    </div>
+  </form>
+  <!-- DELETE MODAL -->
+  <div class="modal" tabindex="-1" id="deleteModal">
+    <form action="/cart" method="POST">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Delete Product</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p id="product-name">Are you sure you want to delete</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              method="POST"
+              type="submit"
+              class="btn btn-danger"
+              id="deletecartitem"
+              formaction="/deleteCartItem/product_id"
+            >
+              Delete
+            </button>
+            <!-- -->
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+  let myModal = new bootstrap.Modal(document.getElementById("deleteModal"));
+
+  function onMinusClick(buttonId) {
+    let thatInput = document.getElementById(
+      "quantity-input-" + buttonId.toString()
+    );
+    let minusButton = document.getElementById(
+      "minus-button-" + buttonId.toString()
+    );
+    let plusButton = document.getElementById(
+      "plus-button-" + buttonId.toString()
+    );
+    if (thatInput.value > 1) {
+      thatInput.value--;
+      plusButton.classList.remove("disabled");
+      if (thatInput.value <= 1) {
+        minusButton.classList.add("disabled");
+      }
+    }
+  }
+
+  function onPlusClick(buttonId) {
+    let thatInput = document.getElementById(
+      "quantity-input-" + buttonId.toString()
+    );
+    let plusButton = document.getElementById(
+      "plus-button-" + buttonId.toString()
+    );
+    let minusButton = document.getElementById(
+      "minus-button-" + buttonId.toString()
+    );
+    // TODO: Get max available quantity and set it
+    if (thatInput.value < 10) {
+      thatInput.value++;
+      minusButton.classList.remove("disabled");
+      if (thatInput.value >= 10) {
+        plusButton.classList.add("disabled");
+      }
+    }
+  }
+
+  function onDeleteClick(buttonId) {
+    let product = document.getElementById("product-" + buttonId.toString());
+    let title = product.querySelector(".card-title");
+    document.getElementById("product-name").innerHTML =
+      "Are you sure you want to remove " + title.innerHTML + " from your cart?";
+    document
+      .getElementById("deletecartitem")
+      .setAttribute("formaction", "/deleteCartItem/" + Number(buttonId));
+    myModal.show();
+  }
+
+  function onInputChange(event) {
+    let inp = event.target;
+    if (inp.value >= 10) {
+      inp.value = 10;
+      inp.previousElementSibling.classList.remove("disabled");
+      inp.nextElementSibling.classList.add("disabled");
+    } else if (inp.value <= 0) {
+      inp.value = 1;
+      inp.previousElementSibling.classList.add("disabled");
+      inp.nextElementSibling.classList.remove("disabled");
+    }
+  }
+</script>
 {% endblock %}

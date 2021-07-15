@@ -1,5 +1,3 @@
-# pylint: disable=maybe-no-member
-
 from typing import Union
 import os
 import json

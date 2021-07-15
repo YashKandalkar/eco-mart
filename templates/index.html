@@ -35,6 +35,11 @@
     <li>
       <hr class="dropdown-divider" />
     </li>
+    {% if current_user.category == 'buyer' %}
+    <li>
+      <a class="dropdown-item" href="/cart">My cart</a>
+    </li>
+    {% endif %}
     <li>
       <a class="dropdown-item" href="/logout">Logout</a>
     </li>
@@ -78,9 +83,14 @@
           </button>
           <div class="collapse show" id="home-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-dark rounded">Overview</a></li>
-              <li><a href="#" class="link-dark rounded">Updates</a></li>
-              <li><a href="#" class="link-dark rounded">Reports</a></li>
+              <li>
+                <a href="/Artifacts" class="link-dark rounded">Artifacts</a>
+              </li>
+              <li>
+                <a href="/Furnitures" class="link-dark rounded">Furnitures</a>
+              </li>
+              <li><a href="/Clothes" class="link-dark rounded">Clothes</a></li>
+              <li><a href="/Bags" class="link-dark rounded">Bags</a></li>
             </ul>
           </div>
         </li>
@@ -176,12 +186,13 @@
           href="/products/{{i[0]}}/{{i[3]}}"
         >
           <img
-            src="../static/bag.jpg"
+            src="{{i[2]}}"
             style="padding: 0.8rem"
             alt="image"
             class="card-img-top"
           />
           <!-- {{i[2]}} -->
+          <!-- ../static/bag.jpg -->
           <h3>{{i[3]}}</h3>
           <p>Type: {{i[4]}}</p>
           <p>Description: {{i[5]}}</p>
@@ -193,15 +204,10 @@
           <p class="price">Price: &#8377;{{i[6]}}</p>
         </a>
         <ul class="list-group list-group-flush">
-          <form action="/buynow" method="post">
-            <button type="submit">Buy Now</button>
+          <form action="/addToCart/{{i[0]}}" method="post">
+            <input type="hidden" value="1" name="quantity" />
+            <button type="submit">Add to Cart</button>
           </form>
-          <button
-            style="border-radius: 0px 0px 5px 5px"
-            onclick="window.location.href = './addtocart.html';"
-          >
-            Add to Cart
-          </button>
         </ul>
       </div>
     </div>

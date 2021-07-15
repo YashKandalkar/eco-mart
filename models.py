@@ -1,5 +1,3 @@
-# pylint: disable=maybe-no-member
-
 from flask_login import UserMixin
 import os
 import json
@@ -10,7 +8,7 @@ from db_connect import useDb
 
 
 class User(UserMixin):
-    def __init__(self, id, emailid, firstname, lastname, password, contact_no,  category, address):
+    def __init__(self, id, emailid, firstname, lastname, password, contact_no,  category, address, points):
         self.id = id
         self.emailid = emailid
         self.password = password
@@ -19,6 +17,7 @@ class User(UserMixin):
         self.lastname = lastname
         self.category = category
         self.address = address
+        self.points = points
 
     @classmethod
     def getUserFromEmail(cls, emailid):

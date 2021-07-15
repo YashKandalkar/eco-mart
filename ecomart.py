@@ -1,5 +1,3 @@
-# pylint: disable=maybe-no-member
-
 import os
 from flask import Flask, flash, render_template, request, redirect
 import json
@@ -16,7 +14,13 @@ if 'DATABASE_URI' in os.environ:
     from db_connect import get_db
     from auth import auth as auth_blueprint
     from models import User
-    from db2Api.products import getProductsUsingEmail, getAllProducts, createProducts, getProductUsingId, updateProduct, deleteProduct
+    from db2Api.products \
+        import addToCartPost, getProductsbyCategory, getProductsUsingEmail, \
+        getAllProducts, createProducts, getProductUsingId, \
+        updateProduct, deleteProduct, getSellerDetail,\
+        buyProduct, displayOrders, updateUserPoints,\
+        deleteFromCart, CartItemsUsingEmailid, calculateCart,\
+        buyCartItems, getProduct
 else:
     raise ValueError('Env Var not found!')
 
@@ -59,10 +63,48 @@ def index():
     rows = getAllProducts()
     return render_template('index.html', current_user=user, products=rows)
 
-@app.route('/buynow', methods= ['POST'])
-def buynow():
+
+@app.route('/<string:category>')
+def filter(category):
     user = current_user if current_user.is_authenticated else None
-    return render_template('buynow.html', current_user=user)
+    product_detail = getProductsbyCategory(category)
+    print(product_detail)
+
+    return render_template('index.html', current_user=user, products=product_detail)
+
+
+@app.route('/buynow/<int:id>', methods=['POST'])
+@login_required
+def buynow(id):
+    user = current_user if current_user.is_authenticated else None
+    if (current_user.category == 'buyer') and (request.method == 'POST'):
+        quantity = request.form.get('quantity', '')
+        quantity = int(quantity)
+        products = getProduct(id, current_user.emailid, quantity)
+        total_price, total_points = calculateCart(products)
+        print(total_points, total_price)
+        return render_template("buyCart.html",products= products, total_price = total_price, total_points = total_points, cart= False)
+    else:
+        return redirect(url_for('.dashboard'))
+
+
+@app.route('/buy', methods=['POST'])
+@login_required
+def buy():
+    if (current_user.category == 'buyer') and (request.method == 'POST'):
+        product_id = request.form.get('product_id', '')
+        quantity = request.form.get('quantity', '')
+        remaining_points = request.form.get('remaining_points', '')
+        price = request.form.get('price', '')
+        customer_emailid = request.form.get('user_emailid', '')
+        price= int(price)
+        quantity = int(quantity)
+        print(remaining_points)
+        updateUserPoints(remaining_points= remaining_points, emailid = customer_emailid)
+        buyProduct(product_id=product_id, customer_emailid=customer_emailid,
+                   quantity=quantity, price=price)
+        return redirect(url_for('.dashboard'))
+
 
 
 @app.route('/add_product', methods=['GET', 'POST'])
@@ -82,7 +124,6 @@ def add_product():
     elif current_user.category == 'seller':
         return render_template("add_product.html")
     else:
-        # to-do
         return redirect(url_for('.dashboard'))
 
 
@@ -108,8 +149,8 @@ def update_product(id):
                       description, image_url, price, quantity)
         rows = getProductsUsingEmail(current_user.emailid)
         product_detail = getProductUsingId(id)
-        
-        # todo: flash message to indicate --- product details has been updated
+
+        # TODO: flash message to indicate --- product details has been updated
         # flash("you are successfully updated product")
         return redirect(url_for('.dashboard'))
     elif (current_user.category == 'seller'):
@@ -132,8 +173,10 @@ def dashboard():
         return render_template('dashboard.html', current_user=current_user, products=rows)
 
     elif category == 'buyer':
-        #print('buyer has logged in ')
-        return render_template('dashboard.html', current_user=current_user)
+        print('buyer has logged in ')
+        orders = displayOrders(current_user.emailid)
+        # print(orders)
+        return render_template('dashboard.html', current_user=current_user, orders=orders)
     else:
         print("ERROR AYAAAA", current_user.category.strip(),)
 
@@ -142,47 +185,87 @@ def dashboard():
 @app.route("/products/<id>/", methods=['GET'])
 @app.route("/products/<id>/<title>", methods=['GET'])
 def products(id, title=None):
-    if title == None:
-        #work in progress
-        # if title == None:
-        # TODO: Fetch only product-name from id, redirect to /product/<id>/<title>
-        # Replace spaces with dashes TODO: Also urlencode this string
-        # (some chars cannot come in a url)
-        #  title = "Fetch title from db".replace(" ", "-").lower()
-        #  if not id:
-        #      return redirect(f"{id}/{title}")
-        #  else:
-        #      return redirect(f"{title}")
-        if title == None or id == None:
-            user = current_user if current_user.is_authenticated else None
+    product = getProductUsingId(id)
+    dbTitle = product[3].replace(" ", "-").lower()
 
-        return redirect(url_for('.index'))
-    else:
-        # TODO:
-        # seller = getSellerDetail(id)
-        product = getProductUsingId(id)
-        print(product)
-        return render_template("product.html", product=product)
+    if title == None or title != dbTitle:
+        if not id:
+            return redirect(f"{id}/{dbTitle}")
+        else:
+            return redirect(f"{dbTitle}")
 
-    # TODO: Fetch product from id, send details to the frontend
-    return render_template("product.html")
+    seller = getSellerDetail(id)
+    return render_template("product.html", product=product, seller=seller)
 
 
 @app.route("/products")
+@app.route("/products/")
 def productsWithNoId():
     return redirect(url_for("index"))
 
 
-@app.route('/mycart', methods=['GET'])
-@app.route('/cart', methods=['GET'])
+# @app.route('/addToCart', methods=['GET', 'POST'])
+
+
+@app.route('/addToCart/<int:id>', methods=['GET', 'POST'])
+@login_required
+def add_to_cart_post(id):
+    if (current_user.category == 'buyer') and (request.method == 'POST'):
+        product_detail = getProductUsingId(id)
+        quantity = request.form.get('quantity', '')
+        quantity = int(quantity)
+        print(product_detail)
+        addToCartPost(current_user.emailid, product_detail[0], quantity, product_detail[6])
+        # addToCartPost(emailid, product_id, quantitiy, price,  con=None, cur=None, db=None):
+        # return redirect(url_for('.dashboard'))
+        # return render_template('cart.html', products=product_detail, current_user=current_user)
+        return redirect(url_for('.cart'))
+    else:
+        return redirect(url_for('.dashboard'))
+
+@app.route('/cart', methods=['GET', 'POST'])
 @login_required
 def cart():
-    return render_template('cart.html')
+    products = CartItemsUsingEmailid(current_user.emailid)
 
+    return render_template('cart.html', products = products, current_user = current_user)
+
+
+@app.route('/cartBilling', methods=['POST'])
+@login_required
+def cartBilling():
+    cart_products = CartItemsUsingEmailid(current_user.emailid)
+    print(cart_products)
+    total_price, total_points = calculateCart(cart_products)
+    return render_template('buyCart.html', products=cart_products, total_price= total_price, total_points=total_points, cart=True)
+
+
+@app.route('/buyCart', methods=['POST'])
+@login_required
+def buyCart():
+    if (current_user.category == 'buyer') and (request.method == 'POST'):
+        remaining_points = request.form.get('remaining_points', '')
+        customer_emailid = request.form.get('user_emailid', '')
+        print(remaining_points)
+        updateUserPoints(remaining_points= remaining_points, emailid = customer_emailid)
+        cart_products = CartItemsUsingEmailid(current_user.emailid)
+        buyCartItems(cart_products=cart_products)
+        return redirect(url_for('.dashboard'))
+
+@app.route('/deleteCartItem/<int:id>', methods=['POST'])
+@login_required
+def deletCartItem(id):
+    if (current_user.category == 'buyer') and (request.method == 'POST'):
+        deleteFromCart(id,current_user.emailid)
+        print("done")
+        return redirect(url_for('.cart'))
+
+@app.route("/composeBlog")
+def composeBlog():
+    return render_template("add_blog.html")
 
 port = os.getenv('PORT', '5000')
 env = os.getenv("FLASK_ENV", "production")
-
 
 @atexit.register
 def shutdown():

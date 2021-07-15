@@ -1,32 +1,69 @@
-{% extends "base.html" %} {% block title %}{{product[0][3]}}{% endblock %}
+{% extends "base.html" %} {% block title %}{{product[3]}}{% endblock %}
+
+<!-- LOGIN FORM -->
+{% block loginForm %} {% if current_user.firstname %}
+<li class="nav-item dropdown d-flex">
+  <a
+    class="nav-link dropdown-toggle"
+    href="#"
+    id="navbarDropdown"
+    role="button"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    Welcome,&nbsp;{{current_user.firstname}}
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+    <li>
+      <hr class="dropdown-divider" />
+    </li>
+    {% if current_user.category == 'buyer' %}
+    <li>
+      <a class="dropdown-item" href="/cart">My cart</a>
+    </li>
+    {% endif %}
+    <li>
+      <a class="dropdown-item" href="/logout">Logout</a>
+    </li>
+  </ul>
+</li>
+{% else %}
+<form class="d-flex" action="/login">
+  <button class="btn btn-primary" type="submit">Login</button>
+</form>
+{% endif %} {% endblock %}
+
 <!-- CONTENT -->
 {% block content %}
 <div class="container-fluid">
   <div class="container-sm my-5">
-    <h1>{{product[0][3]}}</h1>
+    <h1>{{product[3]}}</h1>
     <hr />
     <div class="media d-sm-flex">
       <img
         id="product-image"
         class="img-thumbnail w-25 me-5 mb-4"
         alt="product image"
-        src="{{product[0][2]}}"
+        src="{{url_for('static', filename=product[2][7:]) if product[2].startswith('static') else product[2]}}"
       />
-      <div class="media-body">
+      <div class="media-body w-100">
         <h5 class="mt-0 d-flex align-items-center">
-          {{product[0][4]}}<span class="badge bg-primary ms-2">category</span>
+          {{product[4]}}<span class="badge bg-primary ms-2">category</span>
         </h5>
         <!-- to do: fetch supplier's name -->
-        <p class="text-muted">Sold by <a href="#">Botle Corp. Ltd.</a></p>
-        {% if product[0][7] > 10 %}
+        <p class="text-muted">
+          Sold by <a href="#">{{seller[0][3]}} {{seller[0][4]}}</a>
+        </p>
+        {% if product[7] > 10 %}
         <p class="text-success">In Stock</p>
         {% else %}
-        <p class="text-danger fw-bolder">Only {{product[0][7]}} left!</p>
+        <p class="text-danger fw-bolder">Only {{product[7]}} left!</p>
         {% endif %}
-        <p>(Description) {{product[0][5]}}</p>
+        <p>(Description) {{product[5]}}</p>
         <hr />
         <blockquote class="blockquote ms-4">
-          <p class="">M.R.P.: ₹{{product[0][6]}}</p>
+          <p class="">M.R.P.: ₹{{product[6]}}</p>
         </blockquote>
         <hr />
 
@@ -34,11 +71,11 @@
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
               <button
-                class="accordion-button"
+                class="accordion-button collapsed"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseOne"
-                aria-expanded="true"
+                aria-expanded="false"
                 aria-controls="collapseOne"
               >
                 Points / Coupons
@@ -51,22 +88,57 @@
               data-bs-parent="#pointsAccordion"
             >
               <div class="accordion-body">
-                <strong>You have 59 points!</strong> <br />
+                <strong>You have {{current_user.points}} points!</strong>
+                <br />
                 You can use these to get a discount on the M.R.P.
               </div>
             </div>
           </div>
         </div>
+        {% if current_user.category == "buyer" or current_user.category !=
+        "seller" %}
         <div class="d-flex my-3 justify-content-end">
-          <form action="/cart" method="POST">
-            <button class="btn btn-outline-primary me-2" type="submit">
-              <i class="bi bi-cart me-2 d-none d-sm-inline"></i>Add to Cart
+          <form action="/addToCart/{{product[0]}}" method="POST">
+            <div class="def-number-input number-input safari_only mb-0 w-100">
+              <button
+                type="button"
+                onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                class="minus decrease"
+              ></button>
+              <input
+                class="quantity"
+                name="quantity"
+                min="1"
+                max="{{product[7]}}"
+                value="1"
+                type="number"
+              />
+              <button
+                type="button"
+                onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                class="plus increase"
+              ></button>
+            </div>
+            <hr />
+
+            <button
+              class="btn btn-outline-primary me-2"
+              formaction="/addToCart/{{product[0]}}"
+              method="POST"
+              type="submit"
+            >
+              Add to Cart<i class="bi bi-cart me-2 d-none d-sm-inline"></i>
             </button>
-          </form>
-          <form action="/buy" method="POST">
-            <button class="btn btn-success" type="submit">
+
+            <button
+              class="btn btn-success"
+              type="submit"
+              formaction="/buynow/{{product[0]}}"
+              method="POST"
+            >
               Buy Now<i class="bi bi-arrow-right d-none d-sm-inline ms-2"></i>
             </button>
+            {% endif %}
           </form>
         </div>
       </div>

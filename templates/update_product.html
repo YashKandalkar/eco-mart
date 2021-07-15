@@ -12,7 +12,7 @@ loginForm %}
 {% endif %} {% endwith %} {% block content %}
 <div class="container py-4" style="max-width: 580px">
   <h2 class="mb-4">Update</h2>
-  <form action="/update/{{product[0][0]}}" method="POST" id="signup_form">
+  <form action="/update/{{product[0]}}" method="POST" id="signup_form">
     <!-- action="/update/{{product[0]['PRODUCT_ID']}}" -->
     <!-- NAME -->
     <div class="mb-3">
@@ -20,7 +20,7 @@ loginForm %}
         <div class="col">
           <div class="form-floating">
             <input required="true" name="productname" type="text"
-            value="{{product[0][3]}}" autocomplete="name" class="form-control"
+            value="{{product[3]}}" autocomplete="name" class="form-control"
             id="firstName" placeholder="Product Name" " />
             <!-- aria-describedby="Product Name -->
             <label for="productname" class="form-label">Product Name</label>
@@ -34,13 +34,13 @@ loginForm %}
               aria-label="Category"
               id="category"
               name="category"
-              selected="{{product[0][4]}}"
+              selected="{{product[4]}}"
               
             >
-              <option value="Artifacts" {{ "selected" if (product[0][4] =='Artifacts') else none  }}>Artifacts</option>
-              <option value="Furnitures" {{"selected" if (product[0][4] =='Furnitures') else none  }}>Furnitures</option>
-              <option value="Clothes" {{"selected" if product[0][4] =="Clothes" else none}}>Clothes</option>
-              <option value="Bags" {{ "selected" if (product[0][4] =='Bags') else none  }}>Bags</option>
+              <option value="Artifacts" {{ "selected" if (product[4] =='Artifacts') else none  }}>Artifacts</option>
+              <option value="Furnitures" {{"selected" if (product[4] =='Furnitures') else none  }}>Furnitures</option>
+              <option value="Clothes" {{"selected" if product[4] =="Clothes" else none}}>Clothes</option>
+              <option value="Bags" {{ "selected" if (product[4] =='Bags') else none  }}>Bags</option>
             </select>
             <label for="category" class="form-label">category</label>
           </div>
@@ -53,7 +53,7 @@ loginForm %}
       <input
         required="true"
         type="text"
-        value="{{product[0][5]}}"
+        value="{{product[5]}}"
         name="description"
         class="form-control"
         id="description"
@@ -71,7 +71,7 @@ loginForm %}
             <input
               required="true"
               name="price"
-              value="{{product[0][6]}}"
+              value="{{product[6]}}"
               type="text"
               autocomplete="price"
               class="form-control"
@@ -89,7 +89,7 @@ loginForm %}
               required="true"
               type="text"
               name="quantity"
-              value="{{product[0][7]}}"
+              value="{{product[7]}}"
               autocomplete="family-name"
               class="form-control"
               id="quantity"
@@ -108,7 +108,7 @@ loginForm %}
         required="true"
         type="text"
         name="image_url"
-        value="{{product[0][2]}}"
+        value="{{product[2]}}"
         class="form-control"
         id="image_url"
         placeholder="image_url"

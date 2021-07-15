@@ -7,18 +7,40 @@ create table users(
    contact_no varchar(15) not null,
    category varchar(25) not null,
    address varchar(70) not null
-  
+   points int not null default 50
 );
 
 create table products(
 	product_id  SERIAL  primary key,
 	seller_emailid varchar(25),
-	image_path varchar(40),
+	image_path varchar(200),
 	product_name varchar(25),
 	product_category varchar(25),
 	description Text,
 	price int,
 	quantity int,
+   points int not null default 0,
 	FOREIGN KEY (seller_emailid) REFERENCES users(emailid)
 	
 );
+
+CREATE TABLE cart (
+    id SERIAL NOT NULL,
+	emailid varchar(25),
+    product_id int,
+	quantity int NOT NULL DEFAULT 1,
+	price int,
+	status boolean not null DEFAULT FALSE,
+	PRIMARY KEY (id)
+);
+
+create table orders(
+	order_id  SERIAL  primary key,
+	customer_emailid varchar(25),
+	product_id int,
+	quantity int,
+	price int,
+	order_date date not NULL DEFAULT CURRENT_DATE ,
+	FOREIGN KEY (customer_emailid) REFERENCES users(emailid),
+	FOREIGN KEY (product_id) REFERENCES products(product_id)
+)

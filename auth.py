@@ -1,5 +1,3 @@
-# pylint: disable=maybe-no-member
-
 from flask import Blueprint, render_template, request, redirect, abort
 from flask.helpers import url_for
 from flask_login import login_required, logout_user, login_user
