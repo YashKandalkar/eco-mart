@@ -79,7 +79,7 @@
             data-bs-target="#home-collapse"
             aria-expanded="true"
           >
-            Home
+            Products
           </button>
           <div class="collapse show" id="home-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
@@ -94,7 +94,7 @@
             </ul>
           </div>
         </li>
-        <li class="mb-1">
+        <!-- <li class="mb-1">
           <button
             class="btn btn-toggle align-items-center rounded collapsed"
             data-bs-toggle="collapse"
@@ -111,7 +111,8 @@
               <li><a href="#" class="link-dark rounded">Annually</a></li>
             </ul>
           </div>
-        </li>
+        </li> -->
+        {% if current_user%} {% if current_user.category == 'buyer'%}
         <li class="mb-1">
           <button
             class="btn btn-toggle align-items-center rounded collapsed"
@@ -124,12 +125,15 @@
           <div class="collapse" id="orders-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
               <li><a href="#" class="link-dark rounded">New</a></li>
-              <li><a href="#" class="link-dark rounded">Processed</a></li>
+              <li>
+                <a href="/dashboard" class="link-dark rounded">Processed</a>
+              </li>
               <li><a href="#" class="link-dark rounded">Shipped</a></li>
               <li><a href="#" class="link-dark rounded">Returned</a></li>
             </ul>
           </div>
         </li>
+        {% endif %}
         <li class="border-top my-3"></li>
         <li class="mb-1">
           <button
@@ -141,14 +145,17 @@
             Account
           </button>
           <div class="collapse" id="account-collapse">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-dark rounded">New...</a></li>
-              <li><a href="#" class="link-dark rounded">Profile</a></li>
-              <li><a href="#" class="link-dark rounded">Settings</a></li>
-              <li><a href="#" class="link-dark rounded">Sign out</a></li>
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 medium">
+              <li><a href="/signup" class="link-dark rounded">New...</a></li>
+              <li>
+                <a href="/dashboard" class="link-dark rounded">Profile</a>
+              </li>
+              <!-- <li><a href="#" class="link-dark rounded">Settings</a></li> -->
+              <li><a href="/logout" class="link-dark rounded">LogOut</a></li>
             </ul>
           </div>
         </li>
+        {% endif %}
       </ul>
     </div>
   </div>
@@ -156,28 +163,6 @@
 
 <div>
   <div class="row">
-    <!-- {%for i in products%} done
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 my-4"> done
-      <div class="card" style="width: 20rem;"> done
-        <img 
-        style="padding: 0.8rem;"
-        src='{{i["IMAGE_PATH"]}}' class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">{{i["PRODUCT_NAME"]}}</h5>
-          <p class="card-text">Type: {{i["PRODUCT_CATEGORY"]}}</p>
-          <p class="card-text">Description: {{i["DESCRIPTION"]}}</p>
-          <p class="card-text">Quantity: {{i["QUANTITY"]}}</p>
-          <p class="card-text price">Price: &#8377;{{i["PRICE"]}}</p>
-        </div>
-        <ul class="list-group list-group-flush">
-          <button  onclick="window.location.href = './buynow.html';">Buy Now</button>
-          <button  
-          style="border-radius : 0px 0px 5px 5px;"
-          onclick="window.location.href = './addtocart.html';">Add to Cart</button>          
-        </ul>
-      </div>
-    </div>
-    {%endfor%} -->
     {%for i in products%}
     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6 my-4">
       <div class="card h-100" style="width: 18rem">
@@ -191,7 +176,7 @@
             alt="image"
             class="card-img-top"
           />
-          <!-- {{i[2]}} -->
+
           <!-- ../static/bag.jpg -->
           <h3>{{i[3]}}</h3>
           <p>Type: {{i[4]}}</p>
@@ -203,12 +188,14 @@
           {% endif %}
           <p class="price">Price: &#8377;{{i[6]}}</p>
         </a>
+        {% if current_user.category == "buyer"%}
         <ul class="list-group list-group-flush">
           <form action="/addToCart/{{i[0]}}" method="post">
             <input type="hidden" value="1" name="quantity" />
             <button type="submit">Add to Cart</button>
           </form>
         </ul>
+        {% endif %}
       </div>
     </div>
     {%endfor%}

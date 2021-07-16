@@ -204,8 +204,6 @@ def productsWithNoId():
     return redirect(url_for("index"))
 
 
-# @app.route('/addToCart', methods=['GET', 'POST'])
-
 
 @app.route('/addToCart/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -260,9 +258,23 @@ def deletCartItem(id):
         print("done")
         return redirect(url_for('.cart'))
 
+
+# TODO : different folder for blogs
 @app.route("/composeBlog")
 def composeBlog():
+    #TODO: fetch details from blog and store them in DB
     return render_template("add_blog.html")
+
+@app.route("/readBlog")
+def readBlog():
+    #TODO:fetch blog detail
+    return render_template('readBlog.html')
+
+@app.route("/blogs")
+def blog():
+    # TODO:fectch all blogs
+    return render_template("blog.html")
+
 
 port = os.getenv('PORT', '5000')
 env = os.getenv("FLASK_ENV", "production")
