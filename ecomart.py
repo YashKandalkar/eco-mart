@@ -64,6 +64,14 @@ def index():
     return render_template('index.html', current_user=user, products=rows)
 
 
+@app.route('/recyclable_index')
+def index():
+    # user = current_user if current_user.is_authenticated else None
+    # rows = getAllProducts()
+    return render_template('recyclable_index.html')
+
+
+
 @app.route('/<string:category>')
 def filter(category):
     user = current_user if current_user.is_authenticated else None
@@ -227,6 +235,17 @@ def cart():
     products = CartItemsUsingEmailid(current_user.emailid)
 
     return render_template('cart.html', products = products, current_user = current_user)
+
+
+
+@app.route('/add_recycled_product', methods=['GET', 'POST'])
+@login_required
+def add_recycled_product():
+    # products = CartItemsUsingEmailid(current_user.emailid)
+
+    return render_template('recycled_product.html')
+
+
 
 
 @app.route('/cartBilling', methods=['POST'])
