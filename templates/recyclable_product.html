@@ -1,0 +1,215 @@
+{% extends "base.html" %} {% block title %}Add Product{% endblock %} {% block
+    loginForm %}
+    <form class="d-flex" action="/logout">
+      <button class="btn btn-primary" type="submit">Logout</button>
+    </form>
+    {% endblock %} {% block content %}
+    <div class="container py-4" style="max-width: 580px">
+      <h2 class="mb-4">Add new Recycled product</h2>
+      <form
+        action="/add_product"
+        method="POST"
+        id="signup_form"
+        onsubmit="return validation()"
+      >
+        <!-- NAME -->
+        <div class="mb-2">
+          <div class="row gx-3">
+            <div class="col">
+              <div class="form-floating">
+                <input
+                  required="true"
+                  name="productname"
+                  type="text"
+                  autocomplete="name"
+                  class="form-control"
+                  id="productName"
+                  placeholder="Product Name"
+                  aria-describedby="Product Name"
+                />
+                <label for="productname" class="form-label">Recycled Product Name</label>
+              </div>
+            </div>
+    
+            <!-- category -->
+            <div class="col">
+              <div class="mb-3 form-floating">
+                <select
+                  class="form-select"
+                  aria-label="Category"
+                  id="category"
+                  name="category"
+                >
+                  <option value="Recycled_Artifacts">Artifacts</option>
+                  <option value="RecFurnitures">Furnitures</option>
+                  <option value="Clothes">Clothes</option>
+                  <option value="Bags">Bags</option>
+                </select>
+                <label for="category" class="form-label">category</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- error message -->
+    
+        <div class="row gx-3 mb-2">
+          <div class="col">
+            <div class="form-floating" id="productname_error" style="display: none">
+              product name should be more than 2 characters
+            </div>
+          </div>
+        </div>
+    
+        <!-- description -->
+        <div class="mb-3 form-floating">
+          <input
+            required="true"
+            type="text"
+            name="description"
+            class="form-control"
+            id="description1"
+            placeholder="Description"
+          />
+          <label for="description" class="form-label">Description</label>
+        </div>
+        <!-- description error -->
+    
+        <div
+          class="mb-3 form-floating"
+          id="description_error"
+          style="display: none"
+        >
+          Description should be more than 2 characters
+        </div>
+    
+        <!-- price and quantity -->
+        <div class="mb-3">
+          <div class="row gx-3">
+            <!-- price -->
+            <div class="col">
+              <div class="form-floating">
+                <input
+                  required="true"
+                  name="price"
+                  type="text"
+                  autocomplete="price"
+                  class="form-control"
+                  id="price"
+                  placeholder="price"
+                  aria-describedby="price"
+                />
+                <label for="price" class="form-label">Price</label>
+              </div>
+            </div>
+            <!-- quantity -->
+            <div class="col">
+              <div class="form-floating">
+                <input
+                  required="true"
+                  type="text"
+                  name="quantity"
+                  autocomplete="family-name"
+                  class="form-control"
+                  id="quantity"
+                  placeholder="quantity"
+                  aria-describedby="quantity"
+                />
+                <label for="quantity" class="form-label">Quantity</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="row gx-3">
+            <!-- price_error-->
+            <div class="col">
+              <div class="form-floating" id="price_error" style="display: none">
+                price should only contain integer value
+              </div>
+            </div>
+            <!-- quantity -->
+            <div class="col">
+              <div class="form-floating" id="quantity_error" style="display: none">
+                quantity should only contain integer value
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- image url -->
+        <div class="mb-3 form-floating">
+          <input
+            required="true"
+            type="text"
+            name="image_url"
+            class="form-control"
+            id="image_url"
+            placeholder="image_url"
+          />
+          <label for="image_url" class="form-label">Image url</label>
+        </div>
+        <div class="d-flex justify-content-end mb-3">
+          <!-- <form action="/add_product" method="post"> -->
+          <button type="submit" class="btn btn-primary">Add</button>
+          <!-- </form> -->
+        </div>
+      </form>
+    </div>
+    <script>
+      function validation() {
+        var productName = document.getElementById("productName").value;
+        var description = document.getElementById("description1").value;
+        var price = document.getElementById("price").value;
+        var quantity = document.getElementById("quantity").value;
+        //productname
+    
+        if (productName.length < 2) {
+          document.getElementById("productName").style.borderColor = "red";
+          document.getElementById("productname_error").style.display = "block";
+          return false;
+        } else {
+          document.getElementById("productName").style.borderColor = "lightgrey";
+          document.getElementById("productname_error").style.display = "none";
+        }
+    
+        //description
+    
+        if (description.length < 2) {
+          document.getElementById("description1").style.borderColor = "red";
+          document.getElementById("description_error").style.display = "block";
+          return false;
+        } else {
+          document.getElementById("description1").style.borderColor = "lightgrey";
+          document.getElementById("description_error").style.display = "none";
+        }
+    
+        if (price.search(/[A-Z]/) != -1) {
+          document.getElementById("price").style.borderColor = "red";
+          document.getElementById("price_error").style.display = "block";
+          return false;
+        } else if (price.search(/[a-z]/) != -1) {
+          document.getElementById("price").style.borderColor = "red";
+          document.getElementById("price_error").style.display = "block";
+          return false;
+        } else {
+          document.getElementById("price").style.borderColor = "lightgrey";
+          document.getElementById("price_error").style.display = "none";
+        }
+    
+        //qunatity
+        if (quantity.search(/[A-Z]/) != -1) {
+          document.getElementById("quantity").style.borderColor = "red";
+          document.getElementById("quantity_error").style.display = "block";
+          return false;
+        } else if (quantity.search(/[a-z]/) != -1) {
+          document.getElementById("quantity").style.borderColor = "red";
+          document.getElementById("quantity_error").style.display = "block";
+          return false;
+        } else {
+          document.getElementById("quantity").style.borderColor = "lightgrey";
+          document.getElementById("quantity_error").style.display = "none";
+        }
+      }
+    </script>
+    {% endblock %}
+    
