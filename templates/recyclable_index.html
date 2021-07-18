@@ -1,168 +1,151 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block loginForm
-    %} {% if current_user %} {% block head %}
-    <link
-      rel="stylesheet"
-      href=" {{ url_for('static',filename='sidebars.css') }} "
-    />
-    <style>
-      .float-container {
-        border: 3px solid #fff;
-        padding: 0px;
-      }
-    
-      .float-child {
-        width: 20%;
-        float: left;
-        padding: 0px;
-      }
-    </style>
-    
-    {% endblock %}
-    
-    <li class="nav-item dropdown d-flex">
+%} {% if current_user %} {% block head %}
+<link
+  rel="stylesheet"
+  href=" {{ url_for('static',filename='sidebars.css') }} "
+/>
+<style>
+  .float-container {
+    border: 3px solid #fff;
+    padding: 0px;
+  }
+
+  .float-child {
+    width: 20%;
+    float: left;
+    padding: 0px;
+  }
+</style>
+
+{% endblock %}
+
+<li class="nav-item dropdown d-flex">
+  <a
+    class="nav-link dropdown-toggle"
+    href="#"
+    id="navbarDropdown"
+    role="button"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    Welcome,&nbsp;{{current_user.firstname}}
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+    <li>
+      <hr class="dropdown-divider" />
+    </li>
+    {% if current_user.category == 'buyer' %}
+    <li>
+      <a class="dropdown-item" href="/cart">My cart</a>
+    </li>
+    {% endif %}
+    <li>
+      <a class="dropdown-item" href="/logout">Logout</a>
+    </li>
+  </ul>
+</li>
+{% else %}
+<form class="d-flex" action="/login">
+  <button class="btn btn-primary" type="submit">Login</button>
+</form>
+{% endif %} {% endblock %} {% block content %}
+
+<div class="float-container d-none d-xs-block d-sm-block d-md-block">
+  <div class="float-child">
+    <div class="flex-shrink-0 p-3 bg-white" style="width: 80px">
       <a
-        class="nav-link dropdown-toggle"
-        href="#"
-        id="navbarDropdown"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
+        href="/"
+        class="
+          d-flex
+          align-items-center
+          pb-3
+          mb-3
+          link-dark
+          text-decoration-none
+          border-bottom
+        "
       >
-        Welcome,&nbsp;{{current_user.firstname}}
+        <svg class="bi me-2" width="30" height="24">
+          <use xlink:href="#bootstrap" />
+        </svg>
+        <span class="fs-5 fw-semibold">Collapsible</span>
       </a>
-      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
-        <li>
-          <hr class="dropdown-divider" />
+      <ul class="list-unstyled ps-0">
+        <li class="mb-1">
+          <button
+            class="btn btn-toggle align-items-center rounded collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#home-collapse"
+            aria-expanded="true"
+          >
+            Products
+          </button>
+          <div class="collapse show" id="home-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li>
+                <a href="/Artifacts" class="link-dark rounded">Artifacts</a>
+              </li>
+              <li>
+                <a href="/Furnitures" class="link-dark rounded">Furnitures</a>
+              </li>
+              <li><a href="/Clothes" class="link-dark rounded">Clothes</a></li>
+              <li><a href="/Bags" class="link-dark rounded">Bags</a></li>
+            </ul>
+          </div>
         </li>
-        {% if current_user.category == 'buyer' %}
-        <li>
-          <a class="dropdown-item" href="/cart">My cart</a>
+
+        {% if current_user%} {% if current_user.category == 'buyer'%}
+        <li class="mb-1">
+          <button
+            class="btn btn-toggle align-items-center rounded collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#orders-collapse"
+            aria-expanded="false"
+          >
+            Orders
+          </button>
+          <div class="collapse" id="orders-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="#" class="link-dark rounded">New</a></li>
+              <li>
+                <a href="/dashboard" class="link-dark rounded">Processed</a>
+              </li>
+              <li><a href="#" class="link-dark rounded">Shipped</a></li>
+              <li><a href="#" class="link-dark rounded">Returned</a></li>
+            </ul>
+          </div>
         </li>
         {% endif %}
-        <li>
-          <a class="dropdown-item" href="/logout">Logout</a>
-        </li>
-      </ul>
-    </li>
-    {% else %}
-    <form class="d-flex" action="/login">
-      <button class="btn btn-primary" type="submit">Login</button>
-    </form>
-    {% endif %} {% endblock %} {% block content %}
-    
-    <div class="float-container d-none d-xs-block d-sm-block d-md-block">
-      <div class="float-child">
-        <div class="flex-shrink-0 p-3 bg-white" style="width: 80px">
-          <a
-            href="/"
-            class="
-              d-flex
-              align-items-center
-              pb-3
-              mb-3
-              link-dark
-              text-decoration-none
-              border-bottom
-            "
+        <li class="border-top my-3"></li>
+        <li class="mb-1">
+          <button
+            class="btn btn-toggle align-items-center rounded collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#account-collapse"
+            aria-expanded="false"
           >
-            <svg class="bi me-2" width="30" height="24">
-              <use xlink:href="#bootstrap" />
-            </svg>
-            <span class="fs-5 fw-semibold">Collapsible</span>
-          </a>
-          <ul class="list-unstyled ps-0">
-            <li class="mb-1">
-              <button
-                class="btn btn-toggle align-items-center rounded collapsed"
-                data-bs-toggle="collapse"
-                data-bs-target="#home-collapse"
-                aria-expanded="true"
-              >
-                Products
-              </button>
-              <div class="collapse show" id="home-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li>
-                    <a href="/Artifacts" class="link-dark rounded">Artifacts</a>
-                  </li>
-                  <li>
-                    <a href="/Furnitures" class="link-dark rounded">Furnitures</a>
-                  </li>
-                  <li><a href="/Clothes" class="link-dark rounded">Clothes</a></li>
-                  <li><a href="/Bags" class="link-dark rounded">Bags</a></li>
-                </ul>
-              </div>
-            </li>
-            <!-- <li class="mb-1">
-              <button
-                class="btn btn-toggle align-items-center rounded collapsed"
-                data-bs-toggle="collapse"
-                data-bs-target="#dashboard-collapse"
-                aria-expanded="false"
-              >
-                Dashboard
-              </button>
-              <div class="collapse" id="dashboard-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="products" class="link-dark rounded">Overview</a></li>
-                  <li><a href="#" class="link-dark rounded">Weekly</a></li>
-                  <li><a href="#" class="link-dark rounded">Monthly</a></li>
-                  <li><a href="#" class="link-dark rounded">Annually</a></li>
-                </ul>
-              </div>
-            </li> -->
-            {% if current_user%} {% if current_user.category == 'buyer'%}
-            <li class="mb-1">
-              <button
-                class="btn btn-toggle align-items-center rounded collapsed"
-                data-bs-toggle="collapse"
-                data-bs-target="#orders-collapse"
-                aria-expanded="false"
-              >
-                Orders
-              </button>
-              <div class="collapse" id="orders-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark rounded">New</a></li>
-                  <li>
-                    <a href="/dashboard" class="link-dark rounded">Processed</a>
-                  </li>
-                  <li><a href="#" class="link-dark rounded">Shipped</a></li>
-                  <li><a href="#" class="link-dark rounded">Returned</a></li>
-                </ul>
-              </div>
-            </li>
-            {% endif %}
-            <li class="border-top my-3"></li>
-            <li class="mb-1">
-              <button
-                class="btn btn-toggle align-items-center rounded collapsed"
-                data-bs-toggle="collapse"
-                data-bs-target="#account-collapse"
-                aria-expanded="false"
-              >
-                Account
-              </button>
-              <div class="collapse" id="account-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 medium">
-                  <li><a href="/signup" class="link-dark rounded">New...</a></li>
-                  <li>
-                    <a href="/dashboard" class="link-dark rounded">Profile</a>
-                  </li>
-                  <!-- <li><a href="#" class="link-dark rounded">Settings</a></li> -->
-                  <li><a href="/logout" class="link-dark rounded">LogOut</a></li>
-                </ul>
-              </div>
-            </li>
-            {% endif %}
-          </ul>
-        </div>
-      </div>
+            Account
+          </button>
+          <div class="collapse" id="account-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 medium">
+              <li><a href="/signup" class="link-dark rounded">New...</a></li>
+              <li>
+                <a href="/dashboard" class="link-dark rounded">Profile</a>
+              </li>
+              <!-- <li><a href="#" class="link-dark rounded">Settings</a></li> -->
+              <li><a href="/logout" class="link-dark rounded">LogOut</a></li>
+            </ul>
+          </div>
+        </li>
+        {% endif %}
+      </ul>
     </div>
-    
-    <div>
-      <div class="row">
+  </div>
+</div>
+
+<div>
+  <!-- <div class="row">
         {%for i in products%}
         <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6 my-4">
           <div class="card h-100" style="width: 18rem">
@@ -176,33 +159,32 @@
                 alt="image"
                 class="card-img-top"
               />
-    
-              <!-- ../static/bag.jpg -->
-              <h3>{{i[3]}}</h3>
+     -->
+  <!-- ../static/bag.jpg -->
+  <!-- <h3>{{i[3]}}</h3>
               <p>Type: {{i[4]}}</p>
-              <p>Description: {{i[5]}}</p>
-              {% if i[7] > 10 %}
+              <p>Description: {{i[5]}}</p> -->
+  <!-- {# if i[7] > 10 #}
               <p class="text-success">In Stock</p>
-              {% else %}
+              {# else #}
               <p class="text-danger fw-bolder">Only {{i[7]}} left!</p>
-              {% endif %}
+              {# endif #}
               <p class="price">Price: &#8377;{{i[6]}}</p>
             </a>
-            {% if current_user.category == "buyer"%}
+            {# if current_user.category == "buyer"#}
             <ul class="list-group list-group-flush">
               <form action="/addToCart/{{i[0]}}" method="post">
                 <input type="hidden" value="1" name="quantity" />
                 <button type="submit">Add to Cart</button>
               </form>
             </ul>
-            {% endif %}
+            {# endif #}
           </div>
         </div>
-        {%endfor%}
-      </div>
-    </div>
-    
-    <script src="{{ url_for('static',filename='sidebars.js') }} "></script>
-    
-    {% endblock %}
-    
+        {#endfor#}
+      </div> -->
+</div>
+
+<script src="{{ url_for('static',filename='sidebars.js') }} "></script>
+
+{% endblock %}
