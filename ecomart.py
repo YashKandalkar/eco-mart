@@ -13,6 +13,7 @@ load_dotenv("./.env.local")
 if 'DATABASE_URI' in os.environ:
     from db_connect import get_db
     from auth import auth as auth_blueprint
+    from blogs import blog as blog_blueprint
     from models import User
     from db2Api.products \
         import addToCartPost, getProductsbyCategory, getProductsUsingEmail, \
@@ -36,6 +37,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 con, cur, db = get_db()
 
 app.register_blueprint(auth_blueprint)
+app.register_blueprint(blog_blueprint)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -257,23 +259,6 @@ def deletCartItem(id):
         deleteFromCart(id,current_user.emailid)
         print("done")
         return redirect(url_for('.cart'))
-
-
-# TODO : different folder for blogs
-@app.route("/composeBlog")
-def composeBlog():
-    #TODO: fetch details from blog and store them in DB
-    return render_template("add_blog.html")
-
-@app.route("/readBlog")
-def readBlog():
-    #TODO:fetch blog detail
-    return render_template('readBlog.html')
-
-@app.route("/blogs")
-def blog():
-    # TODO:fectch all blogs
-    return render_template("blog.html")
 
 
 port = os.getenv('PORT', '5000')
