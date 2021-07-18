@@ -67,7 +67,7 @@ def index():
 
 
 @app.route('/recyclable_index')
-def index():
+def recyclable_index():
     # user = current_user if current_user.is_authenticated else None
     # rows = getAllProducts()
     return render_template('recyclable_index.html')
