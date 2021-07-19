@@ -1,0 +1,101 @@
+{% extends "base.html" %} {% block title %}Dashboard{% endblock %} {% block
+loginForm %}
+<form class="d-flex" action="/logout">
+  <button class="btn btn-primary" type="submit">Logout</button>
+</form>
+<br />
+{% endblock %}
+<!-- CONTENT -->
+{% block content %}
+<style>
+  .cover {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+      url("{{url_for('static', filename='cover.jpg')}}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 80vh;
+    position: relative;
+    padding: 0;
+    margin: 0;
+  }
+
+  #main-parent-container {
+    padding: 0;
+    margin: 0;
+  }
+
+  #big-heading {
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+    color: white;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 2rem;
+    transform: translate(-50%, -50%);
+  }
+</style>
+<div class="p-0 m-0 cover">
+  <h1 id="big-heading" style="color: #eee; font-size: 3rem">
+    <span style="color: #6fbf6b">Eco</span>
+    <span style="color: #37995a">Friendly</span> Business.
+  </h1>
+</div>
+<div class="container-fluid mt-5 px-3">
+  <!-- blog on eco friendly businesses -->
+  <h2>Why?</h2>
+  <hr />
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque iure
+    veritatis consequatur eveniet voluptates amet eum deserunt. Ad beatae
+    perspiciatis error quis, adipisci nihil cum reiciendis consectetur ex,
+    excepturi possimus!
+  </p>
+  <h2 class="mt-5">Companies offering eco-friendly services</h2>
+  <hr />
+  <div class="px-4">
+    <div>
+      <h4>First</h4>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus
+        aliquam nisi mollitia sint tempora asperiores incidunt accusantium
+        iusto! Omnis facilis voluptate dignissimos rerum natus neque hic saepe
+        asperiores nam perferendis?
+      </p>
+    </div>
+    <div>
+      <h4>Second</h4>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus
+        aliquam nisi mollitia sint tempora asperiores incidunt accusantium
+        iusto! Omnis facilis voluptate dignissimos rerum natus neque hic saepe
+        asperiores nam perferendis?
+      </p>
+    </div>
+    <div>
+      <h4>Third</h4>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus
+        aliquam nisi mollitia sint tempora asperiores incidunt accusantium
+        iusto! Omnis facilis voluptate dignissimos rerum natus neque hic saepe
+        asperiores nam perferendis?
+      </p>
+    </div>
+    <div>
+      <h4>Fourth</h4>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus
+        aliquam nisi mollitia sint tempora asperiores incidunt accusantium
+        iusto! Omnis facilis voluptate dignissimos rerum natus neque hic saepe
+        asperiores nam perferendis?
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- END-CONTENT -->
+{% endblock %}

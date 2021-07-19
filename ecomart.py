@@ -73,7 +73,6 @@ def recyclable_index():
     return render_template('recyclable_index.html')
 
 
-
 @app.route('/<string:category>')
 def filter(category):
     user = current_user if current_user.is_authenticated else None
@@ -93,7 +92,7 @@ def buynow(id):
         products = getProduct(id, current_user.emailid, quantity)
         total_price, total_points = calculateCart(products)
         print(total_points, total_price)
-        return render_template("buyCart.html",products= products, total_price = total_price, total_points = total_points, cart= False)
+        return render_template("buyCart.html", products=products, total_price=total_price, total_points=total_points, cart=False)
     else:
         return redirect(url_for('.dashboard'))
 
@@ -107,14 +106,14 @@ def buy():
         remaining_points = request.form.get('remaining_points', '')
         price = request.form.get('price', '')
         customer_emailid = request.form.get('user_emailid', '')
-        price= int(price)
+        price = int(price)
         quantity = int(quantity)
         print(remaining_points)
-        updateUserPoints(remaining_points= remaining_points, emailid = customer_emailid)
+        updateUserPoints(remaining_points=remaining_points,
+                         emailid=customer_emailid)
         buyProduct(product_id=product_id, customer_emailid=customer_emailid,
                    quantity=quantity, price=price)
         return redirect(url_for('.dashboard'))
-
 
 
 @app.route('/add_product', methods=['GET', 'POST'])
@@ -214,7 +213,6 @@ def productsWithNoId():
     return redirect(url_for("index"))
 
 
-
 @app.route('/addToCart/<int:id>', methods=['GET', 'POST'])
 @login_required
 def add_to_cart_post(id):
@@ -223,7 +221,8 @@ def add_to_cart_post(id):
         quantity = request.form.get('quantity', '')
         quantity = int(quantity)
         print(product_detail)
-        addToCartPost(current_user.emailid, product_detail[0], quantity, product_detail[6])
+        addToCartPost(current_user.emailid,
+                      product_detail[0], quantity, product_detail[6])
         # addToCartPost(emailid, product_id, quantitiy, price,  con=None, cur=None, db=None):
         # return redirect(url_for('.dashboard'))
         # return render_template('cart.html', products=product_detail, current_user=current_user)
@@ -231,13 +230,13 @@ def add_to_cart_post(id):
     else:
         return redirect(url_for('.dashboard'))
 
+
 @app.route('/cart', methods=['GET', 'POST'])
 @login_required
 def cart():
     products = CartItemsUsingEmailid(current_user.emailid)
 
-    return render_template('cart.html', products = products, current_user = current_user)
-
+    return render_template('cart.html', products=products, current_user=current_user)
 
 
 @app.route('/add_recycled_product', methods=['GET', 'POST'])
@@ -248,15 +247,13 @@ def add_recycled_product():
     return render_template('recycled_product.html')
 
 
-
-
 @app.route('/cartBilling', methods=['POST'])
 @login_required
 def cartBilling():
     cart_products = CartItemsUsingEmailid(current_user.emailid)
     print(cart_products)
     total_price, total_points = calculateCart(cart_products)
-    return render_template('buyCart.html', products=cart_products, total_price= total_price, total_points=total_points, cart=True)
+    return render_template('buyCart.html', products=cart_products, total_price=total_price, total_points=total_points, cart=True)
 
 
 @app.route('/buyCart', methods=['POST'])
@@ -266,22 +263,31 @@ def buyCart():
         remaining_points = request.form.get('remaining_points', '')
         customer_emailid = request.form.get('user_emailid', '')
         print(remaining_points)
-        updateUserPoints(remaining_points= remaining_points, emailid = customer_emailid)
+        updateUserPoints(remaining_points=remaining_points,
+                         emailid=customer_emailid)
         cart_products = CartItemsUsingEmailid(current_user.emailid)
         buyCartItems(cart_products=cart_products)
         return redirect(url_for('.dashboard'))
+
 
 @app.route('/deleteCartItem/<int:id>', methods=['POST'])
 @login_required
 def deletCartItem(id):
     if (current_user.category == 'buyer') and (request.method == 'POST'):
-        deleteFromCart(id,current_user.emailid)
+        deleteFromCart(id, current_user.emailid)
         print("done")
         return redirect(url_for('.cart'))
 
 
+@app.route('/eco-friendly-business', methods=['GET'])
+def ecoFriendlyBusiness():
+
+    return render_template('eco-friendly-business.html')
+
+
 port = os.getenv('PORT', '5000')
 env = os.getenv("FLASK_ENV", "production")
+
 
 @atexit.register
 def shutdown():
