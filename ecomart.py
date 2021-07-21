@@ -50,7 +50,9 @@ def load_user(user_id):
 @login_manager.unauthorized_handler
 def unauthorized_handler():
     flash("You have to be logged in to access this page.")
-    return redirect(url_for('auth.login', next=request.endpoint))
+    # TODO: Bug when user is not logged in and tries to access the buy now page,
+    # disabled `next` for now
+    return redirect(url_for('auth.login', ))
 
 
 @app.errorhandler(404)
@@ -64,8 +66,6 @@ def index():
     user = current_user if current_user.is_authenticated else None
     rows = getAllProducts()
     return render_template('index.html', current_user=user, products=rows)
-
-
 
 
 @app.route('/<string:category>')
@@ -233,7 +233,7 @@ def cart():
         quantity = request.form.get('updated-quantity', '')
         total_price = request.form.get('total-price', '')
         cart_Id = request.form.get('cartId', '')
-        print(quantity,total_price)
+        print(quantity, total_price)
         updateCartDetails(cart_Id, quantity, total_price)
 
     products = CartItemsUsingEmailid(current_user.emailid)
@@ -241,13 +241,13 @@ def cart():
     return render_template('cart.html', products=products, current_user=current_user)
 
 
-
 @app.route('/recyclable_index')
 def recyclable_index():
     # user = current_user if current_user.is_authenticated else None
     # rows = getAllProducts()
     return render_template('recyclable_index.html')
-    
+
+
 @app.route('/add_recycled_product', methods=['GET', 'POST'])
 @login_required
 def add_recycled_product():

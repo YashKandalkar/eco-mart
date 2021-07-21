@@ -41,7 +41,7 @@ loginForm %}
         />
 
         <i
-          onclick="onDeleteClick({{ product[8] }})"
+          onclick="onDeleteClick('{{ product[8] }}')"
           class="bi bi-trash-fill fs-4"
           style="
             position: absolute;
@@ -78,7 +78,7 @@ loginForm %}
                 id="minus-button-{{ product[8] }}"
                 style="max-width: 40px; background-color: #0d6efd"
                 class="disabled btn btn-primary ms-auto p-0"
-                onclick="onMinusClick({{ product[8] }}, {{ product[10] }})"
+                onclick="onMinusClick('{{ product[8] }}', '{{ product[10] }}')"
               >
                 <i class="bi bi-dash-lg"></i>
               </button>
@@ -97,7 +97,7 @@ loginForm %}
                 class="btn btn-primary p-0"
                 style="max-width: 40px; background-color: #0d6efd"
                 id="plus-button-{{ product[8] }}"
-                onclick="onPlusClick({{ product[8] }}, {{ product[10] }})"
+                onclick="onPlusClick('{{ product[8] }}', '{{ product[10] }}')"
               >
                 <i class="bi bi-plus-lg"></i>
               </button>
@@ -129,16 +129,22 @@ loginForm %}
         Proceed to checkout
       </button>
       {% else %}
-      <p
-        style="
-          position: center;
-          margin-left: 40%;
-
-          color: rgb(185, 34, 34);
+      <div
+        class="
+          text-center
+          my-3
+          d-flex
+          flex-column
+          align-items-center
+          justify-content-center
         "
+        style="min-height: 400px"
       >
-        No Items in your cart. Go Shopping!
-      </p>
+        <span style="font-size: 1.7em; color: #333"
+          >No Items in your cart!</span
+        >
+        <a href="/" class="btn btn-primary mt-3">Go Shopping!</a>
+      </div>
       {%endif%}
     </div>
   </form>
@@ -250,7 +256,9 @@ loginForm %}
     let product = document.getElementById("product-" + buttonId.toString());
     let title = product.querySelector(".card-title");
     document.getElementById("product-name").innerHTML =
-      "Are you sure you want to remove " + title.innerHTML + " from your cart?";
+      "Are you sure you want to remove " +
+      title.innerHTML +
+      " from your cart?";
     document
       .getElementById("deletecartitem")
       .setAttribute("formaction", "/deleteCartItem/" + Number(buttonId));
