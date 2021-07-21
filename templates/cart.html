@@ -34,13 +34,12 @@ loginForm %}
         class="card shadow-none d-flex flex-row position-relative my-4"
         style="max-width: unset; min-height: 150px"
       >
-        <input type="hidden" name="cartId" value="{{product[8]}}" />
         <input
           type="hidden"
           id="max-quantity - {{product[8]}}"
           value="{{product[9]}}"
         />
-        <input type="hidden" name="total-price" value="{{product[5]}}" />
+
         <i
           onclick="onDeleteClick({{ product[8] }})"
           class="bi bi-trash-fill fs-4"
@@ -67,53 +66,62 @@ loginForm %}
               >{{product[5] * product[4]}}</span
             >
           </p>
-
-          <div class="flex-nowrap input-group mb-3" style="max-height: 40px">
-            <button
-              type="button"
-              id="minus-button-{{ product[8] }}"
-              style="max-width: 40px; background-color: #0d6efd"
-              class="disabled btn btn-primary ms-auto p-0"
-              onclick="onMinusClick({{ product[8] }}, {{ product[10] }})"
-            >
-              <i class="bi bi-dash-lg"></i>
-            </button>
-            <input
-              id="quantity-input-{{ product[8] }}"
-              type="number"
-              value="{{product[4]}}"
-              onchange="onInputChange(event)"
-              class="form-control text-center"
-              name="updated-quantity"
-              aria-label="Quantity"
-              style="max-width: 60px"
-            />
-            <button
-              type="button"
-              class="btn btn-primary p-0"
-              style="max-width: 40px; background-color: #0d6efd"
-              id="plus-button-{{ product[8] }}"
-              onclick="onPlusClick({{ product[8] }}, {{ product[10] }})"
-            >
-              <i class="bi bi-plus-lg"></i>
-            </button>
-          </div>
-          <!-- TODO: add backend to update cart -->
-          <button
-            type="submit"
-            id="save - {{product[8]}}"
-            style="
-              width: 80px;
-              height: 30px;
-              text-align: center;
-              padding: 2px;
-              background-color: rgb(0, 128, 0);
-              display: none;
-            "
-            formaction="/cart"
+          <!-- form starts -->
+          <form
+            action="/cart"
+            method="post"
+            style="position: relative; align-self: flex-end; width: 100%"
           >
-            save
-          </button>
+            <div class="flex-nowrap input-group mb-3" style="max-height: 40px">
+              <button
+                type="button"
+                id="minus-button-{{ product[8] }}"
+                style="max-width: 40px; background-color: #0d6efd"
+                class="disabled btn btn-primary ms-auto p-0"
+                onclick="onMinusClick({{ product[8] }}, {{ product[10] }})"
+              >
+                <i class="bi bi-dash-lg"></i>
+              </button>
+              <input
+                id="quantity-input-{{ product[8] }}"
+                type="number"
+                value="{{product[4]}}"
+                onchange="onInputChange(event)"
+                class="form-control text-center"
+                name="updated-quantity"
+                aria-label="Quantity"
+                style="max-width: 60px"
+              />
+              <button
+                type="button"
+                class="btn btn-primary p-0"
+                style="max-width: 40px; background-color: #0d6efd"
+                id="plus-button-{{ product[8] }}"
+                onclick="onPlusClick({{ product[8] }}, {{ product[10] }})"
+              >
+                <i class="bi bi-plus-lg"></i>
+              </button>
+              <input type="hidden" name="cartId" value="{{product[8]}}" />
+              <input type="hidden" name="total-price" value="{{product[5]}}" />
+            </div>
+            <!-- TODO: add backend to update cart -->
+            <button
+              type="submit"
+              id="save - {{product[8]}}"
+              style="
+                width: 80px;
+                height: 30px;
+                text-align: center;
+                padding: 2px;
+                background-color: rgb(0, 128, 0);
+                display: none;
+              "
+              formaction="/cart"
+            >
+              save
+            </button>
+          </form>
+          <!-- form ends -->
         </div>
       </div>
       {% endfor %} {%if products|length != 0%}

@@ -241,6 +241,7 @@ def cart():
     return render_template('cart.html', products=products, current_user=current_user)
 
 
+
 @app.route('/recyclable_index')
 def recyclable_index():
     # user = current_user if current_user.is_authenticated else None
