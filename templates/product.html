@@ -49,7 +49,9 @@
       />
       <div class="media-body w-100">
         <h5 class="mt-0 d-flex align-items-center">
-          {{product[4]}}<span class="badge bg-primary ms-2">category</span>
+          {{product[3]}}<span class="badge bg-primary ms-2"
+            >{{product[4]}}</span
+          >
         </h5>
         <!-- to do: fetch supplier's name -->
         <p class="text-muted">
@@ -60,7 +62,7 @@
         {% else %}
         <p class="text-danger fw-bolder">Only {{product[7]}} left!</p>
         {% endif %}
-        <p>(Description) {{product[5]}}</p>
+        <p>{{product[5]}}</p>
         <hr />
         <blockquote class="blockquote ms-4">
           <p class="">M.R.P.: ₹{{product[6]}}</p>
