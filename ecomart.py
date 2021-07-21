@@ -21,7 +21,7 @@ if 'DATABASE_URI' in os.environ:
         updateProduct, deleteProduct, getSellerDetail,\
         buyProduct, displayOrders, updateUserPoints,\
         deleteFromCart, CartItemsUsingEmailid, calculateCart,\
-        buyCartItems, getProduct
+        buyCartItems, getProduct, updateCartDetails
 else:
     raise ValueError('Env Var not found!')
 
@@ -229,6 +229,13 @@ def add_to_cart_post(id):
 @app.route('/cart', methods=['GET', 'POST'])
 @login_required
 def cart():
+    if (current_user.category == 'buyer') and (request.method == 'POST'):
+        quantity = request.form.get('updated-quantity', '')
+        total_price = request.form.get('total-price', '')
+        cart_Id = request.form.get('cartId', '')
+        print(quantity,total_price)
+        updateCartDetails(cart_Id, quantity, total_price)
+
     products = CartItemsUsingEmailid(current_user.emailid)
 
     return render_template('cart.html', products=products, current_user=current_user)

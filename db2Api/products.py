@@ -378,3 +378,16 @@ def updateInventory(product_id, quantity_purchased , con=None, cur=None, db=None
              product_id,))
     con.commit()
 
+@useDb(defaultReturn=False)
+def updateCartDetails(cart_id, new_quantity, price_per_product, con=None, cur=None, db=None):
+    sql = """UPDATE cart
+            SET 
+            quantity= %s,
+            price = %s
+            WHERE 
+            id=%s """
+    db(sql, (
+             new_quantity,
+             price_per_product,
+             cart_id,))
+    con.commit()
