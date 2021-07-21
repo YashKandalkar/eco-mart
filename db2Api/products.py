@@ -325,7 +325,9 @@ def CartItemsUsingEmailid(emailid, con=None, cur=None, db=None):
     cart.price,
     products.points,
     products.image_path,
-    cart.id 
+    cart.id,
+    products.quantity,
+    products.price 
     FROM products 
     INNER JOIN cart 
     ON cart.emailid = %s AND products.product_id = cart.product_id
