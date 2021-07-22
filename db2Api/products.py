@@ -68,22 +68,16 @@ def addToCartPost(emailid, product_id, quantity, price,  con=None, cur=None, db=
     else:
         sql2 = """UPDATE cart
             SET 
-            quantity = %s 
+            quantity = quantity+ %s 
             WHERE 
             product_id=%s and 
             emailid= %s """
-        quantity+=1
         db(sql2, (quantity,
                 product_id,
                 emailid
                 ) )
         con.commit()
-    sql3 = """SELECT * FROM cart where emailid = %s and product_id = %s """
-    db(sql3, (emailid,
-            product_id
-            ) )
-    rows1 = cur.fetchall()
-    return rows, rows1
+    
 
 
 

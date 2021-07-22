@@ -215,13 +215,8 @@ def add_to_cart_post(id):
         product_detail = getProductUsingId(id)
         quantity = request.form.get('quantity', '')
         quantity = int(quantity)
-        # print(product_detail)
-        rows, rows1= addToCartPost(current_user.emailid,
-                      product_detail[0], quantity, product_detail[6])
-        print("rows",rows, "updated row", rows1)
-        # addToCartPost(emailid, product_id, quantitiy, price,  con=None, cur=None, db=None):
-        # return redirect(url_for('.dashboard'))
-        # return render_template('cart.html', products=product_detail, current_user=current_user)
+        addToCartPost(current_user.emailid,
+        product_detail[0], quantity, product_detail[6])
         return redirect(url_for('.cart'))
     else:
         return redirect(url_for('.dashboard'))
