@@ -43,31 +43,47 @@ def getProductsbyCategory(category, con=None, cur=None, db=None):
 @useDb(defaultReturn=[])
 def addToCartPost(emailid, product_id, quantity, price,  con=None, cur=None, db=None):
 
-    # sql = "SELECT id FROM cart where email = email  "
-    sql = """Insert into cart(
-        emailid,
-        product_id,
-        quantity,
-        price
-        
-    ) values (%s,%s,%s,%s)"""
-
-    db(sql, (emailid,
-             product_id,
-             quantity,
-             price
+    sql1 = """SELECT * FROM cart where emailid = %s and product_id = %s """
+    db(sql1, (emailid,
+             product_id
             ) )
-    con.commit()
-# addToCart(current_user.emailid, product_detail[0], product_detail[1], product_detail[2],product_detail[3], product_detail[6], product_detail[7])
-#   product_id  SERIAL  primary key,
-# 	seller_emailid varchar(25),
-# 	image_path varchar(200),
-# 	product_name varchar(25),
-# 	product_category varchar(25),
-# 	description Text,
-# 	price int,
-# 	quantity int
+    rows = cur.fetchall()
+    #item was not present in the cart
+    if len(rows)==0:
+        sql = """Insert into cart(
+            emailid,
+            product_id,
+            quantity,
+            price
+            
+        ) values (%s,%s,%s,%s)"""
 
+        db(sql, (emailid,
+                product_id,
+                quantity,
+                price
+                ) )
+        con.commit()
+    #item is present in the cart
+    else:
+        sql2 = """UPDATE cart
+            SET 
+            quantity = %s 
+            WHERE 
+            product_id=%s and 
+            emailid= %s """
+        quantity+=1
+        db(sql2, (quantity,
+                product_id,
+                emailid
+                ) )
+        con.commit()
+    sql3 = """SELECT * FROM cart where emailid = %s and product_id = %s """
+    db(sql3, (emailid,
+            product_id
+            ) )
+    rows1 = cur.fetchall()
+    return rows, rows1
 
 
 
