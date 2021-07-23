@@ -232,6 +232,39 @@
               </div>
             </li>
           </ul>
+          <!-- Cart Icon with badge -->
+          {% if current_user and current_user.is_authenticated %}
+          <form action="/cart" class="me-3">
+            <button
+              type="submit"
+              class="
+                btn
+                p-0
+                pe-1
+                btn-outline-light
+                text-dark
+                position-relative
+              "
+            >
+              <i class="bi-cart pointer-event fs-5"></i>
+              <span
+                class="
+                  position-absolute
+                  top-0
+                  start-100
+                  translate-middle
+                  badge
+                  rounded-pill
+                  bg-danger
+                "
+              >
+                {{ session['cart'] or 0}}
+                <span class="visually-hidden">unread messages</span>
+              </span>
+            </button>
+          </form>
+          {% endif %}
+          <!-- Login Form -->
           {% block loginForm %}
           <form class="d-flex" action="/signup">
             <button class="btn btn-primary" type="submit">Login</button>

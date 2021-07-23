@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, abort
+from flask import Blueprint, render_template, request, redirect, abort, session
 from flask.helpers import url_for
 from flask_login import login_required, logout_user, login_user
 from models import User
@@ -6,6 +6,7 @@ from urllib.parse import urlparse, urljoin
 
 
 from db2Api.users import createUser
+from db2Api.products import getCartItemsQuantity
 
 
 auth = Blueprint('auth', __name__)
@@ -34,6 +35,8 @@ def login():
             return render_template('auth/login.html', error="Wrong email or password, please try again!")
 
         login_user(user, remember=remember)
+        session['cart'] = getCartItemsQuantity(user.emailid)
+        print(session['cart'])
         next = request.form.get('next')
 
         if not is_safe_url(next):
@@ -58,6 +61,7 @@ def signup():
         if result:
             user = User(*result)
             login_user(user, remember=remember)
+            session['cart'] = 0
             next = request.form.get('next')
 
             if not is_safe_url(next):

@@ -1,5 +1,5 @@
 import os
-from flask import Flask, flash, render_template, request, redirect
+from flask import Flask, flash, render_template, request, redirect, session
 import json
 from flask.helpers import url_for
 
@@ -218,6 +218,8 @@ def add_to_cart_post(id):
         print(product_detail)
         addToCartPost(current_user.emailid,
                       product_detail[0], quantity, product_detail[6])
+        cartQuantity = session.get('cart', 0)
+        session['cart'] = cartQuantity + quantity
         # addToCartPost(emailid, product_id, quantitiy, price,  con=None, cur=None, db=None):
         # return redirect(url_for('.dashboard'))
         # return render_template('cart.html', products=product_detail, current_user=current_user)
@@ -284,6 +286,8 @@ def buyCart():
 def deletCartItem(id):
     if (current_user.category == 'buyer') and (request.method == 'POST'):
         deleteFromCart(id, current_user.emailid)
+        cartQuantity = session.get('cart', 0)
+        session['cart'] = max(cartQuantity - 1, 0)
         print("done")
         return redirect(url_for('.cart'))
 

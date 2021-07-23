@@ -28,9 +28,9 @@ def getProductsbyCategory(category, con=None, cur=None, db=None):
         - list: list  containing given category product data, if query was successful
         - False: If query was unsuccessful
     """
-    sql = """SELECT * 
-            FROM products 
-            where product_category=%s 
+    sql = """SELECT *
+            FROM products
+            where product_category=%s
             ORDER BY product_id ASC"""
 
     rows = []
@@ -49,14 +49,14 @@ def addToCartPost(emailid, product_id, quantity, price,  con=None, cur=None, db=
         product_id,
         quantity,
         price
-        
+
     ) values (%s,%s,%s,%s)"""
 
     db(sql, (emailid,
              product_id,
              quantity,
              price
-            ) )
+             ))
     con.commit()
 # addToCart(current_user.emailid, product_detail[0], product_detail[1], product_detail[2],product_detail[3], product_detail[6], product_detail[7])
 #   product_id  SERIAL  primary key,
@@ -69,9 +69,6 @@ def addToCartPost(emailid, product_id, quantity, price,  con=None, cur=None, db=
 # 	quantity int
 
 
-
-
-   
 @useDb(defaultReturn=[])
 def getAllProducts(con=None, cur=None, db=None):
     sql = "SELECT * FROM products where quantity>=1"
@@ -95,10 +92,6 @@ def assignPoints(category, con=None, cur=None, db=None):
         return 5
 
 
-
-    
-
-
 @useDb(defaultReturn=False)
 def createProducts(emailid, product_name, category, description, image_url,  price, quantity, con=None, cur=None, db=None):
     """
@@ -112,7 +105,7 @@ def createProducts(emailid, product_name, category, description, image_url,  pri
 
     sql = """Insert into products(
         seller_emailid,
-        product_name, 
+        product_name,
         product_category,
         description,
         image_path,
@@ -135,17 +128,17 @@ def createProducts(emailid, product_name, category, description, image_url,  pri
 @useDb(defaultReturn=[])
 def getSellerDetail(id=id, con=None, cur=None, db=None):
     rows = []
-    sql = """SELECT 
+    sql = """SELECT
             products.product_id,
-            products.seller_emailid, 
-            users.emailid, 
-            users.firstname, 
-            users.lastname 
-            FROM products 
-            INNER JOIN users 
-            ON 
+            products.seller_emailid,
+            users.emailid,
+            users.firstname,
+            users.lastname
+            FROM products
+            INNER JOIN users
+            ON
             (products.seller_emailid = users.emailid)
-            AND 
+            AND
             products.product_id = %s;"""
     db(sql, (id, ))
     if not sql:
@@ -157,16 +150,16 @@ def getSellerDetail(id=id, con=None, cur=None, db=None):
 @useDb(defaultReturn=False)
 def updateUserPoints(remaining_points, emailid, con=None, cur=None, db=None):
     """
-    Tries to update users points 
+    Tries to update users points
 
     Returns:
         - perform updating operation
         - False: If query was unsuccessful
     """
     sql = """UPDATE users
-            SET 
-            points = %s 
-            WHERE 
+            SET
+            points = %s
+            WHERE
             emailid=%s """
     db(sql, (remaining_points,
              emailid
@@ -188,10 +181,11 @@ def getProductUsingId(id=id, con=None, cur=None, db=None):
     db(sql, (id, ))
 
     rows = cur.fetchall()
-    if len(rows)>0:
+    if len(rows) > 0:
         return rows[0]
     else:
         return []
+
 
 @useDb(defaultReturn=False)
 def getProduct(id, user_emailid, quantity, con=None, cur=None, db=None):
@@ -217,14 +211,14 @@ def updateProduct(seller_emailid, id, product_name, category, description, image
     """
 
     sql = """UPDATE products
-            SET 
+            SET
             product_name = %s,
-            product_category= %s, 
+            product_category= %s,
             image_path =%s,
-            description=%s, 
-            price=%s, 
-            quantity=%s 
-            WHERE 
+            description=%s,
+            price=%s,
+            quantity=%s
+            WHERE
             product_id=%s """
     db(sql, (product_name,
              category,
@@ -285,20 +279,21 @@ def displayOrders(customer_emailid, con=None, cur=None, db=None):
     """
     rows = []
     sql = """
-    SELECT 
-    products.product_id, 
+    SELECT
+    products.product_id,
     orders.product_id,
     products.product_name,
     products.product_category,
-    orders.customer_emailid, 
-    orders.quantity, 
-    orders.price 
-    FROM products 
-    INNER JOIN orders 
+    orders.customer_emailid,
+    orders.quantity,
+    orders.price
+    FROM products
+    INNER JOIN orders
     ON orders.customer_emailid = %s AND products.product_id = orders.product_id"""
     db(sql, (customer_emailid, ))
     rows = cur.fetchall()
     return rows or []
+
 
 @useDb(defaultReturn=False)
 def deleteFromCart(id, emailid, con=None, cur=None, db=None):
@@ -310,26 +305,27 @@ def deleteFromCart(id, emailid, con=None, cur=None, db=None):
         - False: If query was unsuccessful
     """
     sql = "DELETE FROM cart WHERE id=%s and emailid=%s"
-    db(sql, (id,emailid, ))
+    db(sql, (id, emailid, ))
     con.commit()
+
 
 @useDb(defaultReturn=False)
 def CartItemsUsingEmailid(emailid, con=None, cur=None, db=None):
     sql = """
-    SELECT 
-    products.product_id,    
+    SELECT
+    products.product_id,
     products.product_name,
     products.description,
-    cart.emailid, 
-    cart.quantity, 
+    cart.emailid,
+    cart.quantity,
     cart.price,
     products.points,
     products.image_path,
     cart.id,
     products.quantity,
-    products.price 
-    FROM products 
-    INNER JOIN cart 
+    products.price
+    FROM products
+    INNER JOIN cart
     ON cart.emailid = %s AND products.product_id = cart.product_id
     """
 
@@ -339,6 +335,30 @@ def CartItemsUsingEmailid(emailid, con=None, cur=None, db=None):
     rows = cur.fetchall()
     return rows or []
 
+
+@useDb(defaultReturn=False)
+def getCartItemsQuantity(emailid, con=None, cur=None, db=None):
+    """
+    Tries to fetch number of products in cart.
+
+    Returns:
+        - int: number of products in cart
+        - False: If query was unsuccessful
+    """
+    sql = """
+    SELECT
+    COUNT(*)
+    FROM cart
+    WHERE emailid = %s
+    """
+    db(sql, (emailid, ))
+    rows = cur.fetchall()
+    if len(rows) > 0:
+        return rows[0][0]
+    else:
+        return 0
+
+
 @useDb(defaultReturn=False)
 def calculateCart(cart_products, con=None, cur=None, db=None):
     total_price = total_points = 0
@@ -347,7 +367,8 @@ def calculateCart(cart_products, con=None, cur=None, db=None):
         total_points += product[4] * product[6]
     return total_price, total_points
 
-@useDb(defaultReturn=False)
+
+@ useDb(defaultReturn=False)
 def buyCartItems(cart_products, con=None, cur=None, db=None):
     for product in cart_products:
         sql = """INSERT INTO orders (
@@ -358,36 +379,38 @@ def buyCartItems(cart_products, con=None, cur=None, db=None):
             )
             values(%s,%s,%s,%s)"""
         db(sql, (product[3],
-                product[0],
-                product[4],
-                product[4]*product[5]))
+                 product[0],
+                 product[4],
+                 product[4]*product[5]))
         con.commit()
         updateInventory(product[0], product[4])
 
-        deleteFromCart(product[0],product[3])
-    
-@useDb(defaultReturn=False)
-def updateInventory(product_id, quantity_purchased , con=None, cur=None, db=None):
+        deleteFromCart(product[0], product[3])
+
+
+@ useDb(defaultReturn=False)
+def updateInventory(product_id, quantity_purchased, con=None, cur=None, db=None):
     sql = """UPDATE products
-            SET 
-            quantity= quantity - %s 
-            WHERE 
+            SET
+            quantity= quantity - %s
+            WHERE
             product_id=%s """
     db(sql, (
-             quantity_purchased,
-             product_id,))
+        quantity_purchased,
+        product_id,))
     con.commit()
 
-@useDb(defaultReturn=False)
+
+@ useDb(defaultReturn=False)
 def updateCartDetails(cart_id, new_quantity, price_per_product, con=None, cur=None, db=None):
     sql = """UPDATE cart
-            SET 
+            SET
             quantity= %s,
             price = %s
-            WHERE 
+            WHERE
             id=%s """
     db(sql, (
-             new_quantity,
-             price_per_product,
-             cart_id,))
+        new_quantity,
+        price_per_product,
+        cart_id,))
     con.commit()
