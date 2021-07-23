@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block
-loginForm %} {% if current_user %} {% block head %}
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block loginForm
+%} {% if current_user %} {% block head %}
 <link
   rel="stylesheet"
   href=" {{ url_for('static',filename='sidebars.css') }} "
@@ -112,6 +112,11 @@ loginForm %} {% if current_user %} {% block head %}
               </li>
               <li><a href="/Clothes" class="link-dark rounded">Clothes</a></li>
               <li><a href="/Bags" class="link-dark rounded">Bags</a></li>
+              <li>
+                <a href="/recyclable_products" class="link-dark rounded"
+                  >recyclable products</a
+                >
+              </li>
             </ul>
           </div>
         </li>

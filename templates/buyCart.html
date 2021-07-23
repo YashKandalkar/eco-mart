@@ -28,7 +28,7 @@ loginForm %}
           <h1 id="heading">Billing Page</h1>
         </div>
         <div class="row pt-4">
-          <!-- todo: updating users's points -->
+          <!-- todo: updating users's points. Neha: this functionality is performed as soon as user clicks on proceed to buy-->
           {%set remaining_points = current_user.points - total_points %}
           <h5>Points remaining : {{ remaining_points }}</h5>
         </div>
@@ -77,12 +77,13 @@ loginForm %}
           {% set count = 1%} {% for product in products %}
 
           <tr>
-            <th scope="row">{{ count }}</th>
+            <th scope="row">{{ "*" }}</th>
+            {% set count = count +1 %}
             <td>{{ product[1] }}</td>
             <td>{{ product[4] }}</td>
             <td>{{ product[5] }}</td>
           </tr>
-          {% set count = count + 1 %} {% endfor %}
+          {% endfor %}
         </tbody>
       </table>
     </div>
