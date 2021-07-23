@@ -81,7 +81,7 @@ def addToCartPost(emailid, product_id, quantity, price,  con=None, cur=None, db=
 
 @useDb(defaultReturn=[])
 def getAllProducts(con=None, cur=None, db=None):
-    sql = "SELECT * FROM products where quantity>=1"
+    sql = "SELECT * FROM products where quantity>=1 and product_category !='Recycling' "
 
     rows = []
 
@@ -100,6 +100,8 @@ def assignPoints(category, con=None, cur=None, db=None):
         return 10
     elif category == 'Bags':
         return 5
+    else :
+        return 0
 
 
 @useDb(defaultReturn=False)

@@ -30,10 +30,9 @@ loginForm %}
   >
     New Product
   </button>
- </form>
+</form>
 
-
-  <form action="./add_recycled_product">
+<!-- <form action="./add_recycled_product">
   <button
     type="submit"
     class="btn btn-primary float-end mt-2"
@@ -41,7 +40,7 @@ loginForm %}
   >
     New Recycled Product
   </button>
-</form>
+</form> -->
 
 <section style="margin: 30px">
   <h2>List of products :</h2>
@@ -88,6 +87,9 @@ loginForm %}
 <p>Contact number: {{current_user.contact_no}}</p>
 <p>Remaining points: {{current_user.points}}</p>
 <hr />
+<form action="/add_recycling_product">
+  <button type="submit">Giveaway</button>
+</form>
 {% if orders!=[] %}
 <h4>Order History</h4>
 <br />
