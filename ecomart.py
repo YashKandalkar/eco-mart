@@ -125,8 +125,7 @@ def add_product():
         createProducts(seller_emailid, product_name, category,
                        description, image_url, price, quantity)
         return redirect(url_for('.dashboard'))
-    elif current_user.category == 'seller':
-        return render_template("add_product.html")
+    
     else:
         return redirect(url_for('.dashboard'))
 
@@ -246,12 +245,25 @@ def recyclable_index():
     return render_template('recyclable_index.html')
 
 
-@app.route('/add_recycled_product', methods=['GET', 'POST'])
+@app.route('/add_recycling_product', methods=['GET', 'POST'])
 @login_required
-def add_recycled_product():
-    # products = CartItemsUsingEmailid(current_user.emailid)
-
-    return render_template('recyclable_product.html')
+def add_recycling_product():
+    
+    if request.method == 'POST':
+        product_name = request.form.get('productname', '')
+        category = request.form.get('category', '')
+        description = request.form.get('description', '')
+        quantity = request.form.get('quantity', '')
+        seller_emailid = current_user.emailid
+        image_url = request.form.get('image_url', '')
+        createProducts(seller_emailid, product_name, category,
+                       description, image_url, quantity)
+        return redirect(url_for('.dashboard'))
+    elif current_user:
+        return render_template("add_recycling_product.html")
+    else:
+        return redirect(url_for('/'))
+    # return render_template('recyclable_product.html')
 
 
 @app.route('/cartBilling', methods=['POST'])

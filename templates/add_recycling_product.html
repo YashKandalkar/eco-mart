@@ -5,7 +5,7 @@ loginForm %}
 </form>
 {% endblock %} {% block content %}
 <div class="container py-4" style="max-width: 580px">
-  <h2 class="mb-4">Add new Recyclable product</h2>
+  <h2 class="mb-4">Giveaway</h2>
   <form
     action="/add_product"
     method="POST"
@@ -27,9 +27,7 @@ loginForm %}
               placeholder="Product Name"
               aria-describedby="Product Name"
             />
-            <label for="productname" class="form-label"
-              >Recyclable Product Name</label
-            >
+            <label for="productname" class="form-label">Name</label>
           </div>
         </div>
 
@@ -42,10 +40,7 @@ loginForm %}
               id="category"
               name="category"
             >
-              <option value="Recycled_Artifacts">Artifacts</option>
-              <option value="RecFurnitures">Furnitures</option>
-              <option value="Clothes">Clothes</option>
-              <option value="Bags">Bags</option>
+              <option value="Recycling">Recycling</option>
             </select>
             <label for="category" class="form-label">category</label>
           </div>
@@ -88,7 +83,7 @@ loginForm %}
     <div class="mb-3">
       <div class="row gx-3">
         <!-- price -->
-        <div class="col">
+        <!-- <div class="col">
           <div class="form-floating">
             <input
               required="true"
@@ -102,7 +97,7 @@ loginForm %}
             />
             <label for="price" class="form-label">Price</label>
           </div>
-        </div>
+        </div> -->
         <!-- quantity -->
         <div class="col">
           <div class="form-floating">
@@ -124,11 +119,11 @@ loginForm %}
     <div class="mb-3">
       <div class="row gx-3">
         <!-- price_error-->
-        <div class="col">
+        <!-- <div class="col">
           <div class="form-floating" id="price_error" style="display: none">
             price should only contain integer value
           </div>
-        </div>
+        </div> -->
         <!-- quantity -->
         <div class="col">
           <div class="form-floating" id="quantity_error" style="display: none">
@@ -185,18 +180,18 @@ loginForm %}
       document.getElementById("description_error").style.display = "none";
     }
 
-    if (price.search(/[A-Z]/) != -1) {
-      document.getElementById("price").style.borderColor = "red";
-      document.getElementById("price_error").style.display = "block";
-      return false;
-    } else if (price.search(/[a-z]/) != -1) {
-      document.getElementById("price").style.borderColor = "red";
-      document.getElementById("price_error").style.display = "block";
-      return false;
-    } else {
-      document.getElementById("price").style.borderColor = "lightgrey";
-      document.getElementById("price_error").style.display = "none";
-    }
+    // if (price.search(/[A-Z]/) != -1) {
+    //   document.getElementById("price").style.borderColor = "red";
+    //   document.getElementById("price_error").style.display = "block";
+    //   return false;
+    // } else if (price.search(/[a-z]/) != -1) {
+    //   document.getElementById("price").style.borderColor = "red";
+    //   document.getElementById("price_error").style.display = "block";
+    //   return false;
+    // } else {
+    //   document.getElementById("price").style.borderColor = "lightgrey";
+    //   document.getElementById("price_error").style.display = "none";
+    // }
 
     //qunatity
     if (quantity.search(/[A-Z]/) != -1) {
