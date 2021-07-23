@@ -21,7 +21,8 @@ if 'DATABASE_URI' in os.environ:
         updateProduct, deleteProduct, getSellerDetail,\
         buyProduct, displayOrders, updateUserPoints,\
         deleteFromCart, CartItemsUsingEmailid, calculateCart,\
-        buyCartItems, getProduct, updateCartDetails
+        buyCartItems, getProduct, updateCartDetails,\
+        givePointsToUser
 else:
     raise ValueError('Env Var not found!')
 
@@ -180,8 +181,13 @@ def dashboard():
         orders = displayOrders(current_user.emailid)
         # print(orders)
         return render_template('dashboard.html', current_user=current_user, orders=orders)
+
+    elif current_user.category == 'Admin':
+        return render_template('dashboard.html')
+
     elif current_user.category == "buyer" and (request.method == 'POST'):
         return render_template('add_recycling_product.html')
+
     else:
         print("ERROR AYAAAA", current_user.category.strip(),)
 
@@ -258,8 +264,11 @@ def add_recycling_product():
         quantity = request.form.get('quantity', '')
         seller_emailid = current_user.emailid
         image_url = request.form.get('image_url', '')
+
         createProducts(seller_emailid, product_name, category,
                        description, image_url, 0, quantity)
+        quantity = int(quantity)
+        givePointsToUser(quantity, current_user.emailid)
         return redirect(url_for('.dashboard'))
     elif current_user.category == "buyer":
         return render_template("add_recycling_product.html")

@@ -426,3 +426,25 @@ def updateCartDetails(cart_id, new_quantity, price_per_product, con=None, cur=No
         price_per_product,
         cart_id,))
     con.commit()
+
+@ useDb(defaultReturn=False)
+def givePointsToUser( quantity, user_emailid, con=None, cur=None, db=None):
+    if quantity > 2:
+        sql = """UPDATE users
+                SET
+                points= points + 15
+                WHERE
+                emailid=%s """
+    else :
+        
+        sql = """UPDATE users
+                SET
+                points= points + 10
+                WHERE
+                emailid=%s """
+
+    db(sql, (
+        user_emailid,
+        ))
+    con.commit()
+    
