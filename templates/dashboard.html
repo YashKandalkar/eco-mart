@@ -14,7 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   
-    <title>Hello, world!</title>
+    <title>Dashboard | Ecomart</title>
   </head>
   <body>
     {% extends "base.html" %} {% block title %}Dashboard{% endblock %} {% block
@@ -44,9 +44,15 @@
             <div class="collapse" id="collapseExample">
               <div class="card card-body">
                 <div>
-                  <p>Company Name: {{current_user.firstname}} {{current_user.lastname}}</p>
+                  {% if current_user.category == 'seller' %}
+                    <p>Company Name: {{current_user.firstname}} {{current_user.lastname}}</p>
+                    <p>Contact number: {{current_user.contact_no}}</p>
+                    <p>Address: {{current_user.address}}</p>
+                  {% else %}
+                  <p>Name: {{current_user.firstname}} {{current_user.lastname}}</p>
                   <p>Contact number: {{current_user.contact_no}}</p>
-                  <p>Address: {{current_user.address}}</p>
+                  <p>Remaining points: {{current_user.points}}</p>
+                  {% endif %}
                 </div> 
                 
               </div>
