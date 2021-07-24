@@ -1,81 +1,164 @@
-{% extends "base.html" %} {% block title %}Dashboard{% endblock %} {% block
-loginForm %}
-<form class="d-flex" action="/logout">
-  <button class="btn btn-primary" type="submit">Logout</button>
-</form>
-<br />
-{% endblock %} {% block content %}
-<br />
-<section style="margin: 20px 30px">
-  <h3>Welcome {{current_user.firstname}} {{current_user.lastname}}!</h3>
-</section>
-<hr />
-<section style="margin: 30px">
-  <h3>Details</h3>
-  <br />
-  {% if current_user.category == 'seller' %}
-  <div>
-    <p>Company Name: {{current_user.firstname}} {{current_user.lastname}}</p>
-    <p>Contact number: {{current_user.contact_no}}</p>
-    <p>Address: {{current_user.address}}</p>
-  </div>
-</section>
-<hr />
-<br />
-<form action="./add_product">
-  <button
-    type="submit"
-    class="btn btn-primary float-end mt-2"
-    aria-hidden="true"
-  >
-    New Product
-  </button>
-</form>
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!-- <form action="./add_recycled_product">
-  <button
-    type="submit"
-    class="btn btn-primary float-end mt-2"
-    aria-hidden="true"
-  >
-    New Recycled Product
-  </button>
-</form> -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-<section style="margin: 30px">
-  <h2>List of products :</h2>
-  <div>
-    <div class="row">
-      {%for i in products%}
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6 my-4">
-        <div class="card h-100" style="width: 50%">
-          <div style="padding: 10px">
-            <p>Name: {{i[3]}}</p>
-            <p>Type: {{i[4]}}</p>
-            <p>Description: {{i[5]}}</p>
-            <p>Quantity: {{i[7]}}</p>
-            <p>Price: &#8377;{{i[6]}}</p>
+     <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+    <title>Dashboard | Ecomart</title>
+  </head>
+  <body>
+    {% extends "base.html" %} {% block title %}Dashboard{% endblock %} {% block
+        loginForm %}
+        <form class="d-flex" action="/logout">
+          <button class="btn btn-primary" type="submit">Logout</button>
+        </form>
+        <br />
+        {% endblock %} {% block content %}
+        <br />
+        <div class="jumbotron d-flex flex-column align-items-center p-4 pb-0 mb-2">
+          <!-- <section class="" style="margin: 20px 30px"> -->
+            <div>
+              
+              <h2>Welcome {{current_user.firstname}} {{current_user.lastname}}!</h2>
+            </div>
+            <div class="pt-4">
+              <p>
+                <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                  Personal Details
+                </button>
+              </p>
+            </div>
+            <div>
+              <i>Click to view details</i>
+            </div>
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                <div>
+                  {% if current_user.category == 'seller' %}
+                    <p>Company Name: {{current_user.firstname}} {{current_user.lastname}}</p>
+                    <p>Contact number: {{current_user.contact_no}}</p>
+                    <p>Address: {{current_user.address}}</p>
+                  {% else %}
+                  <p>Name: {{current_user.firstname}} {{current_user.lastname}}</p>
+                  <p>Contact number: {{current_user.contact_no}}</p>
+                  <p>Remaining points: {{current_user.points}}</p>
+                  {% endif %}
+                </div> 
+                
+              </div>
+            </div>
+          <!-- </section> -->
+
+          <hr />
+        </div>
+          <section style="margin: 30px">
+            
+            <!-- <h3>Details</h3> -->
+            <br />
+            {% if current_user.category == 'seller' %}
+                <!-- <div>
+                  <p>Company Name: {{current_user.firstname}} {{current_user.lastname}}</p>
+                  <p>Contact number: {{current_user.contact_no}}</p>
+                  <p>Address: {{current_user.address}}</p>
+                </div>  -->
+            
+          </section>
+          <hr />
+        
+        
+        
+        <br />
+        <form action="./add_product">
+          <button
+            type="submit"
+            class="btn btn-primary float-end mt-2"
+            aria-hidden="true"
+          >
+            New Product
+          </button>
+         </form>
+        
+        
+          <form action="./add_recycled_product">
+          <button
+            type="submit"
+            class="btn btn-primary float-end mt-2"
+            aria-hidden="true"
+          >
+            New Recycled Product
+          </button>
+        </form>
+        
+        <section style="margin: 30px">
+          <h2>List of products :</h2>
+          <div>
+            <div class="row">
+              {%for i in products%}
+              <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6 my-4">
+                <div class="card h-100" style="width: 50%">
+                  <div style="padding: 10px">
+                    <p>Name: {{i[3]}}</p>
+                    <p>Type: {{i[4]}}</p>
+                    <p>Description: {{i[5]}}</p>
+                    <p>Quantity: {{i[7]}}</p>
+                    <p>Price: &#8377;{{i[6]}}</p>
+                  </div>
+                  <form action="./update/{{i[0]}}">
+                    <button
+                      type="submit"
+                      class="btn btn-success"
+                      style="border-radius: 0 0 0 0"
+                      aria-hidden="true"
+                    >
+                      Update
+                    </button>
+                  </form>
+                  <form action="./delete_product/{{i[0]}}">
+                    <button
+                      type="submit"
+                      class="btn btn-danger"
+                      style="border-radius: 0 0 5px 5px"
+                      aria-hidden="true"
+                    >
+                      Delete
+                    </button>
+                  </form>
+                </div>
+              </div>
+              {%endfor%}
+            </div>
           </div>
-          <form action="./update/{{i[0]}}">
-            <button
-              type="submit"
-              class="btn btn-success"
-              style="border-radius: 0 0 0 0"
-              aria-hidden="true"
-            >
-              Update
-            </button>
-          </form>
-          <form action="./delete_product/{{i[0]}}">
-            <button
-              type="submit"
-              class="btn btn-danger"
-              style="border-radius: 0 0 5px 5px"
-              aria-hidden="true"
-            >
-              Delete
-            </button>
-          </form>
+        </section>
+        {% else %}
+        <!-- <p>Name: {{current_user.firstname}} {{current_user.lastname}}</p>
+        <p>Contact number: {{current_user.contact_no}}</p>
+        <p>Remaining points: {{current_user.points}}</p>
+        <hr /> -->
+        {% if orders!=[] %}
+        <h3>Order History</h3>
+        <br />
+        {%for order in orders%}
+        <div class="col-3 m-4">
+          <div class="card" style="width: 18rem;">
+            <div class="card-header">
+              <i><h4>{{order[2]}}</h4></i>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Category: {{order[3]}}</li>
+              <li class="list-group-item">Quantity: {{order[5]}}</li>
+              <li class="list-group-item">Price: {{order[6]}}</li>
+            </ul>
+          </div>
         </div>
       </div>
       {%endfor%}

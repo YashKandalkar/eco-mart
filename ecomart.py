@@ -69,6 +69,9 @@ def index():
     return render_template('index.html', current_user=user, products=rows)
 
 
+
+
+
 @app.route('/<string:category>')
 def filter(category):
     user = current_user if current_user.is_authenticated else None

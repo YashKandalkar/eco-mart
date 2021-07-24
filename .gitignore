@@ -107,3 +107,4 @@ ENV/
 
 
 templates/arsh.html
+templates/credentials.txt
