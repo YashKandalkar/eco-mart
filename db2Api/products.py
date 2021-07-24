@@ -40,9 +40,14 @@ def getProductsbyCategory(category, con=None, cur=None, db=None):
     return rows or []
 
 
-@useDb(defaultReturn=[])
+@useDb(defaultReturn=False)
 def addToCartPost(emailid, product_id, quantity, price,  con=None, cur=None, db=None):
-
+    """
+    Adds given product to cart of given user. Updates the current row if it already exists.
+    Returns:
+        - True: If new row was added
+        - False: If row was already present
+    """
     sql1 = """SELECT * FROM cart where emailid = %s and product_id = %s """
     db(sql1, (emailid,
               product_id
@@ -64,6 +69,7 @@ def addToCartPost(emailid, product_id, quantity, price,  con=None, cur=None, db=
                  price
                  ))
         con.commit()
+        return True
     # item is present in the cart
     else:
         sql2 = """UPDATE cart
@@ -77,6 +83,7 @@ def addToCartPost(emailid, product_id, quantity, price,  con=None, cur=None, db=
                   emailid
                   ))
         con.commit()
+        return False
 
 
 @useDb(defaultReturn=[])
@@ -100,7 +107,7 @@ def assignPoints(category, con=None, cur=None, db=None):
         return 10
     elif category == 'Bags':
         return 5
-    else :
+    else:
         return 0
 
 
@@ -358,11 +365,11 @@ def getCartItemsQuantity(emailid, con=None, cur=None, db=None):
         - False: If query was unsuccessful
     """
     sql = """
-    SELECT
-    COUNT(*)
-    FROM cart
-    WHERE emailid = %s
-    """
+            SELECT
+            COUNT(*)
+            FROM cart
+            WHERE emailid = %s
+        """
     db(sql, (emailid, ))
     rows = cur.fetchall()
     if len(rows) > 0:
@@ -427,16 +434,17 @@ def updateCartDetails(cart_id, new_quantity, price_per_product, con=None, cur=No
         cart_id,))
     con.commit()
 
+
 @ useDb(defaultReturn=False)
-def givePointsToUser( quantity, user_emailid, con=None, cur=None, db=None):
+def givePointsToUser(quantity, user_emailid, con=None, cur=None, db=None):
     if quantity > 2:
         sql = """UPDATE users
                 SET
                 points= points + 10
                 WHERE
                 emailid=%s """
-    else :
-        
+    else:
+
         sql = """UPDATE users
                 SET
                 points= points + 5
@@ -445,6 +453,5 @@ def givePointsToUser( quantity, user_emailid, con=None, cur=None, db=None):
 
     db(sql, (
         user_emailid,
-        ))
+    ))
     con.commit()
-    

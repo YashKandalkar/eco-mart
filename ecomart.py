@@ -69,9 +69,6 @@ def index():
     return render_template('index.html', current_user=user, products=rows)
 
 
-
-
-
 @app.route('/<string:category>')
 def filter(category):
     user = current_user if current_user.is_authenticated else None
@@ -129,7 +126,7 @@ def add_product():
         createProducts(seller_emailid, product_name, category,
                        description, image_url, price, quantity)
         return redirect(url_for('.dashboard'))
-    
+
     else:
         return render_template('add_product.html')
 
@@ -224,10 +221,13 @@ def add_to_cart_post(id):
         product_detail = getProductUsingId(id)
         quantity = request.form.get('quantity', '')
         quantity = int(quantity)
-        addToCartPost(current_user.emailid,
-                      product_detail[0], quantity, product_detail[6])
+        rowAdded = addToCartPost(current_user.emailid,
+                                 product_detail[0], quantity, product_detail[6])
         cartQuantity = session.get('cart', 0)
-        session['cart'] = cartQuantity + quantity
+        if rowAdded:
+            session['cart'] = cartQuantity + 1
+        else:
+            session['cart'] = cartQuantity
         return redirect(url_for('.cart'))
     else:
         return redirect(url_for('.dashboard'))
@@ -246,9 +246,6 @@ def cart():
     products = CartItemsUsingEmailid(current_user.emailid)
 
     return render_template('cart.html', products=products, current_user=current_user)
-
-
-
 
 
 @app.route('/add_recycling_product', methods=['GET', 'POST'])

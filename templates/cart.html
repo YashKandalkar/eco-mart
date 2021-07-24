@@ -24,7 +24,7 @@ loginForm %}
     cursor: pointer;
   }
 </style>
-<div class="container-md">
+<div class="container-md mb-5">
   <h1 class="my-4">My Cart</h1>
   <form action="/cartBilling" method="post">
     <div class="border px-4">
@@ -72,54 +72,51 @@ loginForm %}
             method="post"
             style="position: relative; align-self: flex-end; width: 100%"
           >
-            <div class="flex-nowrap input-group mb-3" style="max-height: 40px">
+            <div class="d-flex w-100 flex-row mb-3" style="max-height: 40px">
               <button
-                type="button"
-                id="minus-button-{{ product[8] }}"
-                style="max-width: 40px; background-color: #0d6efd"
-                class="disabled btn btn-primary ms-auto p-0"
-                onclick="onMinusClick('{{ product[8] }}', '{{ product[10] }}')"
+                type="submit"
+                id="save - {{product[8]}}"
+                class="btn btn-success w-25"
+                style="display: none"
+                formaction="/cart"
               >
-                <i class="bi bi-dash-lg"></i>
+                save
               </button>
-              <input
-                id="quantity-input-{{ product[8] }}"
-                type="number"
-                value="{{product[4]}}"
-                onchange="onInputChange(event)"
-                class="form-control text-center"
-                name="updated-quantity"
-                aria-label="Quantity"
-                style="max-width: 60px"
-              />
-              <button
-                type="button"
-                class="btn btn-primary p-0"
-                style="max-width: 40px; background-color: #0d6efd"
-                id="plus-button-{{ product[8] }}"
-                onclick="onPlusClick('{{ product[8] }}', '{{ product[10] }}')"
-              >
-                <i class="bi bi-plus-lg"></i>
-              </button>
+              <div class="flex-nowrap input-group">
+                <button
+                  type="button"
+                  id="minus-button-{{ product[8] }}"
+                  style="max-width: 40px"
+                  class="disabled btn btn-primary ms-auto"
+                  onclick="onMinusClick('{{ product[8] }}', '{{ product[10] }}')"
+                >
+                  <i class="bi bi-dash-lg"></i>
+                </button>
+                <input
+                  id="quantity-input-{{ product[8] }}"
+                  type="number"
+                  value="{{product[4]}}"
+                  onchange="onInputChange(event, '{{ product[10] }}')"
+                  onkeydown="onInputKeyDown(event, '{{ product[10] }}')"
+                  class="form-control text-center"
+                  name="updated-quantity"
+                  aria-label="Quantity"
+                  style="max-width: 60px"
+                />
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  style="max-width: 40px"
+                  id="plus-button-{{ product[8] }}"
+                  onclick="onPlusClick('{{ product[8] }}', '{{ product[10] }}')"
+                >
+                  <i class="bi bi-plus-lg"></i>
+                </button>
+              </div>
               <input type="hidden" name="cartId" value="{{product[8]}}" />
               <input type="hidden" name="total-price" value="{{product[5]}}" />
             </div>
             <!-- TODO: add backend to update cart -->
-            <button
-              type="submit"
-              id="save - {{product[8]}}"
-              style="
-                width: 80px;
-                height: 30px;
-                text-align: center;
-                padding: 2px;
-                background-color: rgb(0, 128, 0);
-                display: none;
-              "
-              formaction="/cart"
-            >
-              save
-            </button>
           </form>
           <!-- form ends -->
         </div>
@@ -191,6 +188,22 @@ loginForm %}
 </div>
 <script>
   let myModal = new bootstrap.Modal(document.getElementById("deleteModal"));
+  const products = {{products|tojson}};
+
+  products.forEach((product) => {
+    const quantity = product[4];
+    const maxQuantity = product[9];
+
+    if (quantity > 1) {
+      const minusButton = document.getElementById(`minus-button-${product[8]}`);
+      minusButton.classList.remove("disabled");
+    }
+
+    if (quantity == maxQuantity) {
+      const plusButton = document.getElementById(`plus-button-${product[8]}`);
+      plusButton.classList.add("disabled");
+    }
+  });
 
   function subTotal(quantity, productPrice, buttonId) {
     let subtotal = document.getElementById(
@@ -212,7 +225,7 @@ loginForm %}
     let saveButton = document.getElementById("save - " + buttonId.toString());
 
     saveButton.style.display = "block";
-    // console.log(productPrice, Number(thatInput.value));
+
     subTotal(Number(thatInput.value) - 1, productPrice, buttonId);
     if (thatInput.value > 1) {
       thatInput.value--;
@@ -238,11 +251,10 @@ loginForm %}
     saveButton.style.display = "block";
     subTotal(Number(thatInput.value) + 1, productPrice, buttonId);
 
-    // TODO: Get max available quantity and set it
-    let maxQuantity = document.getElementById(
+    let maxQuantity = Number(document.getElementById(
       "max-quantity - " + buttonId.toString()
-    ).value;
-    // console.log(thatInput.value, maxQuantity);
+    ).value);
+
     if (Number(thatInput.value) < Number(maxQuantity)) {
       thatInput.value++;
       minusButton.classList.remove("disabled");
@@ -265,16 +277,39 @@ loginForm %}
     myModal.show();
   }
 
-  function onInputChange(event) {
+  function onInputChange(event, productPrice) {
     let inp = event.target;
-    if (inp.value >= 10) {
-      inp.value = 10;
+    let btnId = inp.previousElementSibling.getAttribute("id")
+    let productId = btnId.split("-")[2];
+
+    let saveButton = document.getElementById("save - " + productId);
+    saveButton.style.display = "block";
+
+    let maxQuantity = Number(document.getElementById(
+      "max-quantity - " + productId
+    ).value);
+    if (Number(inp.value) >= maxQuantity) {
+      inp.value = maxQuantity;
+      subTotal(Number(inp.value) + 1, productPrice, productId);
       inp.previousElementSibling.classList.remove("disabled");
       inp.nextElementSibling.classList.add("disabled");
-    } else if (inp.value <= 0) {
+    } else if (Number(inp.value) <= 0) {
       inp.value = 1;
+      subTotal(Number(inp.value) + 1, productPrice, productId);
       inp.previousElementSibling.classList.add("disabled");
       inp.nextElementSibling.classList.remove("disabled");
+    } else {
+      subTotal(Number(inp.value) + 1, productPrice, productId);
+      inp.previousElementSibling.classList.remove("disabled");
+      inp.nextElementSibling.classList.remove("disabled");
+    }
+  }
+
+  function onInputKeyDown(event, productPrice) {
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      event.stopPropagation();
+      onInputChange(event, productPrice);
     }
   }
 </script>

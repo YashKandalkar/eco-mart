@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block loginForm
-%} {% if current_user %} {% block head %}
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block
+loginForm %} {% if current_user %} {% block head %}
 <link
   rel="stylesheet"
   href=" {{ url_for('static',filename='sidebars.css') }} "
@@ -196,7 +196,7 @@
       class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6 my-4"
       style="min-width: 16rem"
     >
-      <div class="card h-100">
+      <div class="card productCard h-100">
         <a
           style="text-decoration: none; color: black"
           class="p-3"
@@ -217,7 +217,9 @@
           <!-- DESCRIPTION -->
           <p class="desc mb-1" style="color: #555">{{i[5]}}</p>
 
-          {% if i[4] != 'Recycling' %} {% if i[7] > 10 %}
+          {% if i[4] != 'Recycling' %}
+          <!-- INNER IF -->
+          {% if i[7] > 10 %}
           <p class="text-success m-0">In Stock</p>
           {% else %}
           <p class="text-danger fw-bolder m-0">Only {{i[7]}} left!</p>
