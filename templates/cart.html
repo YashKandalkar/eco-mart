@@ -31,7 +31,7 @@ loginForm %}
       {% for product in products %}
       <div
         id="product-{{ product[8] }}"
-        class="card shadow-none d-flex flex-row position-relative my-4"
+        class="card shadow-none d-flex flex-sm-row position-relative my-4"
         style="max-width: unset; min-height: 150px"
       >
         <input
@@ -53,14 +53,14 @@ loginForm %}
 
         <img
           src="{{ product[7]}}"
-          class="card-img-top align-self-center ms-3"
+          class="card-img-top align-self-center ms-3 mt-3 mt-sm-0"
           alt="Product image"
           style="width: 20vmin"
         />
         <div class="card-body d-flex align-items-start flex-column">
           <h5 class="card-title">{{product[1]}}</h5>
-          <p class="card-text">{{product[2]}}</p>
-          <p class="card-text">
+          <p class="card-text text-start">{{product[2]}}</p>
+          <p class="card-text fw-bold">
             Price:
             <span id="total_price - {{product[8]}}"
               >{{product[5] * product[4]}}</span
@@ -72,15 +72,15 @@ loginForm %}
             method="post"
             style="position: relative; align-self: flex-end; width: 100%"
           >
-            <div class="d-flex w-100 flex-row mb-3" style="max-height: 40px">
+            <div class="d-flex w-100 flex-column mb-3 align-items-end">
               <button
                 type="submit"
                 id="save - {{product[8]}}"
-                class="btn btn-success w-25"
-                style="display: none"
+                class="btn btn-outline-success mt-3 order-last"
+                style="display: none; width: 140px"
                 formaction="/cart"
               >
-                save
+                Save
               </button>
               <div class="flex-nowrap input-group">
                 <button

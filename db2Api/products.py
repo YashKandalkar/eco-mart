@@ -329,7 +329,7 @@ def deleteFromCart(id, emailid, con=None, cur=None, db=None):
 
 
 @useDb(defaultReturn=False)
-def CartItemsUsingEmailid(emailid, con=None, cur=None, db=None):
+def cartItemsUsingEmailid(emailid, con=None, cur=None, db=None):
     sql = """
     SELECT
     products.product_id,

@@ -20,7 +20,7 @@ if 'DATABASE_URI' in os.environ:
         getAllProducts, createProducts, getProductUsingId, \
         updateProduct, deleteProduct, getSellerDetail,\
         buyProduct, displayOrders, updateUserPoints,\
-        deleteFromCart, CartItemsUsingEmailid, calculateCart,\
+        deleteFromCart, cartItemsUsingEmailid, calculateCart,\
         buyCartItems, getProduct, updateCartDetails,\
         givePointsToUser
 else:
@@ -81,7 +81,7 @@ def filter(category):
 @app.route('/buynow/<int:id>', methods=['POST'])
 @login_required
 def buynow(id):
-    user = current_user if current_user.is_authenticated else None
+    # user = current_user if current_user.is_authenticated else None
     if (current_user.category == 'buyer') and (request.method == 'POST'):
         quantity = request.form.get('quantity', '')
         quantity = int(quantity)
@@ -151,7 +151,7 @@ def update_product(id):
         image_url = request.form.get('image_url', '')
         updateProduct(seller_emailid, id, product_name, category,
                       description, image_url, price, quantity)
-        rows = getProductsUsingEmail(current_user.emailid)
+        # rows = getProductsUsingEmail(current_user.emailid)
         product_detail = getProductUsingId(id)
 
         # TODO: flash message to indicate --- product details has been updated
@@ -243,7 +243,7 @@ def cart():
         print(quantity, total_price)
         updateCartDetails(cart_Id, quantity, total_price)
 
-    products = CartItemsUsingEmailid(current_user.emailid)
+    products = cartItemsUsingEmailid(current_user.emailid)
 
     return render_template('cart.html', products=products, current_user=current_user)
 
@@ -274,7 +274,7 @@ def add_recycling_product():
 @app.route('/cartBilling', methods=['POST'])
 @login_required
 def cartBilling():
-    cart_products = CartItemsUsingEmailid(current_user.emailid)
+    cart_products = cartItemsUsingEmailid(current_user.emailid)
     print(cart_products)
     total_price, total_points = calculateCart(cart_products)
     return render_template('buyCart.html', products=cart_products, total_price=total_price, total_points=total_points, cart=True)
@@ -289,7 +289,7 @@ def buyCart():
         print(remaining_points)
         updateUserPoints(remaining_points=remaining_points,
                          emailid=customer_emailid)
-        cart_products = CartItemsUsingEmailid(current_user.emailid)
+        cart_products = cartItemsUsingEmailid(current_user.emailid)
         buyCartItems(cart_products=cart_products)
         return redirect(url_for('.dashboard'))
 
