@@ -11,25 +11,13 @@
 <!-- Main Content -->
 {% block content %}
 <br />
-<div class="jumbotron d-flex flex-column align-items-center p-4 pb-0 mb-2">
+<div class="jumbotron d-md-flex flex-md-row justify-content-between ">
   <!-- <section class="" style="margin: 20px 30px"> -->
-  <div>
-    <h2>Welcome {{current_user.firstname}} {{current_user.lastname}}!</h2>
-  </div>
-  <div class="pt-4">
-    <button
-      class="btn btn-light"
-      data-bs-toggle="collapse"
-      href="#collapseExample"
-      role="button"
-      aria-expanded="false"
-      aria-controls="collapseExample"
-    >
-      Personal Details
-    </button>
+  <div class="col-10 col-md-5 p-4">
+    <h1>Welcome {{current_user.firstname}} {{current_user.lastname}}!</h1>
   </div>
 
-  <div class="collapse mt-4" id="collapseExample">
+  <div class=" col-10 col-md-4">
     <div class="card card-body">
       <div>
         {% if current_user.category == 'seller' %}
@@ -149,31 +137,46 @@
 
 <!-- Buyer dashboard -->
 {% if current_user.category == "buyer"%}
-<form action="/add_recycling_product">
-  <button
-    class="btn btn-primary"
-    style="border-radius: 0 0 5px 5px"
-    aria-hidden="true"
-    type="submit"
-  >
-    Giveaway
-  </button>
-</form>
+<div class="d-flex flex-row justify-content-between mt-4">
+  <div class="container d-none d-md-block">
 
-{% if orders!=[] %}
-<h3>Order History</h3>
-<br />
-{%for order in orders%}
-<div class="col-3 m-4">
-  <div class="card" style="width: 18rem">
-    <div class="card-header">
-      <i><h4>{{order[2]}}</h4></i>
-    </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Category: {{order[3]}}</li>
-      <li class="list-group-item">Quantity: {{order[5]}}</li>
-      <li class="list-group-item">Price: {{order[6]}}</li>
-    </ul>
+  </div>
+  <div class="container">
+    <form action="/add_recycling_product">
+      <button
+        class="btn btn-outline-primary col-10 col-md-6 offset-2 offset-md-none my-2"
+        style="border-radius: 0 0 5px 5px"
+        aria-hidden="true"
+        type="submit"
+      >
+        Giveaway
+      </button>
+    </form>
   </div>
 </div>
-{%endfor%} {% endif %} {% endif %} {% endblock %}
+
+
+
+{% if orders!=[] %}
+<div class="d-flex flex-row justify-content-center">
+  <h3 class="mt-2">Order History</h3>
+</div>
+<br />
+
+<div class="row">
+  {%for order in orders%}
+  <div class="col-10 col-md-3 m-4">
+    <div class="card" style="width: 18rem">
+      <div class="card-header">
+        <i><h4>{{order[2]}}</h4></i>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Category: {{order[3]}}</li>
+        <li class="list-group-item">Quantity: {{order[5]}}</li>
+        <li class="list-group-item">Price: {{order[6]}}</li>
+      </ul>
+    </div>
+  </div>
+  {%endfor%}
+</div>
+ {% endif %} {% endif %} {% endblock %}
