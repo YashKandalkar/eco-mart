@@ -112,11 +112,13 @@
               </li>
               <li><a href="/Clothes" class="link-dark rounded">Clothes</a></li>
               <li><a href="/Bags" class="link-dark rounded">Bags</a></li>
+              {% if current_user.category == "Admin"%}
               <li>
                 <a href="/Recycling" class="link-dark rounded"
                   >recycling products</a
                 >
               </li>
+              {% endif %}
             </ul>
           </div>
         </li>
@@ -214,6 +216,7 @@
           <p><span class="badge bg-light text-dark">{{i[4]}}</span></p>
           <!-- DESCRIPTION -->
           <p class="desc mb-1" style="color: #555">{{i[5]}}</p>
+
           {% if i[4] != 'Recycling' %} {% if i[7] > 10 %}
           <p class="text-success m-0">In Stock</p>
           {% else %}
@@ -221,7 +224,10 @@
           {% endif %}
           <p style="font-size: 1.475em">Price: &#8377;{{i[6]}}/-</p>
           {% else %}
+          <!-- recycling product -->
           <p class="text-success m-0">{{ i[7] }}</p>
+          <p class="text-primary m-0">uploaded by : {{i[1]}}</p>
+
           {% endif %}
         </a>
         {% if current_user.category == "buyer" and i[4] != 'Recycling'%}

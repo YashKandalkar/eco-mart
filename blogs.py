@@ -21,18 +21,19 @@ def is_safe_url(target):
         ref_url.netloc == test_url.netloc
 
 
+
 @blog.route("/blogs")
 def blogs():
     # TODO:fectch all blogs
     return render_template("blog/blog.html")
 
-@blog.route("/composeBlog")
+@blog.route("/add_blog")
 @login_required
-def composeBlog():
+def addBlog():
     #TODO: fetch details from blog and store them in DB
     return render_template("blog/add_blog.html")
 
-@blog.route("/readBlog")
+@blog.route("/read_blog")
 def readBlog():
     #TODO:fetch blog detail
     return render_template('blog/readBlog.html')

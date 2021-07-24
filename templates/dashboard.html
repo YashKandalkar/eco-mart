@@ -88,7 +88,14 @@ loginForm %}
 <p>Remaining points: {{current_user.points}}</p>
 <hr />
 <form action="/add_recycling_product">
-  <button type="submit">Giveaway</button>
+  <button
+    class="btn btn-primary"
+    style="border-radius: 0 0 5px 5px"
+    aria-hidden="true"
+    type="submit"
+  >
+    Giveaway
+  </button>
 </form>
 {% if orders!=[] %}
 <h4>Order History</h4>

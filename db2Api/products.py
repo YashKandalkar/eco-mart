@@ -432,14 +432,14 @@ def givePointsToUser( quantity, user_emailid, con=None, cur=None, db=None):
     if quantity > 2:
         sql = """UPDATE users
                 SET
-                points= points + 15
+                points= points + 10
                 WHERE
                 emailid=%s """
     else :
         
         sql = """UPDATE users
                 SET
-                points= points + 10
+                points= points + 5
                 WHERE
                 emailid=%s """
 

@@ -179,7 +179,6 @@ def dashboard():
     elif category == 'buyer':
         print('buyer has logged in ')
         orders = displayOrders(current_user.emailid)
-        # print(orders)
         return render_template('dashboard.html', current_user=current_user, orders=orders)
 
     elif current_user.category == 'Admin':
@@ -246,11 +245,7 @@ def cart():
     return render_template('cart.html', products=products, current_user=current_user)
 
 
-@app.route('/recyclable_index')
-def recyclable_index():
-    # user = current_user if current_user.is_authenticated else None
-    # rows = getAllProducts()
-    return render_template('recyclable_index.html')
+
 
 
 @app.route('/add_recycling_product', methods=['GET', 'POST'])
@@ -274,8 +269,6 @@ def add_recycling_product():
         return render_template("add_recycling_product.html")
     else:
         return redirect(url_for('.index'))
-    
-    # return render_template('recyclable_product.html')
 
 
 @app.route('/cartBilling', methods=['POST'])

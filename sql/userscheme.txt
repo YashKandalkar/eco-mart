@@ -43,4 +43,16 @@ create table orders(
 	order_date date not NULL DEFAULT CURRENT_DATE ,
 	FOREIGN KEY (customer_emailid) REFERENCES users(emailid),
 	FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+create table blogs(
+	id  SERIAL  primary key,
+	admin_emailid varchar(25),
+	title varchar(25),
+	description Text,
+	subtitle varchar(25),
+	sub_description Text,
+	thumbnail varchar(300),
+	date date not NULL DEFAULT CURRENT_DATE,
+	FOREIGN KEY (admin_emailid) REFERENCES users(emailid)
 )
