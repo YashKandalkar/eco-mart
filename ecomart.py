@@ -125,6 +125,7 @@ def add_product():
         image_url = request.form.get('image_url', '')
         createProducts(seller_emailid, product_name, category,
                        description, image_url, price, quantity)
+        flash("New product added!")
         return redirect(url_for('.dashboard'))
 
     else:
@@ -135,6 +136,7 @@ def add_product():
 @login_required
 def delete_product(id):
     deleteProduct(id)
+    flash("Product Deleted!")
     return redirect(url_for('.dashboard'))
 
 
@@ -154,8 +156,7 @@ def update_product(id):
         # rows = getProductsUsingEmail(current_user.emailid)
         product_detail = getProductUsingId(id)
 
-        # TODO: flash message to indicate --- product details has been updated
-        # flash("you are successfully updated product")
+        flash("Product details updated!")
         return redirect(url_for('.dashboard'))
     elif (current_user.category == 'seller'):
         product_detail = getProductUsingId(id)
