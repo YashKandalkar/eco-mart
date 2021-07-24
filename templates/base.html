@@ -233,18 +233,12 @@
             </li>
           </ul>
           <!-- Cart Icon with badge -->
-          {% if current_user and current_user.is_authenticated %}
+          {% if current_user.category == 'buyer' and
+          current_user.is_authenticated %}
           <form action="/cart" class="me-3">
             <button
               type="submit"
-              class="
-                btn
-                p-0
-                pe-1
-                btn-outline-light
-                text-dark
-                position-relative
-              "
+              class="btn p-0 pe-1 btn-outline-light text-dark position-relative"
             >
               <i class="bi-cart pointer-event fs-5"></i>
               <span
@@ -284,13 +278,7 @@
     <footer class="bg-light">
       <div class="container-fluid py-4">
         <span
-          class="
-            mb-4
-            flex-row
-            d-flex
-            align-items-center
-            justify-content-center
-          "
+          class="mb-4 flex-row d-flex align-items-center justify-content-center"
         >
           <img
             src="{{ url_for('static', filename='coca-leaves.png') }}"
