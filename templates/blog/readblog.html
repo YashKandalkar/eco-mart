@@ -80,6 +80,13 @@
           font-size: 3.5rem;
         }
       }
+      pre {
+        white-space: pre-wrap; /* Since CSS 2.1 */
+        white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        word-wrap: break-word; /* Internet Explorer 5.5+ */
+      }
     </style>
 
     <!-- Custom styles for this template -->
@@ -134,11 +141,13 @@
     </div>
 
     <main class="container">
-      <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+      <div
+        class="p-4 p-md-5 mb-4 text-dark rounded"
+        style="background-image: url('{{blog[6]}}');"
+      >
+        <!-- class="p-4 p-md-5 mb-4 text-white  rounded" -->
         <div class="col-md-6 px-0">
-          <h1 class="display-4 fst-italic">
-            Title of a longer featured blog post
-          </h1>
+          <h1 class="display-4 fst-italic">{{blog[2]}}</h1>
           <p class="lead my-3">
             Multiple lines of text that form the lede, informing new readers
             quickly and efficiently about what’s most interesting in this post’s
@@ -149,28 +158,23 @@
 
       <div class="row g-5">
         <div class="col-md-8">
-          <article class="blog-post">
-            <h2 class="blog-post-title">Main heading of the blog post</h2>
-            <p class="blog-post-meta">
-              January 1, 2021 by <a href="#">Mark</a>
-            </p>
-
-            <p>
-              This blog post shows a few different types of content that’s
-              supported and styled with Bootstrap. Basic typography, lists,
-              tables, images, code, and more are all supported as expected.
-            </p>
-            <hr />
-            <p>
+          <br class="blog-post" />
+          <h3 class="blog-post-title">{{blog[2]}}</h3>
+          <p class="blog-post-meta">{{blog[7]}} by <a href="/">ecomart</a></p>
+          {% set para = blog[3] | replace("\n\r", "<br />") %}
+          <p>{{blog[3]}}</p>
+          <hr />
+          <!-- <p>
               This is some additional paragraph placeholder content. It has been
               written to fill the available space and show how a longer snippet
               of text affects the surrounding content. We'll repeat it often to
               keep the demonstration flowing, so be on the lookout for this
               exact same string of text.
-            </p>
-            <h3>A Subheading</h3>
-            <p>This is an example blockquote in action:</p>
-            <blockquote class="blockquote">
+            </p> -->
+          <h3>{{blog[4]}}</h3>
+
+          <pre>{{blog[5]}}</pre>
+          <!-- <blockquote class="blockquote">
               <p>Quoted text goes here.</p>
             </blockquote>
             <p>
@@ -227,8 +231,8 @@
               of text affects the surrounding content. We'll repeat it often to
               keep the demonstration flowing, so be on the lookout for this
               exact same string of text.
-            </p>
-            <pre
+            </p> -->
+          <!-- <pre
               style="position: relative"
             ><code>Example code block</code><div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
             <p>
@@ -266,7 +270,7 @@
             used throughout.
           </p>
 
-          <br /><br />
+          <br /><br /> -->
         </div>
 
         <div class="col-md-4">
