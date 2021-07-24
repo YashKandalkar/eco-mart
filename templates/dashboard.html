@@ -52,7 +52,9 @@
                   <p>Name: {{current_user.firstname}} {{current_user.lastname}}</p>
                   <p>Contact number: {{current_user.contact_no}}</p>
                   <p>Remaining points: {{current_user.points}}</p>
-
+                  {% else %}
+                  <p>Emailid: {{current_user.emailid}}</p>
+                  <p>Contact number: {{current_user.contact_no}}</p>
                   {% endif %}
                 </div> 
                 
@@ -61,29 +63,19 @@
           <!-- </section> -->
 
           <hr />
-        </div>
-          <section style="margin: 30px">
-            
-            <!-- <h3>Details</h3> -->
-            <br />
-            {# if current_user.category == 'seller' #}
-                <!-- <div>
-                  <p>Company Name: {{current_user.firstname}} {{current_user.lastname}}</p>
-                  <p>Contact number: {{current_user.contact_no}}</p>
-                  <p>Address: {{current_user.address}}</p>
-                </div>  -->
-            {# endif #}
-          </section>
-          <hr />
-        
-        
-        
-        <br />
-        
-        
+        </div>    
 
         {% if current_user.category == "seller"%}
         <section style="margin: 30px">
+          <form action="./add_product">
+            <button
+              type="submit"
+              class="btn btn-primary float-end mt-2"
+              aria-hidden="true"
+            >
+              New Product
+            </button>
+           </form>
           <h2>List of products :</h2>
           <div>
             <div class="row">
@@ -125,17 +117,6 @@
         </section>
         {% endif %}
      
-    {% if current_user.category == "seller"%}
-    <form action="./add_product">
-      <button
-        type="submit"
-        class="btn btn-primary float-end mt-2"
-        aria-hidden="true"
-      >
-        New Product
-      </button>
-     </form>
-    {% endif%}
     {% if current_user.category == "buyer"%}
     <form action="/add_recycling_product">
       <button
@@ -147,8 +128,8 @@
         Giveaway
       </button>
     </form>
-    {% endif %}
-    {% if orders!=[] and  current_user.category == "buyer"  %}
+  
+      {% if orders!=[] %}
         <h3>Order History</h3>
         <br />
         {%for order in orders%}
@@ -171,5 +152,6 @@
 </section>
 
 
+{% endif %}
 {% endif %}
 {% endblock %}
