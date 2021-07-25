@@ -10,11 +10,13 @@ from flask_login import login_required, current_user
 from flask_login import LoginManager
 
 from blogs_defn import addNewBlogPost, getAllBlogs, fetchBlog
+from pprint import pprint
 
 # from db2Api.users import createUser
 
 
 blog = Blueprint('blog', __name__)
+
 
 def is_safe_url(target):
     ref_url = urlparse(request.host_url)
@@ -23,14 +25,14 @@ def is_safe_url(target):
         ref_url.netloc == test_url.netloc
 
 
-
 @blog.route("/blogs")
 def blogs():
     blogs = getAllBlogs()
     # print(blogs)
-    return render_template("blog/blog.html", blogs= blogs)
+    return render_template("blog/blog.html", blogs=blogs)
 
-@blog.route("/add_blog", methods = ['POST','GET'])
+
+@blog.route("/add_blog", methods=['POST', 'GET'])
 @login_required
 def addBlog():
 
@@ -41,18 +43,20 @@ def addBlog():
         sub_description = request.form.get('sub-description', '')
         thumbnail = request.form.get('thumbnail', '')
         # print(current_user.emailid, len(current_user.emailid), title, description, sub_title, sub_description, thumbnail)
-        addNewBlogPost(admin_emailid=current_user.emailid ,title=title, description=description, sub_title= sub_title, sub_description= sub_description, thumbnail = thumbnail)
+        addNewBlogPost(admin_emailid=current_user.emailid, title=title, description=description,
+                       sub_title=sub_title, sub_description=sub_description, thumbnail=thumbnail)
         return redirect(url_for('.blogs'))
 
     elif current_user.category == 'Admin':
         return render_template("blog/add_blog.html")
-        
+
     else:
         return redirect(url_for('.blogs'))
-        
+
 
 @blog.route("/read_blog/<int:id>")
 def readBlog(id):
 
     blog = fetchBlog(id)
-    return render_template('blog/readBlog.html',blog= blog)
+    pprint(blog)
+    return render_template('blog/readblog.html', blog=blog)
