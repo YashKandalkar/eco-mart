@@ -22,7 +22,7 @@ if 'DATABASE_URI' in os.environ:
         buyProduct, displayOrders, updateUserPoints,\
         deleteFromCart, cartItemsUsingEmailid, calculateCart,\
         buyCartItems, getProduct, updateCartDetails,\
-        givePointsToUser
+        givePointsToUser, deleteAllCartItems
 else:
     raise ValueError('Env Var not found!')
 
@@ -247,9 +247,8 @@ def add_recycling_product():
 @login_required
 def cartBillingView():
     cart_products = cartItemsUsingEmailid(current_user.emailid)
-    print(cart_products)
     total_price, total_points = calculateCart(cart_products)
-    return render_template('buyCart.html', products=cart_products, total_price=total_price, total_points=total_points, cart=True)
+    return render_template('billing.html', products=cart_products, total_price=total_price, total_points=total_points, cart=True)
 
 
 @app.route('/buyCart', methods=['POST'])
@@ -258,11 +257,11 @@ def buyAllCartItems():
     # to buy all cart items
     if (current_user.category == 'buyer') and (request.method == 'POST'):
         remaining_points = request.form.get('remaining_points', '')
-        # print(remaining_points)
         updateUserPoints(remaining_points=remaining_points,
                          emailid=current_user.emailid)
         cart_products = cartItemsUsingEmailid(current_user.emailid)
         buyCartItems(cart_products=cart_products)
+        deleteAllCartItems(current_user.emailid)
         return redirect(url_for('.dashboard'))
 
 @app.route('/buynow/<int:id>', methods=['POST'])
@@ -276,7 +275,7 @@ def buynowView(id):
         products = getProduct(id, current_user.emailid, quantity)
         total_price, total_points = calculateCart(products)
         print(total_points, total_price)
-        return render_template("buyCart.html", products=products, total_price=total_price, total_points=total_points, cart=False)
+        return render_template("billing.html", products=products, total_price=total_price, total_points=total_points, cart=False)
     else:
         return redirect(url_for('.dashboard'))
 
@@ -302,7 +301,8 @@ def buySingleProduct():
 
 @app.route('/deleteCartItem/<int:id>', methods=['POST'])
 @login_required
-def deletCartItem(id):
+def deleteOneCartItem(id):
+    # deleting a cart item from product.html page (using delete button )
     if (current_user.category == 'buyer') and (request.method == 'POST'):
         deleteFromCart(id, current_user.emailid)
         cartQuantity = session.get('cart', 0)
