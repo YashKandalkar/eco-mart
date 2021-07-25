@@ -330,6 +330,9 @@ def deleteFromCart(id, emailid, con=None, cur=None, db=None):
 
 @useDb(defaultReturn=False)
 def cartItemsUsingEmailid(emailid, con=None, cur=None, db=None):
+    """
+    fetching all cart details 
+    """
     sql = """
     SELECT
     products.product_id,

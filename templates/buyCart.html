@@ -74,11 +74,9 @@ loginForm %}
           </tr>
         </thead>
         <tbody>
-          {% set count = 1%} {% for product in products %}
-
+          {% for product in (products) %}
           <tr>
-            <th scope="row">{{ "*" }}</th>
-            {% set count = count +1 %}
+            <th scope="row">{{ loop.index }}</th>
             <td>{{ product[1] }}</td>
             <td>{{ product[4] }}</td>
             <td>{{ product[5] }}</td>
@@ -88,12 +86,9 @@ loginForm %}
       </table>
     </div>
     <div class="d-flex justify-content-end">
-      <!-- if condition is req -->
+      <!-- if user is buying cart items -->
       {% if cart==True %}
       <form action="/buyCart" method="POST">
-        <!-- <input type="hidden" name="product_id"  value="{{products[0][0]}}"> -->
-        <!-- <input type="hidden" name="total_price"  value="{{ total_price }}"> -->
-        <!-- <input type="hidden" name="quantity"  value=""> -->
         <input
           type="hidden"
           name="remaining_points"
@@ -111,6 +106,7 @@ loginForm %}
         </button>
       </form>
       {% else %}
+      <!-- if user is buying a single product  -->
       <form action="/buy" method="post">
         <input type="hidden" name="product_id" value="{{products[0][0]}}" />
         <input type="hidden" name="price" value="{{total_price}}" />
