@@ -26,9 +26,8 @@ def is_safe_url(target):
 
 @blog.route("/blogs")
 def blogs():
-    # TODO:fectch all blogs
     blogs = getAllBlogs()
-    print(blogs)
+    # print(blogs)
     return render_template("blog/blog.html", blogs= blogs)
 
 @blog.route("/add_blog", methods = ['POST','GET'])
@@ -41,7 +40,7 @@ def addBlog():
         sub_title = request.form.get('sub-title', '')
         sub_description = request.form.get('sub-description', '')
         thumbnail = request.form.get('thumbnail', '')
-        print(current_user.emailid, len(current_user.emailid), title, description, sub_title, sub_description, thumbnail)
+        # print(current_user.emailid, len(current_user.emailid), title, description, sub_title, sub_description, thumbnail)
         addNewBlogPost(admin_emailid=current_user.emailid ,title=title, description=description, sub_title= sub_title, sub_description= sub_description, thumbnail = thumbnail)
         return redirect(url_for('.blogs'))
 
@@ -54,6 +53,6 @@ def addBlog():
 
 @blog.route("/read_blog/<int:id>")
 def readBlog(id):
-    #TODO:fetch blog detail
+
     blog = fetchBlog(id)
     return render_template('blog/readBlog.html',blog= blog)
