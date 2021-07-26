@@ -28,9 +28,17 @@ loginForm %}
           <h1 id="heading">Billing Page</h1>
         </div>
         <div class="row pt-4">
-          <!-- todo: updating users's points. Neha: this functionality is performed as soon as user clicks on proceed to buy-->
-          {%set remaining_points = current_user.points - total_points %}
+          <!-- todo: updating users's points -->
+          <!-- user has enough points -->
+          {% if total_points <= current_user.points %}
+          <!--  -->
+          {% set remaining_points = current_user.points - total_points %}
           <h5>Points remaining : {{ remaining_points }}</h5>
+          <!-- user has less points -->
+          {% else %} {% set total_points = 0 %} {% set remaining_points =
+          current_user.points %}
+          <h5>Points remaining : {{ remaining_points }}</h5>
+          {% endif %}
         </div>
       </div>
       <div class="col-md-3 col-10 offset-2">
@@ -74,11 +82,9 @@ loginForm %}
           </tr>
         </thead>
         <tbody>
-          {% set count = 1%} {% for product in products %}
-
+          {% for product in (products) %}
           <tr>
-            <th scope="row">{{ "*" }}</th>
-            {% set count = count +1 %}
+            <th scope="row">{{ loop.index }}</th>
             <td>{{ product[1] }}</td>
             <td>{{ product[4] }}</td>
             <td>{{ product[5] }}</td>
@@ -88,12 +94,9 @@ loginForm %}
       </table>
     </div>
     <div class="d-flex justify-content-end">
-      <!-- if condition is req -->
+      <!-- if user is buying cart items -->
       {% if cart==True %}
       <form action="/buyCart" method="POST">
-        <!-- <input type="hidden" name="product_id"  value="{{products[0][0]}}"> -->
-        <!-- <input type="hidden" name="total_price"  value="{{ total_price }}"> -->
-        <!-- <input type="hidden" name="quantity"  value=""> -->
         <input
           type="hidden"
           name="remaining_points"
@@ -111,6 +114,7 @@ loginForm %}
         </button>
       </form>
       {% else %}
+      <!-- if user is buying a single product  -->
       <form action="/buy" method="post">
         <input type="hidden" name="product_id" value="{{products[0][0]}}" />
         <input type="hidden" name="price" value="{{total_price}}" />
@@ -136,9 +140,4 @@ loginForm %}
   </div>
 </div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
 {% endblock %}

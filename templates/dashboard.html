@@ -11,13 +11,13 @@
 <!-- Main Content -->
 {% block content %}
 <br />
-<div class="jumbotron d-md-flex flex-md-row justify-content-between ">
+<div class="jumbotron d-md-flex flex-md-row justify-content-between">
   <!-- <section class="" style="margin: 20px 30px"> -->
   <div class="col-10 col-md-6 p-4">
     <h1>Welcome {{current_user.firstname}} {{current_user.lastname}}!</h1>
   </div>
 
-  <div class=" col-10 col-md-4">
+  <div class="col-10 col-md-4">
     <div class="card card-body">
       <div>
         {% if current_user.category == 'seller' %}
@@ -45,9 +45,7 @@
 <!-- Seller dashboard -->
 {% if current_user.category == "seller"%}
 <section style="margin: 30px">
-  
   <div class="d-md-flex flex-row justify-content-between">
-    
     <div class="col-10 col-md-4">
       <h2>List of products :</h2>
     </div>
@@ -62,13 +60,12 @@
         </button>
       </form>
     </div>
-    
   </div>
   <div>
     <div class="row">
       {%for i in products%}
       <div class="col-10 col-md-4 mt-4">
-        <div class="card h-100" style="width: 18rem;">
+        <div class="card h-100" style="width: 18rem">
           <div style="padding: 10px">
             <p>Name: {{i[3]}}</p>
             <p>Type: {{i[4]}}</p>
@@ -164,8 +161,6 @@
   </div>
 </div>
 
-
-
 {% if orders!=[] %}
 <div class="d-flex flex-row justify-content-center">
   <h3 class="mt-2">Order History</h3>
@@ -188,4 +183,10 @@
   </div>
   {%endfor%}
 </div>
- {% endif %} {% endif %} {% endblock %}
+{% endif %} {% endif %} {% if current_user.category == "Admin" %}
+<form action="/add_blog">
+  <button class="mx-3 my-2 btn btn-primary col-md-2 col-2" type="submit">
+    Add new Blog
+  </button>
+</form>
+{% endif %} {% endblock %}

@@ -327,9 +327,24 @@ def deleteFromCart(id, emailid, con=None, cur=None, db=None):
     db(sql, (id, emailid, ))
     con.commit()
 
+@useDb(defaultReturn=False)
+def deleteAllCartItems(emailid, con=None, cur=None, db=None):
+    """
+    Tries to delete all products from cart.
+
+    Returns:
+        - perform deleting operation
+        - False: If query was unsuccessful
+    """
+    sql = " DELETE FROM cart WHERE emailid=%s "
+    db(sql, (emailid, ))
+    con.commit()
 
 @useDb(defaultReturn=False)
 def cartItemsUsingEmailid(emailid, con=None, cur=None, db=None):
+    """
+    fetching all cart details 
+    """
     sql = """
     SELECT
     products.product_id,
