@@ -20,7 +20,7 @@ Sellers:
 
 
 
-# The Most Important eCommerce Features Your Website Needs Include:
+# The Most Important Features we applied in this Website:
 - Content management capabilities
 - Promotion and discount code tools
 - An easy-to-use checkout
