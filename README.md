@@ -1,7 +1,6 @@
 
-# Business Model
-## The second largest heading
-###### The smallest heading
+# Eco-mart Business Model
+
 
 
 
@@ -20,7 +19,7 @@ Sellers:
 
 
 
-# The Most Important Features we applied in this Website:
+# The Most Important Features we applied in this Eco-mart Website:
 - E-commerce Idea Implementation for sustainable and eco-friendy products
 - Fascinating Content regarding sustainabilty and eco-friendly products
 - Discounts on every purchase
@@ -32,7 +31,15 @@ Sellers:
 - Admin based controlling system
 
 
-
+# Tried and implemented our best user-friendly Eco-mart website.
+- Mobile Compatibility
+- Accessible to All Users
+- Well-Formatted Content That Is Easy to Scan
+- Fast Load Times
+- Browser Consistency
+- Effective Navigation
+- Fully Responsive Website
+- Good Error Handling
 
 
 
