@@ -1,6 +1,7 @@
 
-# Eco-mart Business Model
-
+# Business Model
+## The second largest heading
+###### The smallest heading
 
 
 
@@ -10,16 +11,18 @@
 ![image](https://user-images.githubusercontent.com/41589522/127046407-c2a31bbc-f1b9-4efc-bdf7-e351e369c518.png)
 
 # Key Partners
-- Sellers
-- Buyers
-- Energy Consultancy companies
-
-Sellers: 
+- Sellers: Sellers will sell recyclable and eco-friendly products
+- Buyers: Buyers will check and buy eco-friendy products, earn discounts and can use them on their another purchase. They have an option for giving away products for recycle.
+- Energy Consultancy companies: They are partnered with our website. We will be listing out those companies names on our webpage so that users can contact them.
 
 
 
 
-# The Most Important Features we applied in this Eco-mart Website:
+
+
+
+
+# The Most Important Features we applied in this Website:
 - E-commerce Idea Implementation for sustainable and eco-friendy products
 - Fascinating Content regarding sustainabilty and eco-friendly products
 - Discounts on every purchase
@@ -31,15 +34,7 @@ Sellers:
 - Admin based controlling system
 
 
-# Tried and implemented our best user-friendly Eco-mart website.
-- Mobile Compatibility
-- Accessible to All Users
-- Well-Formatted Content That Is Easy to Scan
-- Fast Load Times
-- Browser Consistency
-- Effective Navigation
-- Fully Responsive Website
-- Good Error Handling
+
 
 
 
