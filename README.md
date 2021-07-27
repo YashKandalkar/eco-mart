@@ -21,15 +21,17 @@ Sellers:
 
 
 # The Most Important Features we applied in this Website:
-- Content management capabilities
-- Promotion and discount code tools
+- E-commerce Idea Implementation for sustainable and eco-friendy products
+- Fascinating Content regarding sustainabilty and eco-friendly products
+- Discounts on every purchase
 - An easy-to-use checkout
 - Search engine optimized code and layout
-- Reporting tools and custom report features
 - An integrated blog or articles section
-- Email marketing features or integration
-- Multiple payment options (Credit card, PayPal, PO, Terms, etc.)
+- Providing Contacts to Energy consultant companies 
 - The ability to scale and add new features
+- Admin based controlling system
+
+
 
 
 
