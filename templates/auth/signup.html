@@ -111,7 +111,7 @@
         <div class="mb-3 form-floating">
           <select
             class="form-select"
-            id="accountType"
+            id="category"
             aria-label="Account Type"
             name="category"
           >
@@ -122,6 +122,7 @@
           <label for="accountType" class="form-label">Account Type</label>
         </div>
       </div>
+
       <div class="col">
         <!-- PHONE NUMBER -->
         <div class="mb-3 form-floating">
@@ -136,6 +137,34 @@
           />
           <label for="phoneNumber" class="form-label">Phone Number</label>
         </div>
+      </div>
+    </div>
+
+    <!-- Seller's section -->
+    <div id="sellers_section">
+      <div class="mb-3 form-floating">
+        <div>
+          <label class="form-label" for="company_url">Description : </label>
+          <textarea
+            rows="8"
+            name="company_url"
+            cols="100"
+            class="form-control"
+            placeholder="Your company's description  "
+            aria-describedby="first name"
+          ></textarea>
+        </div>
+      </div>
+      <div class="mb-3 form-floating">
+        <input
+          type="text"
+          name="company_url"
+          class="form-control"
+          autocomplete="text"
+          id="company_url"
+          placeholder="Your website url"
+        />
+        <label for="company_url" class="form-label">Your website url </label>
       </div>
     </div>
 
@@ -192,6 +221,18 @@
     />
   </form>
 </div>
+<script>
+  $("#category").change(function () {
+    if ($(this).val() == "seller") {
+      $("#sellers_section").show();
+      console.log("seller");
+    } else {
+      $("#sellers_section").hide();
+      console.log("buyer");
+    }
+  });
+  $("#category").trigger("change");
+</script>
 {% endblock %}
 
 <script>
@@ -202,6 +243,7 @@
     var phoneNumber = document.getElementById("phoneNumber").value;
     var password = document.getElementById("Password1").value;
     var conpassword = document.getElementById("Password2").value;
+
     //firstname
 
     if (fname.length < 2) {

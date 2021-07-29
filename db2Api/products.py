@@ -163,7 +163,7 @@ def getSellerDetail(id=id, con=None, cur=None, db=None):
     if not sql:
         print('error in executing join query!')
     rows = cur.fetchall()
-    return rows or []
+    return rows[0] or []
 
 
 @useDb(defaultReturn=False)

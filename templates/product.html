@@ -55,7 +55,8 @@
         </h5>
         <!-- to do: fetch supplier's name -->
         <p class="text-muted">
-          Sold by <a href="#">{{seller[0][3]}} {{seller[0][4]}}</a>
+          Sold by
+          <a href="/seller/{{seller[1]}}">{{seller[3]}} {{seller[4]}}</a>
         </p>
         {% if product[7] > 10 %}
         <p class="text-success">In Stock</p>
