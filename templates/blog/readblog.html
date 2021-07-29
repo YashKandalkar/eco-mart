@@ -45,7 +45,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 50vh;
+    height: 60vh;
     position: relative;
     padding: 0;
     margin: 0;
@@ -68,6 +68,10 @@
     font-family: "Roboto", sans-serif;
     color: white;
   }
+
+  #main-parent-container {
+    padding: 0;
+  }
 </style>
 
 <!-- Custom styles for this template -->
@@ -75,27 +79,13 @@
   href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900&amp;display=swap"
   rel="stylesheet"
 />
-<div class="container">
-  <header class="blog-header py-3">
-    <div class="row flex-nowrap justify-content-between align-items-center">
-      <div class="col-12 text-center align-content-center">
-        <h3 class="blog-header-logo text-dark" href="#">Eco-Mart Blogs</h3>
-      </div>
-    </div>
-  </header>
-</div>
-
-<main class="container">
-  <div class="p-4 p-md-5 mb-4 text-dark rounded cover">
-    <div class="col-md-6 px-0">
-      <h1 class="display-4 fst-italic big-heading">{{blog[2]}}</h1>
-      <p class="lead my-3 big-heading">
-        Multiple lines of text that form the lede, informing new readers quickly
-        and efficiently about what’s most interesting in this post’s contents.
-      </p>
-    </div>
+<div class="p-4 mb-4 p-xl-5 cover" style="overflow: hidden">
+  <div class="col-sm-6 col-sm-7 col-lg-5 px-0">
+    <h1 class="display-5 fst-italic big-heading">{{blog[2]}}</h1>
+    <p class="lead my-3 big-heading">{{blog[3][:100] + "..."}}</p>
   </div>
-
+</div>
+<main class="container px-3">
   <div class="row g-5">
     <div class="col-md-8">
       <br class="blog-post" />
@@ -120,8 +110,8 @@
             These are some of the blogs written by our content creation team.
           </p>
           <p>
-            If you’re interested in sharing your content, please share your blog
-            with us at
+            If you’re interested in sharing your content, please share your
+            blog with us at
             <a
               href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=ecomart2021.india@gmail.com"
               >ecomart2021.india@gmail.com</a

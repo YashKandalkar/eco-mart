@@ -78,9 +78,6 @@ def filter(category):
     return render_template('index.html', current_user=user, products=product_detail)
 
 
-
-
-
 @app.route('/add_product', methods=['GET', 'POST'])
 @login_required
 def add_product():
@@ -214,7 +211,7 @@ def cart():
         print(quantity, total_price)
         updateCartDetails(cart_Id, quantity, total_price)
 
-    #fetching all cart items
+    # fetching all cart items
     products = cartItemsUsingEmailid(current_user.emailid)
 
     return render_template('cart.html', products=products, current_user=current_user)
@@ -264,11 +261,12 @@ def buyAllCartItems():
         deleteAllCartItems(current_user.emailid)
         return redirect(url_for('.dashboard'))
 
+
 @app.route('/buynow/<int:id>', methods=['POST'])
 @login_required
 def buynowView(id):
 
-     #buying a asingle item from product/id path
+    # buying a asingle item from product/id path
     if (current_user.category == 'buyer') and (request.method == 'POST'):
         quantity = request.form.get('quantity', '')
         quantity = int(quantity)
@@ -283,7 +281,7 @@ def buynowView(id):
 @app.route('/buy', methods=['POST'])
 @login_required
 def buySingleProduct():
-    
+
     if (current_user.category == 'buyer') and (request.method == 'POST'):
         product_id = request.form.get('product_id', '')
         quantity = request.form.get('quantity', '')
@@ -298,6 +296,7 @@ def buySingleProduct():
         buyProduct(product_id=product_id, customer_emailid=customer_emailid,
                    quantity=quantity, price=price)
         return redirect(url_for('.dashboard'))
+
 
 @app.route('/deleteCartItem/<int:id>', methods=['POST'])
 @login_required

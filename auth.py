@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, abort, session
-from flask.helpers import url_for
+from flask.helpers import flash, url_for
 from flask_login import login_required, logout_user, login_user
 from models import User
 from urllib.parse import urlparse, urljoin
@@ -67,6 +67,7 @@ def signup():
             if not is_safe_url(next):
                 return abort(400)
 
+            flash("signup")
             return redirect(next or url_for('index'))
         else:
             return render_template('auth/signup.html',

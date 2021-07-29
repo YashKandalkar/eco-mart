@@ -73,19 +73,19 @@
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
               <button
-                class="accordion-button collapsed"
+                class="accordion-button"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseOne"
-                aria-expanded="false"
+                aria-expanded="true"
                 aria-controls="collapseOne"
               >
-                Points / Coupons
+                Points
               </button>
             </h2>
             <div
               id="collapseOne"
-              class="accordion-collapse collapse hide"
+              class="accordion-collapse collapse show"
               aria-labelledby="headingOne"
               data-bs-parent="#pointsAccordion"
             >
@@ -101,25 +101,36 @@
         "seller" %}
         <div class="d-flex my-3 justify-content-end">
           <form action="/addToCart/{{product[0]}}" method="POST">
-            <div class="def-number-input number-input safari_only mb-0 w-100">
+            <div class="flex-nowrap justify-content-end input-group">
               <button
                 type="button"
-                onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                class="minus decrease"
-              ></button>
+                id="minus-button"
+                style="max-width: 40px"
+                class="disabled btn btn-primary"
+                onclick="onMinusClick()"
+              >
+                <i class="bi bi-dash-lg"></i>
+              </button>
               <input
-                class="quantity"
-                name="quantity"
-                min="1"
-                max="{{product[7]}}"
-                value="1"
+                id="quantity-input"
                 type="number"
+                value="1"
+                onchange="onInputChange(event)"
+                onkeydown="onInputKeyDown(event)"
+                class="form-control text-center"
+                name="quantity"
+                aria-label="Quantity"
+                style="max-width: 60px"
               />
               <button
                 type="button"
-                onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                class="plus increase"
-              ></button>
+                class="btn btn-primary"
+                style="max-width: 40px"
+                id="plus-button"
+                onclick="onPlusClick()"
+              >
+                <i class="bi bi-plus-lg"></i>
+              </button>
             </div>
             <hr />
 
@@ -148,6 +159,18 @@
   </div>
 </div>
 <style>
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
   @media only screen and (max-width: 576px) {
     #product-image {
       width: 60% !important;
@@ -164,4 +187,64 @@
     }
   }
 </style>
+<script>
+  const product = {{product|tojson}};
+  console.log(product);
+  const maxQuantity = product[7];
+
+  function onMinusClick(productPrice) {
+    let thatInput = document.getElementById("quantity-input");
+    let minusButton = document.getElementById("minus-button");
+    let plusButton = document.getElementById("plus-button");
+
+    if (Number(thatInput.value) > 1) {
+      thatInput.value--;
+      plusButton.classList.remove("disabled");
+      if (Number(thatInput.value) <= 1) {
+        minusButton.classList.add("disabled");
+      }
+    }
+  }
+
+  function onPlusClick(buttonId, productPrice) {
+    let thatInput = document.getElementById("quantity-input");
+    let plusButton = document.getElementById("plus-button");
+    let minusButton = document.getElementById("minus-button");
+
+
+    if (Number(thatInput.value) < Number(maxQuantity)) {
+      thatInput.value++;
+      minusButton.classList.remove("disabled");
+      if (Number(thatInput.value) >= Number(maxQuantity)) {
+        plusButton.classList.add("disabled");
+      }
+    }
+  }
+
+
+  function onInputChange(event) {
+    let inp = event.target;
+
+    if (Number(inp.value) >= maxQuantity) {
+      inp.value = maxQuantity;
+      inp.previousElementSibling.classList.remove("disabled");
+      inp.nextElementSibling.classList.add("disabled");
+    } else if (Number(inp.value) <= 0) {
+      inp.value = 1;
+      inp.previousElementSibling.classList.add("disabled");
+      inp.nextElementSibling.classList.remove("disabled");
+    } else {
+      inp.previousElementSibling.classList.remove("disabled");
+      inp.nextElementSibling.classList.remove("disabled");
+    }
+  }
+
+  function onInputKeyDown(event) {
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      event.stopPropagation();
+      onInputChange(event);
+    }
+  }
+</script>
 {% endblock %}

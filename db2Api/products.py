@@ -190,6 +190,8 @@ def updateUserPoints(remaining_points, emailid, con=None, cur=None, db=None):
 def getProductUsingId(id=id, con=None, cur=None, db=None):
     """
     Tries to fetch product data from database.
+    Format: ['product_id', 'seller_emailid', 'image_path', 'product_name', 
+             'product_category', 'description', 'price', 'quantity', 'points']
 
     Returns:
         - list: list  containing data about the product, if query was successful
@@ -327,6 +329,7 @@ def deleteFromCart(id, emailid, con=None, cur=None, db=None):
     db(sql, (id, emailid, ))
     con.commit()
 
+
 @useDb(defaultReturn=False)
 def deleteAllCartItems(emailid, con=None, cur=None, db=None):
     """
@@ -339,6 +342,7 @@ def deleteAllCartItems(emailid, con=None, cur=None, db=None):
     sql = " DELETE FROM cart WHERE emailid=%s "
     db(sql, (emailid, ))
     con.commit()
+
 
 @useDb(defaultReturn=False)
 def cartItemsUsingEmailid(emailid, con=None, cur=None, db=None):

@@ -70,7 +70,50 @@ loginForm %} {% if current_user %} {% block head %}
 <form class="d-flex" action="/login">
   <button class="btn btn-primary" type="submit">Login</button>
 </form>
-{% endif %} {% endblock %} {% block content %}
+{% endif %} {% endblock %}
+<!-- content -->
+{% block content %}
+<!-- Showing modal on sign up -->
+{% with messages = get_flashed_messages() %}
+<!-- if -->
+{% if messages %}
+<!-- for -->
+{% for message in messages %}
+<!-- Vertically centered scrollable modal -->
+<div class="modal" id="welcomeModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Eco Mart</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h2>Welcome, {{ current_user.firstname }}!</h2>
+        <p>Looks like you're new around here.</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+<!-- endfor -->
+{% endif %}
+<!-- endwith -->
+{% endwith %}
 
 <div class="float-container d-none d-xs-block d-sm-block d-md-block">
   <div class="float-child">
@@ -245,5 +288,15 @@ loginForm %} {% if current_user %} {% block head %}
 </div>
 
 <script src="{{ url_for('static',filename='sidebars.js') }} "></script>
+
+<!-- welcome modal script -->
+<script>
+  const welcomeModalDiv = document.getElementById("welcomeModal");
+
+  if (welcomeModalDiv) {
+    const welcomeModal = new bootstrap.Modal(welcomeModalDiv);
+    welcomeModal.show();
+  }
+</script>
 
 {% endblock %}
