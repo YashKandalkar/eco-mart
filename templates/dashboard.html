@@ -12,9 +12,8 @@
 {% block content %}
 <br />
 <div class="jumbotron d-md-flex flex-md-row justify-content-between">
-  <!-- <section class="" style="margin: 20px 30px"> -->
   <div class="col-10 col-md-6 p-4">
-    <h1>Welcome {{current_user.firstname}} {{current_user.lastname}}!</h1>
+    <h1>Welcome {{current_user.firstname}} {{current_user.lastname}} !</h1>
   </div>
 
   <div class="col-10 col-md-4">
@@ -36,8 +35,22 @@
         {% endif %}
       </div>
     </div>
+    {% if current_user.category == "buyer"%}
+    <form action="/add_recycling_product" class="col-md-12">
+      <button
+        class="btn btn-outline-primary col-lg-8 col-md-6 offset-md-2 mt-4"
+        style="border-radius: 0 0 5px 5px"
+        aria-hidden="true"
+        type="submit"
+        data-toggle="tooltip"
+        data-placement="top"
+        title="Earn points by giving recyclable papers / materials"
+      >
+        Giveaway
+      </button>
+    </form>
+    {% endif %}
   </div>
-  <!-- </section> -->
 
   <hr />
 </div>
@@ -49,7 +62,7 @@
     <div class="col-10 col-md-4">
       <h2>List of products :</h2>
     </div>
-    <div class="col-10 col-md-4 offset-md-2">
+    <div class="col-10 col-md-4 offset-md-2" style="margin-right: 14px">
       <form action="./add_product">
         <button
           type="submit"
@@ -141,30 +154,7 @@
   toastList.forEach((toast) => toast.show());
 </script>
 
-<!-- Buyer dashboard -->
-{% if current_user.category == "buyer"%}
-<div class="d-md-flex flex-row justify-content-between mt-4">
-  <div class="container col-md-6 d-none d-md-block">
-
-  </div>
-  <div class="container col-md-6 col-12">
-    <form action="/add_recycling_product col-md-12">
-      <button
-        class="btn btn-outline-primary col-10 col-md-6 offset-md-2 my-2"
-        style="border-radius: 0 0 5px 5px"
-        aria-hidden="true"
-        type="submit"
-
-        data-toggle="tooltip" data-placement="top" 
-        title="Earn points by giving recyclable papers / materials"
-      >
-        Giveaway
-      </button>
-    </form>
-  </div>
-</div>
-
-{% if orders!=[] %}
+{% if orders!=[] and current_user.category=='buyer' %}
 <div class="d-flex flex-row justify-content-center">
   <h3 class="mt-2">Order History</h3>
 </div>
@@ -186,7 +176,7 @@
   </div>
   {%endfor%}
 </div>
-{% endif %} {% endif %} {% if current_user.category == "Admin" %}
+{% endif %} {% if current_user.category == "Admin" %}
 <form action="/add_blog">
   <button class="mx-3 my-2 btn btn-primary col-md-2 col-2" type="submit">
     Add new Blog

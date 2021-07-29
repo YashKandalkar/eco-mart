@@ -48,7 +48,7 @@ create table orders(
 create table blogs(
 	id  SERIAL  primary key,
 	admin_emailid varchar(25),
-	title varchar(25),
+	title varchar(70),
 	description Text,
 	subtitle varchar(25),
 	sub_description Text,
