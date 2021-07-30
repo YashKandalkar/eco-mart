@@ -6,7 +6,7 @@ from db_connect import useDb
 
 
 @useDb(defaultReturn=False)
-def createUser(emailid, password, contact_no, firstname, lastname, category, address, con=None, cur=None, db=None):
+def createUser(emailid, password, contact_no, firstname, lastname, category, address, description, company_url, con=None, cur=None, db=None):
     """
     Tries to create a new user with the given data.
 
@@ -22,8 +22,10 @@ def createUser(emailid, password, contact_no, firstname, lastname, category, add
         lastname,
         contact_no, 
         category,
-        address 
-    ) values (%s,%s,%s,%s,%s,%s,%s)"""
+        address,
+        description,
+        company_url
+    ) values (%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
 
     db(sql, (emailid,
              password,
@@ -31,7 +33,9 @@ def createUser(emailid, password, contact_no, firstname, lastname, category, add
              lastname,
              contact_no,
              category,
-             address))
+             address,
+             description,
+             company_url))
     con.commit()
     # close database connection
     user = getUserUsingEmail(emailid)

@@ -7,7 +7,9 @@ create table users(
    contact_no varchar(15) not null,
    category varchar(25) not null,
    address varchar(70) not null
-   points int not null default 50
+   points int not null default 50,
+   description text null,
+   website_url varchar (50)
 );
 
 create table products(
@@ -50,7 +52,7 @@ create table blogs(
 	admin_emailid varchar(25),
 	title varchar(70),
 	description Text,
-	subtitle varchar(25),
+	subtitle varchar(50),
 	sub_description Text,
 	thumbnail varchar(300),
 	date date not NULL DEFAULT CURRENT_DATE,
