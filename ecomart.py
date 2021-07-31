@@ -82,6 +82,7 @@ def seller_details(emailId):
     user = current_user if current_user.is_authenticated else None
     product_detail = getSellerDetail(id)
     # TODO: add new attributes to the users db table, modify getSellerDetail function as per db, redirect user to seller_detail.html page
+    return render_template('sellerprofile.html')
 
 
 @app.route('/add_product', methods=['GET', 'POST'])
