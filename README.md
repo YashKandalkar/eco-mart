@@ -1,4 +1,4 @@
-![eco mart banner](https://i.ibb.co/SJDCT88/Eco-Mart.png)
+<p align="center"><img src="https://i.ibb.co/SJDCT88/Eco-Mart.png" alt="Eco-Mart banner"></p>
 
 # Business Model
 
