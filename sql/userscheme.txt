@@ -9,7 +9,7 @@ create table users(
    address varchar(70) not null
    points int not null default 50,
    description text null,
-   website_url varchar (50)
+   company_url varchar (50)
 );
 
 create table products(

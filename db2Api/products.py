@@ -145,7 +145,7 @@ def createProducts(emailid, product_name, category, description, image_url,  pri
 
 
 @useDb(defaultReturn=[])
-def getSellerDetail(id=id, con=None, cur=None, db=None):
+def getSellerName(id=id, con=None, cur=None, db=None):
     rows = []
     sql = """SELECT
             products.product_id,
@@ -164,6 +164,17 @@ def getSellerDetail(id=id, con=None, cur=None, db=None):
         print('error in executing join query!')
     rows = cur.fetchall()
     return rows[0] or []
+
+@useDb(defaultReturn=[])
+def getSellerInfo(emailid, con=None, cur=None, db=None):
+    rows = []
+    sql = """SELECT * from users where emailid= %s"""
+    db(sql, (emailid, ))
+    if not sql:
+        print('error in executing join query!')
+    rows = cur.fetchall()
+    return rows[0] or []
+
 
 
 @useDb(defaultReturn=False)

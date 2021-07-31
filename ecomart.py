@@ -18,11 +18,11 @@ if 'DATABASE_URI' in os.environ:
     from db2Api.products \
         import addToCartPost, getProductsbyCategory, getProductsUsingEmail, \
         getAllProducts, createProducts, getProductUsingId, \
-        updateProduct, deleteProduct, getSellerDetail,\
+        updateProduct, deleteProduct, getSellerName,\
         buyProduct, displayOrders, updateUserPoints,\
         deleteFromCart, cartItemsUsingEmailid, calculateCart,\
         buyCartItems, getProduct, updateCartDetails,\
-        givePointsToUser, deleteAllCartItems
+        givePointsToUser, deleteAllCartItems, getSellerInfo
 else:
     raise ValueError('Env Var not found!')
 
@@ -80,9 +80,9 @@ def filter(category):
 @app.route('/seller/<string:emailId>')
 def seller_details(emailId):
     user = current_user if current_user.is_authenticated else None
-    product_detail = getSellerDetail(id)
+    seller = getSellerInfo(emailId)
     # TODO: add new attributes to the users db table, modify getSellerDetail function as per db, redirect user to seller_detail.html page
-    return render_template('sellerprofile.html')
+    return render_template('sellerprofile.html', seller= seller)
 
 
 @app.route('/add_product', methods=['GET', 'POST'])
@@ -178,7 +178,7 @@ def products(id, title=None):
         else:
             return redirect(f"{dbTitle}")
 
-    seller = getSellerDetail(id)
+    seller = getSellerName(id)
     return render_template("product.html", product=product, seller=seller)
 
 
