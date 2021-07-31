@@ -11,62 +11,113 @@
 <!-- Main Content -->
 {% block content %}
 <br />
-<div class="jumbotron d-md-flex flex-md-row justify-content-between">
-  <div class="col-10 col-md-6 p-4">
-    <h1>Welcome {{current_user.firstname}} {{current_user.lastname}} !</h1>
-  </div>
 
-  <div class="col-10 col-md-4">
-    <div class="card card-body">
-      <div>
-        {% if current_user.category == 'seller' %}
-        <p>
-          Company Name: {{current_user.firstname}} {{current_user.lastname}}
-        </p>
-        <p>Contact number: {{current_user.contact_no}}</p>
-        <p>Address: {{current_user.address}}</p>
-        {% elif current_user.category == 'buyer' %}
-        <p>Name: {{current_user.firstname}} {{current_user.lastname}}</p>
-        <p>Contact number: {{current_user.contact_no}}</p>
-        <p>Remaining points: {{current_user.points}}</p>
-        {% else %}
-        <p>Emailid: {{current_user.emailid}}</p>
-        <p>Contact number: {{current_user.contact_no}}</p>
-        {% endif %}
+<h1 class="ms-4">
+  Welcome {{current_user.firstname}} {{current_user.lastname}} !
+</h1>
+<div class="d-md-flex flex-md-row align-items-center">
+  <div class="col-md-6 p-md-4">
+    <div class="row">
+      <div class="">
+        <div class="card card-body">
+          <div>
+            {% if current_user.category == 'seller' %}
+            <p>
+              Company Name: {{current_user.firstname}}
+              {{current_user.lastname}}
+            </p>
+            <p>Contact number: {{current_user.contact_no}}</p>
+            <p>Address: {{current_user.address}}</p>
+            {% elif current_user.category == 'buyer' %}
+            <p>Name: {{current_user.firstname}} {{current_user.lastname}}</p>
+            <p>Contact number: {{current_user.contact_no}}</p>
+            <p>Remaining points: {{current_user.points}}</p>
+            {% else %}
+            <p>Emailid: {{current_user.emailid}}</p>
+            <p>Contact number: {{current_user.contact_no}}</p>
+            {% endif %}
+          </div>
+        </div>
       </div>
     </div>
-    {% if current_user.category == "buyer"%}
-    <form action="/add_recycling_product" class="col-md-12">
-      <button
-        class="btn btn-outline-primary col-lg-8 col-md-6 offset-md-2 mt-4"
-        style="border-radius: 0 0 5px 5px"
-        aria-hidden="true"
-        type="submit"
-        data-toggle="tooltip"
-        data-placement="top"
-        title="Earn points by giving recyclable papers / materials"
-      >
-        Giveaway
-      </button>
-    </form>
-    {% endif %}
   </div>
-
-  <hr />
+  {% if current_user.category == "buyer"%}
+  <form
+    action="/add_recycling_product"
+    style="max-width: 450px"
+    class="mx-auto"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+      <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path
+          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+        />
+      </symbol>
+      <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path
+          d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"
+        />
+      </symbol>
+      <symbol
+        id="exclamation-triangle-fill"
+        fill="currentColor"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+        />
+      </symbol>
+    </svg>
+    <div
+      class="alert mb-0 alert-primary d-flex align-items-center mt-4"
+      style="border-radius: 5px 5px 0 0"
+      role="alert"
+    >
+      <svg
+        class="bi flex-shrink-0 me-2"
+        width="24"
+        height="24"
+        role="img"
+        aria-label="Info:"
+      >
+        <use xlink:href="#info-fill" />
+      </svg>
+      <div>
+        <strong>Giveaway</strong> is for sending us your used products which we
+        will recycle and reuse.
+        <br />
+        You will <strong>earn points</strong> after you give stuff away and it
+        is also good for the environment.
+      </div>
+    </div>
+    <button
+      class="btn btn-primary w-100"
+      style="border-radius: 0 0 5px 5px"
+      aria-hidden="true"
+      type="submit"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="Earn points by giving recyclable papers / materials"
+    >
+      Giveaway
+    </button>
+  </form>
+  {% endif %}
 </div>
+<hr />
 
 <!-- Seller dashboard -->
 {% if current_user.category == "seller"%}
 <section style="margin: 30px">
   <div class="d-md-flex flex-row justify-content-between">
     <div class="col-10 col-md-4">
-      <h2>List of products :</h2>
+      <h2>List of products:</h2>
     </div>
     <div class="col-10 col-md-4 offset-md-2" style="margin-right: 14px">
       <form action="./add_product">
         <button
           type="submit"
-          class="btn btn-outline-primary col-md-8 col-10"
+          class="btn btn-primary col-md-8 col-10"
           aria-hidden="true"
         >
           New Product
@@ -75,7 +126,8 @@
     </div>
   </div>
   <div>
-    <div class="row">
+    {% if products|length > 0 %}
+    <div class="row border-2 border rounded-3">
       {%for i in products%}
       <div class="col-10 col-md-4 mt-4">
         <div class="card h-100" style="width: 18rem">
@@ -110,6 +162,24 @@
       </div>
       {%endfor%}
     </div>
+    {% else %}
+    <div
+      class="
+        text-center
+        my-3
+        d-flex
+        flex-column
+        align-items-center
+        justify-content-center
+        border-2 border
+        rounded-3
+      "
+      style="min-height: 400px"
+    >
+      <span style="font-size: 1.7em; color: #333">No products added!</span>
+      <span class="mute">Click on Add Product button to add products.</span>
+    </div>
+    {% endif %}
   </div>
 </section>
 <!-- Success Toast -->
