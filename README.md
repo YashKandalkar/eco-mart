@@ -5,10 +5,12 @@
 
 
 
+![image](https://user-images.githubusercontent.com/62741672/127739056-96240ab9-e8f1-4399-87c3-7c691393b9a6.png)
 
-![image](https://user-images.githubusercontent.com/41589522/127045947-f3f8705c-d196-4ad1-80f8-3b67b1bfe0d3.png)
 
 ![image](https://user-images.githubusercontent.com/41589522/127046407-c2a31bbc-f1b9-4efc-bdf7-e351e369c518.png)
+
+
 
 # Key Partners
 - Sellers: Sellers will sell recyclable and eco-friendly products
