@@ -176,10 +176,69 @@
   </div>
   {%endfor%}
 </div>
-{% endif %} {% if current_user.category == "Admin" %}
+<!-- congrats modal on successful purchase -->
+{% with messages = get_flashed_messages() %}
+<!-- if messages -->
+{% if messages %}
+<!-- for -->
+{% for message in messages %}
+<div class="modal" id="purchaseModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header text-white bg-success text-center">
+        <h2 class="modal-title w-100">
+          <span role="img">🎉</span>
+          Congrats!
+          <span role="img">🎉</span>
+        </h2>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h2>{{ current_user.firstname.title() }},</h2>
+        <p>You have just made a contribution towards a greener environment!</p>
+        <p>
+          Buying recyclable and environment friendly products is a great way to
+          help the environment. These small steps will help us make the world
+          greener, and a better place for the future generations :D
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">
+          Continue being awesome
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- endfor -->
+{% endfor %}
+<!-- endif -->
+{% endif %}
+<!-- endwith -->
+{% endwith %}
+<script>
+  const purchaseModalDiv = document.getElementById("purchaseModal");
+
+  if (purchaseModalDiv) {
+    const purchaseModal = new bootstrap.Modal(purchaseModalDiv);
+    purchaseModal.show();
+  }
+</script>
+<!-- end buyer if -->
+{% endif %}
+<!-- if admin -->
+{% if current_user.category == "Admin" %}
 <form action="/add_blog">
   <button class="mx-3 my-2 btn btn-primary col-md-2 col-2" type="submit">
     Add new Blog
   </button>
 </form>
-{% endif %} {% endblock %}
+<!-- end admin if -->
+{% endif %}
+<!-- end content block -->
+{% endblock %}

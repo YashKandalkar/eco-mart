@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block loginForm
-%} {% if current_user %} {% block head %}
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block
+loginForm %} {% if current_user %} {% block head %}
 <link
   rel="stylesheet"
   href=" {{ url_for('static',filename='sidebars.css') }} "
@@ -97,7 +97,11 @@
         <p>Looks like you're new around here.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
           Close
         </button>
         <button type="button" class="btn btn-primary">Save changes</button>
@@ -129,7 +133,7 @@
         <svg class="bi me-2" width="30" height="24">
           <use xlink:href="#bootstrap" />
         </svg>
-        <span class="fs-5 fw-semibold">Collapsible</span>
+        <span class="fs-5 fw-semibold">Actions</span>
       </a>
       <ul class="list-unstyled ps-0">
         <li class="mb-1">

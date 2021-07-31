@@ -77,12 +77,13 @@ def filter(category):
 
     return render_template('index.html', current_user=user, products=product_detail)
 
+
 @app.route('/seller/<string:emailId>')
 def seller_details(emailId):
     user = current_user if current_user.is_authenticated else None
     seller = getSellerInfo(emailId)
     # TODO: add new attributes to the users db table, modify getSellerDetail function as per db, redirect user to seller_detail.html page
-    return render_template('sellerprofile.html', seller= seller)
+    return render_template('sellerprofile.html', seller=seller)
 
 
 @app.route('/add_product', methods=['GET', 'POST'])
@@ -266,6 +267,8 @@ def buyAllCartItems():
         cart_products = cartItemsUsingEmailid(current_user.emailid)
         buyCartItems(cart_products=cart_products)
         deleteAllCartItems(current_user.emailid)
+        session['cart'] = 0
+        flash("purchasedProduct")
         return redirect(url_for('.dashboard'))
 
 
@@ -302,6 +305,7 @@ def buySingleProduct():
                          emailid=customer_emailid)
         buyProduct(product_id=product_id, customer_emailid=customer_emailid,
                    quantity=quantity, price=price)
+        flash("purchasedProduct")
         return redirect(url_for('.dashboard'))
 
 
