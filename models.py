@@ -8,7 +8,7 @@ from db_connect import useDb
 
 
 class User(UserMixin):
-    def __init__(self, id, emailid, firstname, lastname, password, contact_no,  category, address, points, description, company_url):
+    def __init__(self, id, emailid, firstname, lastname, password, contact_no,  category, address, points, description, company_url, image_url):
         self.id = id
         self.emailid = emailid
         self.password = password
@@ -20,6 +20,7 @@ class User(UserMixin):
         self.points = points
         self.description = description
         self.company_url = company_url
+        self.image_url = image_url
 
     @classmethod
     def getUserFromEmail(cls, emailid):

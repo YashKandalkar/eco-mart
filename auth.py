@@ -57,10 +57,11 @@ def signup():
         address = request.form.get('address', '')
         description = request.form.get('description', '')
         company_url = request.form.get('company_url', '')
+        image_url = request.form.get('image_url', '')
         remember = request.form.get('remember', '')
 
         result = createUser(emailid, password, contact_no,
-                            firstname, lastname, category, address, description, company_url)
+                            firstname, lastname, category, address, description, company_url, image_url)
         if result:
             user = User(*result)
             login_user(user, remember=remember)
